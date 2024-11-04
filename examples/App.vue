@@ -1,19 +1,12 @@
 <template>
   <div>
-
+    <Editor />
   </div>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { Editor, KNode } from '../src'
 import { content } from "./content"
-
-const count = ref<number>(0)
-const editor = ref<Editor | null>(null)
-
-onMounted(async () => {
-
-})
+import { Editor } from "../src"
 
 </script>
 <style lang="less">
