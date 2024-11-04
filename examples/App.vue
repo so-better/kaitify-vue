@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Editor dark style="height: 400px;" placeholder="输入正文内容..." :value="content" />
+    <Editor style="height: 400px;" placeholder="输入正文内容..." :value="content" />
   </div>
 </template>
 <script lang="ts" setup>

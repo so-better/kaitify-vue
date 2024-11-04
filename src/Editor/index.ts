@@ -10,7 +10,7 @@ export const Editor = defineComponent(
 		//编辑器实例
 		const editorRef = ref<KaitifyEditor | null>(null)
 		//编辑器属性
-		const { value = '<p><br/></p>', editable = true, autofocus = false, placeholder = '', dark = false, allowCopy = true, allowCut = true, allowPaste = true, allowPasteHtml = false, priorityPasteFiles = false, textRenderTag = 'span', blockRenderTag = 'p', emptyRenderTags = [], extraKeepTags = [], extensions = [], formatRules = [], domParseNodeCallback, pasteKeepMarks, pasteKeepStyles } = props
+		const { value, editable = true, autofocus = false, placeholder = '', dark = false, allowCopy = true, allowCut = true, allowPaste = true, allowPasteHtml = false, priorityPasteFiles = false, textRenderTag = 'span', blockRenderTag = 'p', emptyRenderTags = [], extraKeepTags = [], extensions = [], formatRules = [], domParseNodeCallback, pasteKeepMarks, pasteKeepStyles } = props
 		console.log(props)
 		//编辑器内容虚拟节点
 		const vnodes = ref<VNode[]>([])
