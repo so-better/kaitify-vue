@@ -1,0 +1,42 @@
+{
+	"name": "@kaitify/vue",
+	"version": "0.0.1",
+	"private": false,
+	"type": "module",
+	"author": "so-better",
+	"main": "lib/kaitify-vue.umd.js",
+	"module": "lib/kaitify-vue.es.js",
+	"types": "lib/index.d.ts",
+	"license": "MIT",
+	"description": "基于@kaitify/core开发的vue富文本编辑器核心库",
+	"scripts": {
+		"dev": "vite",
+		"lib": "vue-tsc && vite build"
+	},
+	"dependencies": {
+		"csstype": "^3.1.3",
+		"dap-util": "^1.5.8",
+		"vue": "^3.4.19"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.24",
+		"@vitejs/plugin-vue": "^5.0.4",
+		"less": "^3.0.4",
+		"less-loader": "^5.0.0",
+		"terser": "^5.16.9",
+		"typescript": "^5.6.3",
+		"vite": "^5.2.8",
+		"vite-plugin-css-injected-by-js": "^3.5.1",
+		"vite-plugin-dts": "^3.7.3",
+		"vue-tsc": "^2.1.6"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not dead"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/so-better/kaitify-vue"
+	}
+}
