@@ -120,4 +120,8 @@ const EditorComponent = defineComponent(() => {
   }
 })
 
+//对外导出的属性
+defineExpose({
+  editorRef
+})
 </script>
