@@ -1,13 +1,13 @@
 <template>
   <div style="padding: 20px;">
-    <EditorMenu />
+    <Button>加粗</Button>
     <EditorContent :style="{ width: '100%', height: '500px' }" allow-paste-html placeholder="输入正文内容..."
       v-model="content" />
   </div>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { EditorContent, EditorMenu } from "../src/index"
+import { EditorContent, Button } from "../src/index"
 const content = ref<string>('')
 </script>
 <style lang="less">
