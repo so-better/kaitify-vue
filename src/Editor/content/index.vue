@@ -1,5 +1,5 @@
 <template>
-  <EditorComponent />
+  <EditorContent />
 </template>
 <script lang="ts" setup>
 import { defineComponent, h, nextTick, onMounted, ref, VNode, watch } from "vue";
@@ -7,7 +7,7 @@ import { Editor } from "@kaitify/core";
 import { EditorPropsType } from "./props"
 import { createVNodes } from "./render"
 
-//编辑器属性
+//属性
 const props = withDefaults(defineProps<EditorPropsType>(), {
   modelValue: '<p><br/></p>',
   editable: true,
@@ -67,6 +67,8 @@ onMounted(async () => {
     onPasteImage: props.onPasteImage,
     onPasteVideo: props.onPasteVideo,
     onPasteFile: props.onPasteFile,
+    onDetachMentBlockFromParentCallback: props.onDetachMentBlockFromParentCallback,
+    beforePatchNodeToFormat: props.beforePatchNodeToFormat,
     onSelectionUpdate(selection) {
       emits('selectionupdate', selection)
     },
@@ -109,8 +111,8 @@ onMounted(async () => {
   })
 })
 
-//编辑器组件
-const EditorComponent = defineComponent(() => {
+//编辑区域组件
+const EditorContent = defineComponent(() => {
   return () => {
     return h('div', {
       ref: elRef
@@ -122,6 +124,7 @@ const EditorComponent = defineComponent(() => {
 
 //对外导出的属性
 defineExpose({
+  elRef,
   editorRef
 })
 </script>

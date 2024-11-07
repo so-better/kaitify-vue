@@ -1,2 +1,3 @@
-export { Editor } from '@/Editor'
-export type { EditorPropsType } from '@/Editor'
+export * from '@kaitify/core'
+export * from '@/editor/content'
+export * from '@/editor/menu'
