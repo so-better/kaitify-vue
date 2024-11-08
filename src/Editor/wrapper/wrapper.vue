@@ -1,14 +1,14 @@
 <template>
-  <EditorContent />
+  <EditorWrapper />
 </template>
 <script lang="ts" setup>
 import { defineComponent, h, nextTick, onMounted, ref, VNode, watch } from "vue";
 import { Editor } from "@kaitify/core";
-import { EditorPropsType } from "./props"
+import { WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
 
 //属性
-const props = withDefaults(defineProps<EditorPropsType>(), {
+const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   editable: true,
   autofocus: false,
@@ -112,7 +112,7 @@ onMounted(async () => {
 })
 
 //编辑区域组件
-const EditorContent = defineComponent(() => {
+const EditorWrapper = defineComponent(() => {
   return () => {
     return h('div', {
       ref: elRef

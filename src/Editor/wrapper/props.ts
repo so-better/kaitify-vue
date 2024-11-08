@@ -3,7 +3,7 @@ import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunction
 /**
  * 编辑器参数类型
  */
-export type EditorPropsType = {
+export type WrapperPropsType = {
 	/**
 	 * 编辑器的值
 	 */

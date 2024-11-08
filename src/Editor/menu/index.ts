@@ -1,3 +1,3 @@
-import EditorMenu from './menu.vue'
+import Menu from './menu.vue'
 export * from './props'
-export { EditorMenu }
+export { Menu }

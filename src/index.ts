@@ -1,5 +1,6 @@
 export * from '@kaitify/core'
-export * from '@/core/button'
-export * from '@/editor/content'
-export * from '@/editor/menu'
-export * from '@/editor/bubble'
+
+//编辑器
+export * from './editor/wrapper'
+//菜单
+export * from './editor/menu'
