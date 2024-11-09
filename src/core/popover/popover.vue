@@ -1,13 +1,13 @@
 <template>
   <div ref="referRef" class="kaitify-popover-refer" :class="{ 'kaitify-popover-block': block }"
-    @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+    @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
     <slot name="refer"></slot>
   </div>
   <Teleport to="body">
     <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown"
       @before-leave="onHide" @leave="onHidding" @after-leave="onHidden">
       <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave"
-        :data-placement="realPlacement">
+        :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
         <div class="kaitify-popover-wrapper" :style="{ width: popoverWidth }">
           <slot></slot>
@@ -20,12 +20,14 @@
 </template>
 <script lang="ts" setup>
 import { createPopper, Instance } from '@popperjs/core';
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { event as DapEvent } from "dap-util"
 import { PopoverPropsType, PopoverPlacementType } from './props';
 
 defineOptions({
   name: 'Popover'
 })
+const instance = getCurrentInstance()!
 //属性
 const props = withDefaults(defineProps<PopoverPropsType>(), {
   block: false,
@@ -34,7 +36,8 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
   trigger: 'hover',
   animation: 'translate',
   zIndex: 10,
-  delay: 0
+  delay: 0,
+  disabled: false
 })
 //事件
 const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hidding', 'hidden'])
@@ -67,12 +70,35 @@ const popoverRemainingPlacements = computed<PopoverPlacementType[]>(() => {
   }
   return (['right', 'right-start', 'right-end', 'left', 'left-start', 'left-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'] as PopoverPlacementType[]).filter(item => item != props.placement)
 })
+
 //更新浮层位置
 const update = async () => {
   if (popperInstance.value) {
     await popperInstance.value.update()
     realPlacement.value = popperInstance.value.state.placement
   }
+}
+//显示浮层
+const showPopover = () => {
+  if (props.disabled) {
+    return
+  }
+  //延迟显示
+  if (props.delay > 0) {
+    setTimeout(() => {
+      visible.value = true
+    }, props.delay);
+    return
+  }
+  //正常显示
+  visible.value = true
+}
+//隐藏浮层
+const hidePopover = () => {
+  if (props.disabled) {
+    return
+  }
+  visible.value = false
 }
 
 //浮层显示前
@@ -102,18 +128,16 @@ const onHidden = (el: Element) => {
 }
 //鼠标移入
 const handleMouseEnter = () => {
-  //延迟显示
-  if (props.delay > 0) {
-    setTimeout(() => {
-      visible.value = true
-    }, props.delay);
+  if (props.trigger != 'hover') {
     return
   }
-  //正常显示
-  visible.value = true
+  showPopover()
 }
 //鼠标移出
 const handleMouseLeave = (e: MouseEvent) => {
+  if (props.trigger != 'hover') {
+    return
+  }
   //移出到目标元素里
   if (referRef.value?.contains(e.relatedTarget as HTMLElement)) {
     return
@@ -122,9 +146,29 @@ const handleMouseLeave = (e: MouseEvent) => {
   if (popoverRef.value?.contains(e.relatedTarget as HTMLElement)) {
     return
   }
-  visible.value = false
+  hidePopover()
 }
-
+//点击
+const handleClick = () => {
+  if (props.trigger != 'click') {
+    return
+  }
+  if (visible.value) hidePopover()
+  else showPopover()
+}
+//点击其他地方关闭浮层
+DapEvent.on(document.documentElement, `click.kaitify-popover-${instance.uid}`, e => {
+  //点击目标元素
+  if (referRef.value?.contains(e.target as HTMLElement)) {
+    return
+  }
+  //点击浮层元素
+  if (popoverRef.value?.contains(e.target as HTMLElement)) {
+    return
+  }
+  //关闭浮层
+  hidePopover()
+})
 //监听外部改变placement，更新poperjs对象
 watch(() => props.placement, (newVal) => {
   //更新realPlacement的值
@@ -186,10 +230,12 @@ onBeforeUnmount(() => {
   if (popperInstance.value) {
     popperInstance.value.destroy()
   }
+  DapEvent.off(document.documentElement, `click.kaitify-popover-${instance.uid}`)
 })
 
 defineExpose({
-  visible,
+  showPopover,
+  hidePopover,
   popperInstance,
   update,
   realPlacement

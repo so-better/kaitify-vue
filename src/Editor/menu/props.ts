@@ -3,11 +3,15 @@
  */
 export type MenuPropsType = {
 	/**
-	 * 菜单文字
-	 */
-	content?: string
-	/**
 	 * 是否dropdown类型
 	 */
 	dropdown?: boolean
+	/**
+	 * 是否禁用
+	 */
+	disabled?: boolean
+	/**
+	 * 是否激活
+	 */
+	active?: boolean
 }

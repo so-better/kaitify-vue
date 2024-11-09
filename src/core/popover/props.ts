@@ -39,4 +39,8 @@ export type PopoverPropsType = {
 	 * 显示延迟时间
 	 */
 	delay?: number
+	/**
+	 * 是否禁用浮层
+	 */
+	disabled?: boolean
 }
