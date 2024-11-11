@@ -8,10 +8,6 @@ export type PopoverPlacementType = 'auto' | 'auto-start' | 'auto-end' | 'bottom-
  */
 export type PopoverPropsType = {
 	/**
-	 * refer内容是否块级展示
-	 */
-	block?: boolean
-	/**
 	 * 浮层宽度
 	 */
 	width?: string | number
@@ -30,7 +26,7 @@ export type PopoverPropsType = {
 	/**
 	 * 浮层显示动画
 	 */
-	animation?: 'fade' | 'translate'
+	animation?: 'fade' | 'translate' | (string & {})
 	/**
 	 * 浮层层级
 	 */

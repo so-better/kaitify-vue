@@ -1,0 +1,22 @@
+.kaitify-toolbar {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 100%;
+	padding: var(--kaitify-small-padding);
+	margin-bottom: var(--kaitify-margin);
+	background: var(--kaitify-background-color);
+
+	&.kaitify-toolbar-border {
+		border: 1px solid var(--kaitify-border-color);
+	}
+
+	&.kaitify-toolbar-underline {
+		border-bottom: 1px solid var(--kaitify-border-color);
+	}
+
+	&:not(.kaitify-toolbar-underline) {
+		border-radius: var(--kaitify-border-radius);
+	}
+}

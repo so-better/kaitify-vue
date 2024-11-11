@@ -8,24 +8,26 @@
 	color: var(--kaitify-font-color);
 	font-size: var(--kaitify-font-size);
 	border: none;
-	transition: background 300ms linear;
+	transition: background 300ms, color 300ms;
 	border-radius: var(--kaitify-border-radius);
 
-	&:not(:disabled):hover {
+	&:not([disabled]):hover {
 		cursor: pointer;
 		background: var(--kaitify-lightest-theme);
+		color: var(--kaitify-theme);
 	}
 
-	&:not(:disabled):active {
-		background: var(--kaitify-lighter-theme);
-	}
-
-	&:not(:disabled).kaitify-button-active {
+	&:not([disabled]):active {
 		background: var(--kaitify-lighter-theme);
 		color: var(--kaitify-theme);
 	}
 
-	&:disabled {
+	&:not([disabled]).kaitify-button-active {
+		background: var(--kaitify-lighter-theme);
+		color: var(--kaitify-theme);
+	}
+
+	&[disabled] {
 		opacity: 0.6;
 		cursor: not-allowed;
 	}

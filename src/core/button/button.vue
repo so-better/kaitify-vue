@@ -1,5 +1,5 @@
 <template>
-  <button class="kaitify-button" :class="{ 'kaitify-button-active': active }" :disabled="disabled">
+  <button class="kaitify-button" :class="{ 'kaitify-button-active': active }" :disabled="disabled || undefined">
     <slot></slot>
   </button>
 </template>

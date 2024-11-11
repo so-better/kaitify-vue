@@ -1,6 +1,6 @@
 <template>
-  <div ref="referRef" class="kaitify-popover-refer" :class="{ 'kaitify-popover-block': block }"
-    @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
+  <div ref="referRef" class="kaitify-popover-refer" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave"
+    @click="handleClick">
     <slot name="refer"></slot>
   </div>
   <Teleport to="body">
@@ -53,7 +53,10 @@ const popoverRef = ref<HTMLElement | null>(null)
 const popperInstance = ref<Instance | null>(null)
 //浮层宽度
 const popoverWidth = computed<string>(() => {
-  return (typeof props.width == 'number' ? `${props.width}px` : props.width) || 'auto'
+  if (props.width) {
+    return typeof props.width == 'number' ? `${props.width}px` : props.width
+  }
+  return 'auto'
 })
 //浮层真实位置
 const realPlacement = ref<PopoverPlacementType>(props.placement)
@@ -234,6 +237,7 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
+  visible,
   showPopover,
   hidePopover,
   popperInstance,

@@ -6,7 +6,9 @@ import { defineComponent, h, nextTick, onMounted, ref, VNode, watch } from "vue"
 import { Editor } from "@kaitify/core";
 import { WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
-
+defineOptions({
+  name: 'Wrapper'
+})
 //属性
 const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
