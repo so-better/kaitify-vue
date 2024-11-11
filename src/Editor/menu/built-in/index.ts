@@ -1,0 +1,1 @@
+export { BoldMenu } from './bold'

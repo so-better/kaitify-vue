@@ -1,3 +1,6 @@
+/**
+ * 按钮组件的属性类型
+ */
 export type ButtonPropsType = {
 	/**
 	 * 是否禁用

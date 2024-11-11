@@ -23,7 +23,7 @@ export type MenuDataType = {
 }
 
 /**
- * 菜单参数类型
+ * 菜单组件的属性类型
  */
 export type MenuPropsType = {
 	/**

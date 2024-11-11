@@ -1,3 +1,6 @@
+/**
+ * 工具栏组件属性类型
+ */
 export type ToolbarPropsType = {
 	/**
 	 * 是否显示边框
