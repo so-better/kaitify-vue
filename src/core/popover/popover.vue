@@ -44,13 +44,13 @@ const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hidding', 'hidde
 //是否显示
 const visible = ref<boolean>(false)
 //目标元素
-const referRef = ref<HTMLElement | null>(null)
+const referRef = ref<HTMLElement | undefined>()
 //三角形元素
-const arrowRef = ref<HTMLElement | null>(null)
+const arrowRef = ref<HTMLElement | undefined>()
 //浮层元素
-const popoverRef = ref<HTMLElement | null>(null)
+const popoverRef = ref<HTMLElement | undefined>()
 //popperjs实例
-const popperInstance = ref<Instance | null>(null)
+const popperInstance = ref<Instance | undefined>()
 //浮层宽度
 const popoverWidth = computed<string>(() => {
   if (props.width) {

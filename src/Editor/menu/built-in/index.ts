@@ -1,1 +1,1 @@
-export { BoldMenu } from './bold'
+export * from './bold'

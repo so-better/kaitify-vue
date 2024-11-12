@@ -6,7 +6,7 @@
       <template #refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
-          <Icon v-if="popover" value="caret-down" class="kaitify-menu-caret"
+          <Icon v-if="popover" name="caret-down" class="kaitify-menu-caret"
             :class="{ 'kaitify-menu-caret-rotate': popoverVisible }" />
         </Button>
       </template>
@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 //事件
 const emits = defineEmits(['operate', 'select'])
 //popover组件实例
-const popoverRef = ref<(typeof Popover) | null>(null)
+const popoverRef = ref<(typeof Popover) | undefined>()
 //popover浮层是否显示
 const popoverVisible = computed<boolean>(() => {
   if (popoverRef.value) {

@@ -1,5 +1,5 @@
 <template>
-  <i class="kaitify-icon" :class="`kaitify-icon-${value}`"></i>
+  <i class="kaitify-icon" :class="`kaitify-icon-${name}`"></i>
 </template>
 <script setup lang="ts">
 import { IconPropsType } from './props'
@@ -7,7 +7,7 @@ defineOptions({
   name: 'Icon'
 })
 withDefaults(defineProps<IconPropsType>(), {
-  value: ''
+  name: ''
 })
 </script>
 <style scoped src="./style.less"></style>

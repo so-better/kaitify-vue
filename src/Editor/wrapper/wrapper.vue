@@ -25,11 +25,11 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   blockRenderTag: 'p'
 })
 //编辑器事件
-const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView'])
+const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView', 'created'])
 //编辑器dom元素
-const elRef = ref<HTMLElement | null>(null)
+const elRef = ref<HTMLElement | undefined>()
 //编辑器实例
-const editorRef = ref<Editor | null>(null)
+const editorRef = ref<Editor | undefined>()
 //编辑器内容虚拟节点
 const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
@@ -111,6 +111,7 @@ onMounted(async () => {
       internalModification.value = false
     }
   })
+  emits('created', editorRef.value)
 })
 
 //编辑区域组件
