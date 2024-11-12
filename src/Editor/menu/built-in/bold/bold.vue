@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Icon } from '@/core/icon';
+import Menu from "@/editor/menu/menu.vue"
 import { BoldMenuPropsType } from './props';
 defineOptions({
   name: 'BoldMenu'
