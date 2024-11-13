@@ -1,5 +1,7 @@
 <template>
-  <button class="kaitify-button" :class="{ 'kaitify-button-active': active }" :disabled="disabled || undefined">
+  <button class="kaitify-button"
+    :class="{ 'kaitify-button-active': active, 'kaitify-button-block': block, 'kaitify-button-large': large }"
+    :disabled="disabled || undefined">
     <slot></slot>
   </button>
 </template>
@@ -10,7 +12,9 @@ defineOptions({
 })
 withDefaults(defineProps<ButtonPropsType>(), {
   disabled: false,
-  active: false
+  active: false,
+  block: false,
+  large: false
 })
 </script>
 <style src="./style.less" scoped></style>

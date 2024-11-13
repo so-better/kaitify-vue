@@ -1,5 +1,5 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 280 }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
     <Icon name="attachment" />
     <template v-slot:popover>
       <Tabs :names="['本地上传', '远程地址']">
@@ -8,8 +8,12 @@
             <input type="file" accept="*" @change="fileChange" />
             <Icon name="upload" />
           </div>
-          <div v-else>
-            远程地址
+          <div v-else class="kaitify-attachment-remote">
+            <input v-model.trim="remoteData.text" placeholder="附件名称" type="text" />
+            <input v-model.trim="remoteData.url" placeholder="附件地址" type="url" />
+            <div class="kaitify-attachment-remote-footer">
+              <Button @click="insert" :disabled="!remoteData.url || !remoteData.text">插入</Button>
+            </div>
           </div>
         </template>
       </Tabs>
@@ -17,11 +21,12 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, ref, Ref } from 'vue';
+import { computed, inject, reactive, ref, Ref } from 'vue';
 import { file as DapFile } from "dap-util"
-import { Editor } from '@kaitify/core';
+import { Editor, SetAttachmentConfigType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
+import { Button } from "@/core/button"
 import Menu from "@/editor/menu/menu.vue"
 import { AttachmentMenuPropsType } from './props';
 
@@ -36,6 +41,11 @@ const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
+//远程附件数据
+const remoteData = reactive<Omit<SetAttachmentConfigType, 'icon'>>({
+  url: '',
+  text: ''
+})
 
 //组件没有放在Wrapper的插槽中会报错
 if (!editorRef) {
@@ -47,10 +57,13 @@ const isDisabled = computed<boolean>(() => {
   if (!editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
+  if (!!editorRef.value.commands.getAttachment?.()) {
+    return true
+  }
   return props.disabled
 })
 
-//选择文件
+//选择本地文件
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
   if (!file || !editorRef.value) {
@@ -63,6 +76,18 @@ const fileChange = async (e: Event) => {
   editorRef.value.commands.setAttachment?.({
     url: url,
     text: file.name || '附件',
+    icon: props.iconUrl
+  })
+  menuRef.value?.hidePopover()
+}
+//插入远程附件
+const insert = async () => {
+  if (!remoteData.url || !remoteData.text || !editorRef.value) {
+    return
+  }
+  editorRef.value.commands.setAttachment?.({
+    url: remoteData.url,
+    text: remoteData.text,
     icon: props.iconUrl
   })
   menuRef.value?.hidePopover()

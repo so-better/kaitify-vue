@@ -8,6 +8,7 @@
         <AlignCenterMenu />
         <AlignRightMenu />
         <AttachmentMenu />
+        <BackColorMenu />
       </template>
       <template v-slot:after="{ textCount }">
         总字数：{{ textCount }}
@@ -17,7 +18,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AttachmentMenu } from "../src/index"
+import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AttachmentMenu, BackColorMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
