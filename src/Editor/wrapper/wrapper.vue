@@ -1,18 +1,21 @@
 <template>
-  <EditorWrapper />
+  <slot name="before"></slot>
+  <EditorWrapper v-bind="$attrs" />
+  <slot name="after"></slot>
 </template>
 <script lang="ts" setup>
-import { defineComponent, h, nextTick, onMounted, ref, VNode, watch } from "vue";
+import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
 import { Editor } from "@kaitify/core";
 import { WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
 defineOptions({
-  name: 'Wrapper'
+  name: 'Wrapper',
+  inheritAttrs: false
 })
 //属性
 const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
-  editable: true,
+  disabled: false,
   autofocus: false,
   placeholder: '',
   dark: false,
@@ -25,7 +28,7 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   blockRenderTag: 'p'
 })
 //编辑器事件
-const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView', 'created'])
+const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView'])
 //编辑器dom元素
 const elRef = ref<HTMLElement | undefined>()
 //编辑器实例
@@ -34,6 +37,8 @@ const editorRef = ref<Editor | undefined>()
 const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
 const internalModification = ref<boolean>(false)
+//编辑器光标更新标记
+const keyOfSelectionUpdate = ref<number>(1)
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(() => props.modelValue, (newVal) => {
@@ -41,6 +46,43 @@ watch(() => props.modelValue, (newVal) => {
     editorRef.value.review(newVal)
   }
 })
+//监听以下属性变化，对编辑器进行设置
+watch(() => props.disabled, newVal => {
+  if (editorRef.value) {
+    editorRef.value.setEditable(!newVal)
+  }
+})
+watch(() => props.dark, newVal => {
+  if (editorRef.value) {
+    editorRef.value.setDark(newVal)
+  }
+})
+watch(() => props.allowCopy, newVal => {
+  if (editorRef.value) {
+    editorRef.value.allowCopy = newVal
+  }
+})
+watch(() => props.allowCut, newVal => {
+  if (editorRef.value) {
+    editorRef.value.allowCut = newVal
+  }
+})
+watch(() => props.allowPaste, newVal => {
+  if (editorRef.value) {
+    editorRef.value.allowPaste = newVal
+  }
+})
+watch(() => props.allowPasteHtml, newVal => {
+  if (editorRef.value) {
+    editorRef.value.allowPasteHtml = newVal
+  }
+})
+watch(() => props.priorityPasteFiles, newVal => {
+  if (editorRef.value) {
+    editorRef.value.priorityPasteFiles = newVal
+  }
+})
+
 //初始化渲染编辑器
 onMounted(async () => {
   editorRef.value = await Editor.configure({
@@ -48,7 +90,7 @@ onMounted(async () => {
     value: props.modelValue,
     placeholder: props.placeholder,
     dark: props.dark,
-    editable: props.editable,
+    editable: !props.disabled,
     autofocus: props.autofocus,
     allowCopy: props.allowCopy,
     allowCut: props.allowCut,
@@ -72,6 +114,7 @@ onMounted(async () => {
     onDetachMentBlockFromParentCallback: props.onDetachMentBlockFromParentCallback,
     beforePatchNodeToFormat: props.beforePatchNodeToFormat,
     onSelectionUpdate(selection) {
+      keyOfSelectionUpdate.value++
       emits('selectionupdate', selection)
     },
     onInsertParagraph(node) {
@@ -111,19 +154,22 @@ onMounted(async () => {
       internalModification.value = false
     }
   })
-  emits('created', editorRef.value)
 })
 
 //编辑区域组件
 const EditorWrapper = defineComponent(() => {
   return () => {
     return h('div', {
-      ref: elRef
+      ref: elRef,
     }, {
       default: () => [...vnodes.value]
     })
   }
 })
+
+//对子孙组件提供的属性
+provide('keyOfSelectionUpdate', keyOfSelectionUpdate)
+provide('editorRef', editorRef)
 
 //对外导出的属性
 defineExpose({

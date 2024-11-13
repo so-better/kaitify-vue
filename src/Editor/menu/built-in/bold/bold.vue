@@ -1,13 +1,15 @@
 <template>
-  <Menu :disabled="disabled" :active="isActive">
+  <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
     <Icon name="bold" />
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, inject, Ref } from 'vue';
+import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import Menu from "@/editor/menu/menu.vue"
 import { BoldMenuPropsType } from './props';
+
 defineOptions({
   name: 'BoldMenu'
 })
@@ -15,8 +17,32 @@ defineOptions({
 const props = withDefaults(defineProps<BoldMenuPropsType>(), {
   disabled: false
 })
+//光标更新标记
+const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//编辑器实例
+const editorRef = inject<Ref<Editor | undefined>>('editorRef')!
 //是否激活
-const isActive = computed(() => {
-  return false
+const isActive = computed<boolean>(() => {
+  keyOfSelectionUpdate.value
+  return editorRef.value?.commands.isBold?.() || false
 })
+//是否禁用
+const isDisabled = computed<boolean>(() => {
+  keyOfSelectionUpdate.value
+  if (!editorRef.value || !editorRef.value.selection.focused()) {
+    return true
+  }
+  if (!editorRef.value.selection.collapsed() && !editorRef.value.getFocusNodesBySelection('text').length) {
+    return true
+  }
+  return props.disabled
+})
+//方法
+const onOperate = () => {
+  if (isActive.value) {
+    editorRef.value?.commands.unsetBold?.()
+  } else {
+    editorRef.value?.commands.setBold?.()
+  }
+}
 </script>

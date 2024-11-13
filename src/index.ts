@@ -12,5 +12,3 @@ export * from './core/popover'
 export * from './editor/wrapper'
 //菜单
 export * from './editor/menu'
-//工具栏
-export * from './editor/toolbar'

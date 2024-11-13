@@ -1,20 +1,22 @@
 <template>
   <div style="padding: 10px;">
-    <Toolbar underline>
-      <BoldMenu :instance="editorRef" />
-    </Toolbar>
-    <Wrapper :style="{ width: '100%', height: '500px' }" allow-paste-html placeholder="输入正文内容..." v-model="content"
-      @created="onCreated" />
+    <Wrapper :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
+      placeholder="输入正文内容..." v-model="content">
+      <template #before>
+        <BoldMenu></BoldMenu>
+      </template>
+      <template #after>
+        <BoldMenu></BoldMenu>
+      </template>
+    </Wrapper>
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { Wrapper, Menu, MenuDataType, Toolbar, BoldMenu, Editor } from "../src/index"
-const content = ref<string>('')
-const editorRef = ref<Editor | undefined>()
-const onCreated = (e: Editor) => {
-  editorRef.value = e
-}
+import { ref } from 'vue'
+import { Wrapper, MenuDataType, BoldMenu } from "../src/index"
+const content = ref<string>('<img src="#"/>')
+const isDark = ref<boolean>(false)
+const disabled = ref<boolean>(false)
 const onSelect = (item: MenuDataType) => {
   console.log(item);
 }
