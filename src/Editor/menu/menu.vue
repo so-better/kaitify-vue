@@ -1,9 +1,10 @@
 <template>
   <div class="kaitify-menu">
-    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="10" :animation="popoverOptions.animation"
-      :arrow="popoverOptions.arrow" :placement="popoverOptions.placement" :trigger="popoverOptions.trigger"
-      :width="popoverOptions.width">
-      <template #refer>
+    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="10"
+      :animation="popoverOptions.animation || 'translate'" :arrow="popoverOptions.arrow"
+      :placement="popoverOptions.placement || 'bottom-start'" :trigger="popoverOptions.trigger || 'click'"
+      :width="popoverOptions.width || 'auto'">
+      <template v-slot:refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
           <Icon v-if="popover" name="caret-down" class="kaitify-menu-caret"
@@ -14,9 +15,12 @@
       <slot v-if="$slots.popover" name="popover"></slot>
       <!-- 可选浮层内容 -->
       <div v-else-if="data.length" class="kaitify-menu-options">
-        <div @click="onSelect(item)" v-for="item in data" :disabled="item.disabled || undefined"
-          class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': item.active }">{{
-            item.label }}</div>
+        <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) || undefined"
+          class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item) || false }">
+          <slot v-if="$slots.icon" name="icon"></slot>
+          <Icon v-else-if="item.icon" :name="item.icon" class="kaitify-menu-option-icon" />
+          <span>{{ item.label }}</span>
+        </div>
       </div>
     </Popover>
   </div>
@@ -57,13 +61,22 @@ const popoverVisible = computed<boolean>(() => {
   }
   return false
 })
+
+//关闭浮层
+const hidePopover = () => {
+  popoverRef.value?.hidePopover()
+}
+//显示浮层
+const showPopover = () => {
+  popoverRef.value?.showPopover()
+}
 //浮层选项数据点击
 const onSelect = (item: MenuDataType) => {
-  if (props.disabled || item.disabled) {
+  if (props.disabled || props.itemDisabled?.(item)) {
     return
   }
   emits('select', { ...item })
-  popoverRef.value?.hidePopover()
+  hidePopover()
 }
 //按钮点击
 const onOperate = () => {
@@ -72,5 +85,10 @@ const onOperate = () => {
   }
   emits('operate')
 }
+
+defineExpose({
+  showPopover,
+  hidePopover
+})
 </script>
 <style src="./style.less" scoped></style>

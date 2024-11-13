@@ -1,0 +1,48 @@
+.kaitify-tabs {
+  display: block;
+  width: 100%;
+  position: relative;
+
+  .kaitify-tabs-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+
+    .kaitify-tabs-header-item {
+      font-size: var(--kaitify-font-size);
+      color: var(--kaitify-font-color);
+      line-height: var(--kaitify-line-height);
+      padding: var(--kaitify-small-padding) var(--kaitify-padding);
+      position: relative;
+      transition: color 300ms;
+
+      &:hover {
+        cursor: pointer;
+        color: var(--kaitify-theme);
+      }
+
+      &.kaitify-tabs-header-item-active {
+        color: var(--kaitify-theme);
+
+        &::before {
+          position: absolute;
+          width: calc((100% - var(--kaitify-small-padding) * 2) * 2 / 3);
+          height: 2px;
+          left: 50%;
+          bottom: 0;
+          transform: translateX(-50%);
+          content: '';
+          background: var(--kaitify-theme);
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+
+  .kaitify-tabs-content {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+}

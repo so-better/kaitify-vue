@@ -3,7 +3,11 @@
     <Wrapper :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
       placeholder="输入正文内容..." v-model="content">
       <template #before>
-        <BoldMenu></BoldMenu>
+        <BoldMenu />
+        <AlignLeftMenu />
+        <AlignCenterMenu />
+        <AlignRightMenu />
+        <AttachmentMenu />
       </template>
       <template v-slot:after="{ textCount }">
         总字数：{{ textCount }}
@@ -13,16 +17,10 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper, MenuDataType, Menu, BoldMenu } from "../src/index"
+import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AttachmentMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
-const onSelect = (item: MenuDataType) => {
-  console.log(item);
-}
-const onOperate = () => {
-
-}
 </script>
 <style lang="less">
 html {
