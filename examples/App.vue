@@ -5,23 +5,23 @@
       <template #before>
         <BoldMenu></BoldMenu>
       </template>
-      <template #after>
-        <BoldMenu></BoldMenu>
+      <template v-slot:after="{ textCount }">
+        总字数：{{ textCount }}
       </template>
     </Wrapper>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper, MenuDataType, BoldMenu } from "../src/index"
-const content = ref<string>('<img src="#"/>')
+import { Wrapper, MenuDataType, Menu, BoldMenu } from "../src/index"
+const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
 const onSelect = (item: MenuDataType) => {
   console.log(item);
 }
 const onOperate = () => {
-  console.log('点击了菜单');
+
 }
 </script>
 <style lang="less">

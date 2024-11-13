@@ -1,7 +1,7 @@
 <template>
-  <slot name="before"></slot>
+  <slot :key="`before-${keyOfSelectionUpdate}`" name="before" :textCount="textCount" :editorRef="editorRef"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <slot name="after"></slot>
+  <slot :key="`after-${keyOfSelectionUpdate}`" name="after" :textCount="textCount" :editorRef="editorRef"></slot>
 </template>
 <script lang="ts" setup>
 import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
@@ -39,14 +39,17 @@ const vnodes = ref<VNode[]>([])
 const internalModification = ref<boolean>(false)
 //编辑器光标更新标记
 const keyOfSelectionUpdate = ref<number>(1)
+//编辑器总字数
+const textCount = ref<number>(0)
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
-watch(() => props.modelValue, (newVal) => {
+watch(() => props.modelValue, async (newVal) => {
   if (editorRef.value && newVal && !internalModification.value) {
-    editorRef.value.review(newVal)
+    await editorRef.value.review(newVal)
+    textCount.value = editorRef.value.getText().length
   }
 })
-//监听以下属性变化，对编辑器进行设置
+//监听以下属性变化，对编辑器进行更新
 watch(() => props.disabled, newVal => {
   if (editorRef.value) {
     editorRef.value.setEditable(!newVal)
@@ -152,6 +155,7 @@ onMounted(async () => {
       emits('update:modelValue', newVal)
       await nextTick()
       internalModification.value = false
+      textCount.value = editorRef.value?.getText().length || 0
     }
   })
 })
@@ -168,12 +172,14 @@ const EditorWrapper = defineComponent(() => {
 })
 
 //对子孙组件提供的属性
-provide('keyOfSelectionUpdate', keyOfSelectionUpdate)
+provide('elRef', elRef)
 provide('editorRef', editorRef)
+provide('textCount', textCount)
 
 //对外导出的属性
 defineExpose({
   elRef,
-  editorRef
+  editorRef,
+  textCount
 })
 </script>

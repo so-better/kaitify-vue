@@ -17,18 +17,20 @@ defineOptions({
 const props = withDefaults(defineProps<BoldMenuPropsType>(), {
   disabled: false
 })
-//光标更新标记
-const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')!
+const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+
+//组件没有放在Wrapper的插槽中会报错
+if (!editorRef) {
+  throw new Error(`The component must be placed in the slot of the Wrapper.`)
+}
+
 //是否激活
 const isActive = computed<boolean>(() => {
-  keyOfSelectionUpdate.value
   return editorRef.value?.commands.isBold?.() || false
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  keyOfSelectionUpdate.value
   if (!editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
