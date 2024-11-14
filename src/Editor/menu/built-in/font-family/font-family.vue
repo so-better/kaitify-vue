@@ -1,6 +1,6 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
-    :item-active="item => isActive(item)">
+    :item-active="item => isActive(item)" :popover-options="{ maxHeight: 240 }">
     {{ selectedData?.label || '' }}
   </Menu>
 </template>

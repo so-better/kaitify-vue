@@ -1,9 +1,9 @@
 <template>
   <div class="kaitify-menu">
     <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="10"
-      :animation="popoverOptions.animation || 'translate'" :arrow="popoverOptions.arrow"
-      :placement="popoverOptions.placement || 'bottom-start'" :trigger="popoverOptions.trigger || 'click'"
-      :width="popoverOptions.width || 'auto'">
+      :animation="popoverOptions.animation ?? 'translate'" :arrow="popoverOptions.arrow"
+      :placement="popoverOptions.placement ?? 'bottom-start'" :trigger="popoverOptions.trigger ?? 'click'"
+      :width="popoverOptions.width ?? 'auto'" :maxHeight="popoverOptions.maxHeight ?? ''">
       <template v-slot:refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
@@ -15,7 +15,7 @@
       <slot v-if="$slots.popover" name="popover"></slot>
       <!-- 可选浮层内容 -->
       <div v-else-if="data.length" class="kaitify-menu-options">
-        <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) || undefined"
+        <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) ?? undefined"
           class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item) || false }">
           <slot v-if="$slots.icon" name="icon"></slot>
           <Icon v-else-if="item.icon" :name="item.icon" class="kaitify-menu-option-icon" />
