@@ -8,6 +8,7 @@ import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } f
 import { Editor } from "@kaitify/core";
 import { WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
+import { ShortcutExtension } from "./extensions";
 defineOptions({
   name: 'Wrapper',
   inheritAttrs: false
@@ -104,7 +105,7 @@ onMounted(async () => {
     blockRenderTag: props.blockRenderTag,
     emptyRenderTags: props.emptyRenderTags,
     extraKeepTags: props.extraKeepTags,
-    extensions: props.extensions,
+    extensions: [ShortcutExtension, ...props.extensions ?? []],
     formatRules: props.formatRules,
     domParseNodeCallback: props.domParseNodeCallback,
     pasteKeepMarks: props.pasteKeepMarks,

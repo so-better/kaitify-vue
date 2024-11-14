@@ -7,8 +7,15 @@
         <AlignLeftMenu />
         <AlignCenterMenu />
         <AlignRightMenu />
+        <AlignJusitfyMenu />
         <AttachmentMenu />
         <BackColorMenu />
+        <BlockquoteMenu />
+        <CodeMenu />
+        <CodeBlockMenu />
+        <ColorMenu />
+        <FontFamilyMenu />
+        <FontSizeMenu />
       </template>
       <template v-slot:after="{ textCount }">
         总字数：{{ textCount }}
@@ -18,8 +25,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AttachmentMenu, BackColorMenu } from "../src/index"
-const content = ref<string>('')
+import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu } from "../src/index"
+const content = ref<string>('<img src="#"/>')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
 </script>
