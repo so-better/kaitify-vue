@@ -6,7 +6,7 @@
         <div class="kaitify-colors-header">
           <Button @click="unsetBackColor" block large>
             <Icon name="remove" />
-            <span class="kaitify-colors-header-text">默认颜色</span>
+            <span class="kaitify-colors-header-text">{{ t('默认颜色') }}</span>
           </Button>
         </div>
         <div class="kaitify-colors-content">
@@ -36,6 +36,8 @@ const props = withDefaults(defineProps<BackColorMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+//翻译方法
+const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 

@@ -1,3 +1,4 @@
+import { LocaleType } from '@/locale'
 import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType } from '@kaitify/core'
 
 /**
@@ -12,6 +13,10 @@ export type WrapperPropsType = {
    * 编辑器是否禁用
    */
   disabled?: boolean
+  /**
+   * 语言环境
+   */
+  locale?: LocaleType
   /**
    * 是否自动聚焦
    */

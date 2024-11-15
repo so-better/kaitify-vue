@@ -4,11 +4,11 @@ export type AttachmentMenuPropsType = {
    */
   disabled?: boolean
   /**
-   * 上传文件方法
-   */
-  uploadFile?: (file: File) => string | Promise<string>
-  /**
    * 附件logo图片地址
    */
   iconUrl?: string
+  /**
+   * 自定义上传方法
+   */
+  customUpload?: (file: File) => string | Promise<string>
 }

@@ -49,6 +49,8 @@ const props = withDefaults(defineProps<FontFamilyMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+//翻译方法
+const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 
@@ -60,7 +62,7 @@ if (!editorRef) {
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [{
-    label: '默认字体',
+    label: t('默认字体'),
     value: ''
   }, ...(props.data || [])]
 })

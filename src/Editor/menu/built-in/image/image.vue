@@ -2,17 +2,17 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
     <Icon name="image" />
     <template v-slot:popover>
-      <Tabs :names="['本地上传', '远程地址']">
+      <Tabs :names="[t('本地上传'), t('远程地址')]">
         <template v-slot="{ index }">
           <div v-if="index == 0" class="kaitify-image-upload">
             <input type="file" accept="image/*" @change="fileChange" />
             <Icon name="upload" />
           </div>
           <div v-else class="kaitify-image-remote">
-            <input v-model.trim="remoteData.alt" placeholder="图片名称" type="text" />
-            <input v-model.trim="remoteData.src" placeholder="图片地址" type="url" />
+            <input v-model.trim="remoteData.alt" :placeholder="t('图片名称')" type="text" />
+            <input v-model.trim="remoteData.src" :placeholder="t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
-              <Button @click="insert" :disabled="!remoteData.src || !remoteData.alt">插入</Button>
+              <Button @click="insert" :disabled="!remoteData.src || !remoteData.alt">{{ t('插入') }}</Button>
             </div>
           </div>
         </template>
@@ -39,6 +39,8 @@ const props = withDefaults(defineProps<ImageMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+//翻译方法
+const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //远程附件数据
@@ -66,13 +68,13 @@ const fileChange = async (e: Event) => {
   if (!file || !editorRef.value) {
     return
   }
-  const url = typeof props.uploadImage == 'function' ? await props.uploadImage(file) : await DapFile.dataFileToBase64(file)
+  const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
   editorRef.value.commands.setImage?.({
     src: url,
-    alt: file.name || '图片',
+    alt: file.name || t('图片'),
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
   })
   menuRef.value?.hidePopover()

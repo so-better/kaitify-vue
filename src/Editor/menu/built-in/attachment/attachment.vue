@@ -2,17 +2,17 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
     <Icon name="attachment" />
     <template v-slot:popover>
-      <Tabs :names="['本地上传', '远程地址']">
+      <Tabs :names="[t('本地上传'), t('远程地址')]">
         <template v-slot="{ index }">
           <div v-if="index == 0" class="kaitify-attachment-upload">
             <input type="file" accept="*" @change="fileChange" />
             <Icon name="upload" />
           </div>
           <div v-else class="kaitify-attachment-remote">
-            <input v-model.trim="remoteData.text" placeholder="附件名称" type="text" />
-            <input v-model.trim="remoteData.url" placeholder="附件地址" type="url" />
+            <input v-model.trim="remoteData.text" :placeholder="t('附件名称')" type="text" />
+            <input v-model.trim="remoteData.url" :placeholder="t('附件地址')" type="url" />
             <div class="kaitify-attachment-remote-footer">
-              <Button @click="insert" :disabled="!remoteData.url || !remoteData.text">插入</Button>
+              <Button @click="insert" :disabled="!remoteData.url || !remoteData.text">{{ t('插入') }}</Button>
             </div>
           </div>
         </template>
@@ -39,6 +39,8 @@ const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+//翻译方法
+const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //远程附件数据
@@ -69,13 +71,13 @@ const fileChange = async (e: Event) => {
   if (!file || !editorRef.value) {
     return
   }
-  const url = typeof props.uploadFile == 'function' ? await props.uploadFile(file) : await DapFile.dataFileToBase64(file)
+  const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
   editorRef.value.commands.setAttachment?.({
     url: url,
-    text: file.name || '附件',
+    text: file.name || t('附件'),
     icon: props.iconUrl
   })
   menuRef.value?.hidePopover()

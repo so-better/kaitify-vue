@@ -8,6 +8,7 @@ import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } f
 import { Editor } from "@kaitify/core";
 import { WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
+import { translate } from "@/locale";
 defineOptions({
   name: 'Wrapper',
   inheritAttrs: false
@@ -16,6 +17,7 @@ defineOptions({
 const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   disabled: false,
+  locale: 'zh-cn',
   autofocus: false,
   placeholder: '',
   dark: false,
@@ -171,10 +173,17 @@ const EditorWrapper = defineComponent(() => {
   }
 })
 
+//翻译方法
+const t = (key: string) => {
+  return translate(props.locale, key)
+}
+
 //对子孙组件提供的属性
 provide('elRef', elRef)
 provide('editorRef', editorRef)
 provide('textCount', textCount)
+provide('t', t)
+provide('getLocale', () => props.locale)
 
 //对外导出的属性
 defineExpose({
