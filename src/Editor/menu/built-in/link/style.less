@@ -1,0 +1,37 @@
+.kaitify-link {
+  display: block;
+  width: 100%;
+  padding: var(--kaitify-padding);
+
+  input[type='text'],
+  input[type='url'] {
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--kaitify-border-color);
+    font-size: var(--kaitify-font-size);
+    font-family: var(--kaitify-font-family);
+    line-height: var(--kaitify-line-height);
+    color: var(--kaitify-font-color);
+    padding: var(--kaitify-small-padding) 0;
+    margin-bottom: 10px;
+    transition: all 300ms;
+
+    &:focus {
+      border-bottom-color: var(--kaitify-theme);
+    }
+
+    &::placeholder,
+    &::-webkit-input-placeholder {
+      opacity: 0.5;
+      font-family: var(--kaitify-font-family);
+    }
+  }
+
+  .kaitify-link-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+}

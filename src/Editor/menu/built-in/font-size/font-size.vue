@@ -113,8 +113,9 @@ const onSelect = (item: MenuDataType) => {
   }
   if (item.value == '') {
     editorRef.value.commands.removeTextStyle?.(['fontSize'])
-  }
-  else {
+  } else if (isActive.value(item)) {
+    editorRef.value.updateRealSelection()
+  } else {
     editorRef.value.commands.setFontSize?.(item.value as string)
   }
 }
