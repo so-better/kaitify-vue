@@ -3,6 +3,8 @@
     <Wrapper :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
       placeholder="输入正文内容..." v-model="content">
       <template #before>
+        <UndoMenu />
+        <RedoMenu />
         <BoldMenu />
         <AlignLeftMenu />
         <AlignCenterMenu />
@@ -16,6 +18,8 @@
         <ColorMenu />
         <FontFamilyMenu />
         <FontSizeMenu />
+        <HeadingMenu />
+        <HorizontalMenu />
       </template>
       <template v-slot:after="{ textCount }">
         总字数：{{ textCount }}
@@ -25,7 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu } from "../src/index"
+import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu } from "../src/index"
 const content = ref<string>('<img src="#"/>')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)

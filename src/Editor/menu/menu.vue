@@ -17,9 +17,10 @@
       <div v-else-if="data.length" class="kaitify-menu-options">
         <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) ?? undefined"
           class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item) || false }">
-          <slot v-if="$slots.icon" name="icon"></slot>
+          <slot v-if="$slots.icon" name="icon" :option="item"></slot>
           <Icon v-else-if="item.icon" :name="item.icon" class="kaitify-menu-option-icon" />
-          <span>{{ item.label }}</span>
+          <slot v-if="$slots.label" name="label" :option="item"></slot>
+          <span v-else>{{ item.label }}</span>
         </div>
       </div>
     </Popover>
