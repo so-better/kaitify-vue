@@ -12,6 +12,10 @@ export type PopoverPropsType = {
    */
   width?: string | number
   /**
+   * 浮层最小宽度
+   */
+  minWidth?: string | number
+  /**
    * 浮层最大高度
    */
   maxHeight?: string | number

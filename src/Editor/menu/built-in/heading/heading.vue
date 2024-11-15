@@ -1,6 +1,6 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
-    :item-active="item => isActive(item)" :popover-options="{ maxHeight: 240 }">
+    :item-active="item => isActive(item)" :popover-options="{ maxHeight: 240, minWidth: 120 }">
     {{ selectedData?.label || '' }}
     <template v-slot:label="{ option }">
       <span :style="{ fontSize: fontSizeMap[option.value as number] }">{{ option.label }}</span>

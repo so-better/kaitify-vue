@@ -3,7 +3,7 @@
     <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="10"
       :animation="popoverOptions.animation ?? 'translate'" :arrow="popoverOptions.arrow"
       :placement="popoverOptions.placement ?? 'bottom-start'" :trigger="popoverOptions.trigger ?? 'click'"
-      :width="popoverOptions.width ?? 'auto'" :maxHeight="popoverOptions.maxHeight ?? ''">
+      :width="popoverOptions.width" :maxHeight="popoverOptions.maxHeight" :minWidth="popoverOptions.minWidth">
       <template v-slot:refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>

@@ -9,7 +9,8 @@
       <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave"
         :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
-        <div class="kaitify-popover-wrapper" :style="{ width: popoverWidth, maxHeight: popoverMaxHeight }">
+        <div class="kaitify-popover-wrapper"
+          :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
           <slot></slot>
           <!-- arrow -->
           <div v-if="arrow" ref="arrowRef" class="kaitify-popover-arrow" :data-placement="realPlacement"></div>
@@ -57,6 +58,13 @@ const popoverWidth = computed<string>(() => {
     return typeof props.width == 'number' ? `${props.width}px` : props.width
   }
   return 'auto'
+})
+//浮层最小宽度
+const popoverMinWidth = computed<string>(() => {
+  if (props.minWidth) {
+    return typeof props.minWidth == 'number' ? `${props.minWidth}px` : props.minWidth
+  }
+  return ''
 })
 //浮层最大高度
 const popoverMaxHeight = computed<string>(() => {
