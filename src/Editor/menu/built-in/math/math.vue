@@ -18,6 +18,7 @@ import { Icon } from '@/core/icon';
 import { Button } from "@/core/button"
 import Menu from "@/editor/menu/menu.vue"
 import { MathMenuPropsType } from './props';
+//  \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
 
 defineOptions({
   name: 'MathMenu'
