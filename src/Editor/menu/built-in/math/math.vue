@@ -5,7 +5,7 @@
       <div class="kaitify-math">
         <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="t('输入Latex数学公式')" />
         <div class="kaitify-math-footer">
-          <Button @click="insert">{{ t('插入') }}</Button>
+          <Button :disabled="!mathText" @click="insert">{{ t('插入') }}</Button>
         </div>
       </div>
     </template>
