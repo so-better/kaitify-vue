@@ -1,10 +1,10 @@
-export type ImageMenuPropsType = {
+export type VideoMenuPropsType = {
 	/**
 	 * 是否禁用
 	 */
 	disabled?: boolean
 	/**
-	 * 初始图片宽度
+	 * 初始视频宽度
 	 */
 	width?: string | number
 	/**
