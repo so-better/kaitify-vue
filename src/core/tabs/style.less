@@ -7,6 +7,14 @@
 	line-height: var(--kaitify-line-height);
 	font-family: var(--kaitify-font-family);
 
+	&,
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		outline: none;
+	}
+
 	.kaitify-tabs-header {
 		display: flex;
 		justify-content: flex-start;

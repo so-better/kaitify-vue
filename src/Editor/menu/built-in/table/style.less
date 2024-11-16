@@ -1,0 +1,47 @@
+.kaitify-table {
+	display: block;
+	position: relative;
+	padding: var(--kaitify-padding);
+
+	table {
+		border: 1px solid var(--kaitify-border-color);
+		margin: 0;
+		padding: 0;
+		border-collapse: collapse;
+
+		tr {
+			margin: 0;
+			padding: 0;
+
+			td {
+				margin: 0;
+				padding: 0;
+				border: 1px solid var(--kaitify-border-color);
+
+				span {
+					display: block;
+					width: 15px;
+					height: 15px;
+				}
+
+				&:hover {
+					cursor: pointer;
+				}
+
+				&.kaitify-table-inside {
+					background-color: #f1f2f3;
+				}
+			}
+		}
+	}
+
+	.kaitify-table-footer {
+		display: block;
+		width: 100%;
+		text-align: center;
+		color: var(--kaitify-font-color);
+		line-height: 1;
+		margin-top: var(--kaitify-margin);
+		opacity: 0.8;
+	}
+}

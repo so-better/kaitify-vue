@@ -54,7 +54,7 @@ const isDisabled = computed<boolean>(() => {
   if (!editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (!!editorRef.value.commands.hasLink?.()) {
+  if (editorRef.value.commands.hasLink?.()) {
     return true
   }
   return props.disabled

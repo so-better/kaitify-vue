@@ -46,7 +46,7 @@ const isDisabled = computed<boolean>(() => {
   if (!editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (!!editorRef.value.commands.hasMath?.()) {
+  if (editorRef.value.commands.hasMath?.()) {
     return true
   }
   return props.disabled

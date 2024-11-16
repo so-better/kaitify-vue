@@ -5,6 +5,14 @@
 	padding: 2px;
 	position: relative;
 
+	&,
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		outline: none;
+	}
+
 	.kaitify-menu-caret {
 		font-size: 12px;
 		transform: scale(0.72);
@@ -20,6 +28,14 @@
 
 .kaitify-menu-options {
 	padding: var(--kaitify-small-padding) 0;
+
+	&,
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		outline: none;
+	}
 
 	.kaitify-menu-option {
 		display: flex;

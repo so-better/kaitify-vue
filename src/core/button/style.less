@@ -12,6 +12,14 @@
 	border-radius: var(--kaitify-border-radius);
 	transition: background 300ms, color 300ms;
 
+	&,
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		outline: none;
+	}
+
 	&:not([disabled]):hover {
 		cursor: pointer;
 		background: var(--kaitify-lightest-theme);

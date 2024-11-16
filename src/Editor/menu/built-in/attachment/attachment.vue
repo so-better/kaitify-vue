@@ -59,7 +59,7 @@ const isDisabled = computed<boolean>(() => {
   if (!editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (!!editorRef.value.commands.hasAttachment?.()) {
+  if (editorRef.value.commands.hasAttachment?.()) {
     return true
   }
   return props.disabled
