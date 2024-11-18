@@ -1,8 +1,16 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-options="{ width: 300 }"
+    @popover-show="menuShow">
     <Icon name="attachment" />
     <template v-slot:popover>
-      <Tabs :names="[t('本地上传'), t('远程地址')]">
+      <div v-if="isActive" class="kaitify-attachment-update">
+        <input v-model.trim="updateData.text" :placeholder="t('附件名称')" type="text" />
+        <input v-model.trim="updateData.url" :placeholder="t('附件地址')" type="url" />
+        <div class="kaitify-attachment-update-footer">
+          <Button @click="update" :disabled="!updateData.url || !updateData.text">{{ t('更新') }}</Button>
+        </div>
+      </div>
+      <Tabs v-else :names="[t('本地上传'), t('远程地址')]">
         <template v-slot="{ index }">
           <div v-if="index == 0" class="kaitify-attachment-upload">
             <input type="file" accept="*" @change="fileChange" />
@@ -23,7 +31,7 @@
 <script setup lang="ts">
 import { computed, inject, reactive, ref, Ref } from 'vue';
 import { file as DapFile } from "dap-util"
-import { Editor, SetAttachmentConfigType } from '@kaitify/core';
+import { Editor, SetAttachmentConfigType, UpdateAttachmentConfigType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
 import { Button } from "@/core/button"
@@ -48,23 +56,40 @@ const remoteData = reactive<Omit<SetAttachmentConfigType, 'icon'>>({
   url: '',
   text: ''
 })
+//更新附件数据
+const updateData = reactive<UpdateAttachmentConfigType>({
+  url: '',
+  text: '',
+})
 
 //组件没有放在Wrapper的插槽中会报错
 if (!editorRef) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 
+//是否激活
+const isActive = computed<boolean>(() => {
+  return !!editorRef.value?.commands.getAttachment?.()
+})
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.()) {
+  if (editorRef.value.commands.hasAttachment?.() && !isActive.value) {
     return true
   }
   return props.disabled
 })
 
+//浮层显示
+const menuShow = () => {
+  const info = editorRef.value?.commands.getAttachmentInfo?.()
+  if (info) {
+    updateData.text = info.text
+    updateData.url = info.url
+  }
+}
 //选择本地文件
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
@@ -91,6 +116,17 @@ const insert = async () => {
     url: remoteData.url,
     text: remoteData.text,
     icon: props.iconUrl
+  })
+  menuRef.value?.hidePopover()
+}
+//更新远程附件
+const update = async () => {
+  if (!updateData.url || !updateData.text || !editorRef.value) {
+    return
+  }
+  editorRef.value.commands.updateAttachment?.({
+    url: updateData.url,
+    text: updateData.text
   })
   menuRef.value?.hidePopover()
 }
