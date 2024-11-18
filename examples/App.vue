@@ -3,15 +3,15 @@
     <Wrapper locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }"
       allow-paste-html placeholder="输入正文内容..." v-model="content">
       <template #before>
-        <UndoMenu />
+        <!-- <UndoMenu />
         <RedoMenu />
         <BoldMenu />
         <AlignLeftMenu />
         <AlignCenterMenu />
         <AlignRightMenu />
-        <AlignJusitfyMenu />
+        <AlignJusitfyMenu /> -->
         <AttachmentMenu />
-        <BackColorMenu />
+        <!-- <BackColorMenu />
         <BlockquoteMenu />
         <CodeMenu />
         <CodeBlockMenu />
@@ -35,7 +35,7 @@
         <TableMenu />
         <UnderlineMenu />
         <VideoMenu />
-        <TaskMenu />
+        <TaskMenu /> -->
       </template>
       <template v-slot:after="{ textCount }">
         总字数：{{ textCount }}

@@ -157,7 +157,7 @@ onMounted(async () => {
       emits('update:modelValue', newVal)
       await nextTick()
       internalModification.value = false
-      textCount.value = editorRef.value?.getText().length || 0
+      textCount.value = this.getText().length || 0
     }
   })
 })
