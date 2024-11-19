@@ -33,6 +33,12 @@ const props = withDefaults(defineProps<LinkMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+//组件没有放在Wrapper的插槽中会报错
+if (!editorRef) {
+  throw new Error(`The component must be placed in the slot of the Wrapper.`)
+}
+//编辑器光标更新key
+const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //翻译方法
 const t = inject<(key: string) => string>('t')!
 //菜单组件实例
@@ -43,15 +49,9 @@ const formData = reactive<SetLinkOptionType>({
   text: '',
   newOpen: false
 })
-
-//组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
-
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
   if (editorRef.value.commands.hasLink?.()) {

@@ -9,7 +9,7 @@
       <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave"
         :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
-        <div class="kaitify-popover-wrapper"
+        <div v-if="contentVisible" class="kaitify-popover-wrapper"
           :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
           <slot></slot>
           <!-- arrow -->
@@ -44,6 +44,8 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
 const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hidding', 'hidden'])
 //是否显示
 const visible = ref<boolean>(false)
+//是否显示内容
+const contentVisible = ref<boolean>(false)
 //目标元素
 const referRef = ref<HTMLElement | undefined>()
 //三角形元素
@@ -121,6 +123,7 @@ const hidePopover = () => {
 
 //浮层显示前
 const onShow = (el: Element) => {
+  contentVisible.value = true
   update()
   emits('show', el)
 }
@@ -142,6 +145,7 @@ const onHidding = (el: Element) => {
 }
 //浮层隐藏后
 const onHidden = (el: Element) => {
+  contentVisible.value = false
   emits('hidden', el)
 }
 //鼠标移入

@@ -1,7 +1,7 @@
 <template>
-  <slot :key="`before-${keyOfSelectionUpdate}`" name="before" :textCount="textCount" :editorRef="editorRef"></slot>
+  <slot name="before" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <slot :key="`after-${keyOfSelectionUpdate}`" name="after" :textCount="textCount" :editorRef="editorRef"></slot>
+  <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
 </template>
 <script lang="ts" setup>
 import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
@@ -40,7 +40,7 @@ const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
 const internalModification = ref<boolean>(false)
 //编辑器光标更新标记
-const keyOfSelectionUpdate = ref<number>(1)
+const keyOfSelectionUpdate = ref<number>(0)
 //编辑器总字数
 const textCount = ref<number>(0)
 
@@ -181,6 +181,7 @@ const t = (key: string) => {
 //对子孙组件提供的属性
 provide('elRef', elRef)
 provide('editorRef', editorRef)
+provide('keyOfSelectionUpdate', keyOfSelectionUpdate)
 provide('textCount', textCount)
 provide('t', t)
 provide('getLocale', () => props.locale)
@@ -189,6 +190,7 @@ provide('getLocale', () => props.locale)
 defineExpose({
   elRef,
   editorRef,
+  keyOfSelectionUpdate,
   textCount
 })
 </script>

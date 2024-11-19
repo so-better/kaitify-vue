@@ -36,14 +36,14 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
-//菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
-
 //组件没有放在Wrapper的插槽中会报错
 if (!editorRef) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-
+//编辑器光标更新key
+const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//菜单组件实例
+const menuRef = ref<(typeof Menu) | undefined>()
 //获取表格尺寸数据
 const getTableGrids = () => {
   const grids: TableGridType[][] = []
@@ -83,7 +83,7 @@ const specification = computed<TableGridType>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
   if (editorRef.value.commands.hasTable?.() || editorRef.value.commands.hasCodeBlock?.()) {

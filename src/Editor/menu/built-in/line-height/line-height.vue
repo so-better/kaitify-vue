@@ -47,16 +47,16 @@ const props = withDefaults(defineProps<LineHeightMenuPropsType>(), {
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
-//翻译方法
-const t = inject<(key: string) => string>('t')!
-//菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
-
 //组件没有放在Wrapper的插槽中会报错
 if (!editorRef) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-
+//编辑器光标更新key
+const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//翻译方法
+const t = inject<(key: string) => string>('t')!
+//菜单组件实例
+const menuRef = ref<(typeof Menu) | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [{
@@ -66,7 +66,7 @@ const options = computed<MenuDataType[]>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
   return props.disabled
@@ -74,15 +74,12 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    if (!editorRef.value) {
-      return false
-    }
-    return editorRef.value.commands.isLineHeight?.(item.value) || false
+    return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.isLineHeight?.(item.value)) || false
   }
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  if (!editorRef.value) {
+  if (!keyOfSelectionUpdate.value || !editorRef.value) {
     return options.value[0]
   }
   const data = props.data.find(item => editorRef.value?.commands.isLineHeight?.(item.value) ?? false)
