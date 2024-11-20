@@ -124,11 +124,11 @@ const hidePopover = () => {
 //浮层显示前
 const onShow = (el: Element) => {
   contentVisible.value = true
-  update()
   emits('show', el)
 }
 //浮层显示时
 const onShowing = (el: Element) => {
+  update()
   emits('showing', el)
 }
 //浮层显示后
@@ -241,7 +241,8 @@ onMounted(() => {
           name: 'preventOverflow',
           options: {
             enabled: true,
-            boundariesElement: 'viewport'
+            boundary: 'viewport',
+            padding: 5
           }
         }
       ],

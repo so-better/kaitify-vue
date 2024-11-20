@@ -1,5 +1,6 @@
 import { LocaleType } from '@/locale'
 import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType } from '@kaitify/core'
+import { BubblePropsType } from '../bubble'
 
 /**
  * 编辑器参数类型
@@ -18,9 +19,9 @@ export type WrapperPropsType = {
    */
   locale?: LocaleType
   /**
-   * 是否显示气泡栏
+   * bubble气泡参数
    */
-  bubbleVisible?: boolean
+  bubbleProps?: BubblePropsType
   /**
    * 是否自动聚焦
    */

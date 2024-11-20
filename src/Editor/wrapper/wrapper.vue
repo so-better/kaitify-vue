@@ -1,11 +1,11 @@
 <template>
   <slot name="before" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <Bubble :visible="bubbleVisible">
+  <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
+  <Bubble :visible="bubbleProps?.visible ?? false" :matches="bubbleProps?.matches ?? []">
     <slot name="bubble" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate">
     </slot>
   </Bubble>
-  <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
 </template>
 <script lang="ts" setup>
 import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   disabled: false,
   locale: 'zh-cn',
-  bubbleVisible: false,
   autofocus: false,
   placeholder: '',
   dark: false,
