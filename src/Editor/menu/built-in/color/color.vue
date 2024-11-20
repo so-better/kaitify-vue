@@ -1,5 +1,6 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover>
+  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
+    :popover-options="{ width: popoverOptions?.width, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
     <Icon name="font-color" />
     <template v-slot:popover>
       <div class="kaitify-colors-panel">

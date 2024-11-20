@@ -1,3 +1,20 @@
 .kaitify-bubble {
   display: block;
+  background: var(--kaitify-background-color);
+  border: 1px solid var(--kaitify-border-color);
+  color: var(--kaitify-font-color);
+  font-size: var(--kaitify-font-size);
+  font-family: var(--kaitify-font-family);
+  line-height: var(--kaitify-line-height);
+  border-radius: var(--kaitify-border-radius);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.06);
+}
+
+.kaitify-bubble-enter-from,
+.kaitify-bubble-leave-to {
+  opacity: 0;
+}
+.kaitify-bubble-enter-active,
+.kaitify-bubble-leave-active {
+  transition: opacity 50ms linear;
 }

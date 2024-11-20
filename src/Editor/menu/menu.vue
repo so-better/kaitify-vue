@@ -1,6 +1,6 @@
 <template>
   <div class="kaitify-menu">
-    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="10"
+    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="popoverOptions.zIndex ?? 10"
       :animation="popoverOptions.animation ?? 'translate'" :arrow="popoverOptions.arrow"
       :placement="popoverOptions.placement ?? 'bottom-start'" :trigger="popoverOptions.trigger ?? 'click'"
       :width="popoverOptions.width" :maxHeight="popoverOptions.maxHeight" :minWidth="popoverOptions.minWidth"

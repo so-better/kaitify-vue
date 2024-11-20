@@ -1,4 +1,4 @@
-import { MenuDataType } from '../../props'
+import { MenuDataType, MenuPropsType } from '../../props'
 
 export type LineHeightMenuPropsType = {
   /**
@@ -13,4 +13,8 @@ export type LineHeightMenuPropsType = {
    * 默认行高数值
    */
   defaultValue?: string | number
+  /**
+   * 浮层属性
+   */
+  popoverOptions?: MenuPropsType['popoverOptions']
 }

@@ -1,5 +1,6 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
+    :popover-options="{ width: popoverOptions?.width ?? 300, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
     <Icon name="video" />
     <template v-slot:popover>
       <Tabs :names="[t('本地上传'), t('远程地址')]">

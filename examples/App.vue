@@ -1,7 +1,8 @@
 <template>
   <div style="padding: 10px;">
-    <Wrapper locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }"
-      allow-paste-html placeholder="输入正文内容..." v-model="content">
+    <EditorWrapper :bubble-props="{ matches: [{ tag: 'img' }, { tag: 'pre' }], visible: true }" locale="zh-cn"
+      :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
+      placeholder="输入正文内容..." v-model="content">
       <template #before>
         <UndoMenu />
         <RedoMenu />
@@ -10,7 +11,7 @@
         <AlignCenterMenu />
         <AlignRightMenu />
         <AlignJusitfyMenu />
-        <AttachmentMenu />
+        <AttachmentMenu :popover-options="{ zIndex: 100 }" />
         <BackColorMenu />
         <BlockquoteMenu />
         <CodeMenu />
@@ -37,15 +38,27 @@
         <VideoMenu />
         <TaskMenu />
       </template>
-      <template v-slot:after="{ textCount }">
+      <template #after="{ textCount }">
         总字数：{{ textCount }}
       </template>
-    </Wrapper>
+      <template #bubble>
+        <div style="padding: 4px;">
+          <UndoMenu />
+          <RedoMenu />
+          <BoldMenu />
+          <AlignLeftMenu />
+          <AlignCenterMenu />
+          <AlignRightMenu />
+          <AlignJusitfyMenu />
+          <AttachmentMenu />
+        </div>
+      </template>
+    </EditorWrapper>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
@@ -58,6 +71,7 @@ html {
 body {
   height: 100%;
   margin: 0;
+  overflow: hidden
 }
 
 *,

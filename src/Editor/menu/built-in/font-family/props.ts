@@ -1,4 +1,4 @@
-import { MenuDataType } from '../../props'
+import { MenuDataType, MenuPropsType } from '../../props'
 
 export type FontFamilyMenuPropsType = {
   /**
@@ -9,4 +9,8 @@ export type FontFamilyMenuPropsType = {
    * 选项数组
    */
   data?: MenuDataType[]
+  /**
+   * 浮层属性
+   */
+  popoverOptions?: MenuPropsType['popoverOptions']
 }

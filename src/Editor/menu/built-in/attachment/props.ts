@@ -1,8 +1,14 @@
+import { MenuPropsType } from '../../props'
+
 export type AttachmentMenuPropsType = {
   /**
    * 是否禁用
    */
   disabled?: boolean
+  /**
+   * 浮层属性
+   */
+  popoverOptions?: MenuPropsType['popoverOptions']
   /**
    * 附件logo图片地址
    */

@@ -1,5 +1,6 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-options="{ width: 300 }"
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
+    :popover-options="{ width: popoverOptions?.width ?? 300, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }"
     @popover-show="menuShow">
     <Icon name="image" />
     <template v-slot:popover>
