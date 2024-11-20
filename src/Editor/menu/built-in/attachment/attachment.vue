@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { computed, inject, reactive, ref, Ref } from 'vue';
 import { file as DapFile } from "dap-util"
-import { Editor, SetAttachmentConfigType, UpdateAttachmentConfigType } from '@kaitify/core';
+import { Editor, SetAttachmentOptionType, UpdateAttachmentOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
 import { Button } from "@/core/button"
@@ -58,12 +58,12 @@ const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //远程附件数据
-const remoteData = reactive<Omit<SetAttachmentConfigType, 'icon'>>({
+const remoteData = reactive<Omit<SetAttachmentOptionType, 'icon'>>({
   url: '',
   text: ''
 })
 //更新附件数据
-const updateData = reactive<UpdateAttachmentConfigType>({
+const updateData = reactive<UpdateAttachmentOptionType>({
   url: '',
   text: '',
 })
@@ -74,6 +74,15 @@ const isActive = computed<boolean>(() => {
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+    return true
+  }
+  if (editorRef.value.commands.hasMath?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasCodeBlock?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasLink?.()) {
     return true
   }
   if (editorRef.value.commands.hasAttachment?.() && !isActive.value) {
@@ -88,6 +97,9 @@ const menuShow = () => {
   if (info) {
     updateData.text = info.text
     updateData.url = info.url
+  } else {
+    remoteData.text = ''
+    remoteData.url = ''
   }
 }
 //选择本地文件

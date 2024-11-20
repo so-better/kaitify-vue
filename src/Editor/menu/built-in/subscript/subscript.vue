@@ -37,6 +37,12 @@ const isDisabled = computed<boolean>(() => {
   if (!editorRef.value.selection.collapsed() && !editorRef.value.getFocusNodesBySelection('text').length) {
     return true
   }
+  if (editorRef.value.selection.collapsed() && (!!editorRef.value.commands.getAttachment?.() || !!editorRef.value.commands.getMath?.())) {
+    return true
+  }
+  if (!!editorRef.value.commands.getCodeBlock?.()) {
+    return true
+  }
   return props.disabled
 })
 //方法

@@ -89,6 +89,12 @@ const isDisabled = computed<boolean>(() => {
   if (editorRef.value.commands.hasTable?.() || editorRef.value.commands.hasCodeBlock?.()) {
     return true
   }
+  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasCodeBlock?.()) {
+    return true
+  }
   return props.disabled
 })
 

@@ -1,8 +1,16 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-options="{ width: 300 }"
+    @popover-show="menuShow">
     <Icon name="image" />
     <template v-slot:popover>
-      <Tabs :names="[t('本地上传'), t('远程地址')]">
+      <div v-if="isActive" class="kaitify-image-update">
+        <input v-model.trim="updateData.alt" :placeholder="t('图片名称')" type="text" />
+        <input v-model.trim="updateData.src" :placeholder="t('图片地址')" type="url" />
+        <div class="kaitify-image-update-footer">
+          <Button @click="update" :disabled="!updateData.src">{{ t('更新') }}</Button>
+        </div>
+      </div>
+      <Tabs v-else :names="[t('本地上传'), t('远程地址')]">
         <template v-slot="{ index }">
           <div v-if="index == 0" class="kaitify-image-upload">
             <input type="file" accept="image/*" @change="fileChange" />
@@ -12,7 +20,7 @@
             <input v-model.trim="remoteData.alt" :placeholder="t('图片名称')" type="text" />
             <input v-model.trim="remoteData.src" :placeholder="t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
-              <Button @click="insert" :disabled="!remoteData.src || !remoteData.alt">{{ t('插入') }}</Button>
+              <Button @click="insert" :disabled="!remoteData.src">{{ t('插入') }}</Button>
             </div>
           </div>
         </template>
@@ -23,7 +31,7 @@
 <script setup lang="ts">
 import { computed, inject, reactive, ref, Ref } from 'vue';
 import { file as DapFile } from "dap-util"
-import { Editor, SetImageOptionType } from '@kaitify/core';
+import { Editor, SetImageOptionType, UpdateImageOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
 import { Button } from "@/core/button"
@@ -50,7 +58,12 @@ const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //远程图片数据
-const remoteData = reactive<SetImageOptionType>({
+const remoteData = reactive<Omit<SetImageOptionType, 'width'>>({
+  src: '',
+  alt: ''
+})
+//更新图片数据
+const updateData = reactive<UpdateImageOptionType>({
   src: '',
   alt: ''
 })
@@ -59,9 +72,30 @@ const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
+  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasCodeBlock?.()) {
+    return true
+  }
   return props.disabled
 })
+//是否激活
+const isActive = computed<boolean>(() => {
+  return (keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getImage?.())
+})
 
+//浮层显示
+const menuShow = () => {
+  const imageNode = editorRef.value?.commands.getImage?.()
+  if (imageNode) {
+    updateData.src = imageNode.marks!.src as string
+    updateData.alt = (imageNode.marks!.alt as string) || ''
+  } else {
+    remoteData.src = ''
+    remoteData.alt = ''
+  }
+}
 //选择本地图片
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
@@ -81,13 +115,24 @@ const fileChange = async (e: Event) => {
 }
 //插入远程图片
 const insert = async () => {
-  if (!remoteData.src || !remoteData.alt || !editorRef.value) {
+  if (!remoteData.src || !editorRef.value) {
     return
   }
   editorRef.value.commands.setImage?.({
     src: remoteData.src,
     alt: remoteData.alt,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
+  })
+  menuRef.value?.hidePopover()
+}
+//更新图片
+const update = async () => {
+  if (!updateData.src || !editorRef.value) {
+    return
+  }
+  editorRef.value.commands.updateImage?.({
+    src: updateData.src,
+    alt: updateData.alt
   })
   menuRef.value?.hidePopover()
 }

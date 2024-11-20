@@ -1,23 +1,37 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-options="{ width: 300 }"
+    @popover-show="menuShow">
     <Icon name="link" />
     <template v-slot:popover>
       <div class="kaitify-link">
-        <input v-if="editorRef?.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')"
-          type="text" />
-        <input v-model.trim="formData.href" :placeholder="t('链接地址')" type="url" />
-        <div class="kaitify-link-footer">
-          <Checkbox v-model="formData.newOpen" :label="t('新窗口打开')" />
-          <Button @click="insert" :disabled="!formData.href || (editorRef?.selection.collapsed() && !formData.text)">{{
-            t('插入') }}</Button>
-        </div>
+        <!-- 修改链接 -->
+        <template v-if="isActive">
+          <input v-model.trim="updateData.href" :placeholder="t('链接地址')" type="url" />
+          <div class="kaitify-link-footer">
+            <Checkbox v-model="updateData.newOpen" :label="t('新窗口打开')" />
+            <Button @click="update" :disabled="!updateData.href">{{
+              t('更新') }}</Button>
+          </div>
+        </template>
+        <!-- 插入链接 -->
+        <template v-else>
+          <input v-if="editorRef?.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')"
+            type="text" />
+          <input v-model.trim="formData.href" :placeholder="t('链接地址')" type="url" />
+          <div class="kaitify-link-footer">
+            <Checkbox v-model="formData.newOpen" :label="t('新窗口打开')" />
+            <Button @click="insert"
+              :disabled="!formData.href || (editorRef?.selection.collapsed() && !formData.text)">{{
+                t('插入') }}</Button>
+          </div>
+        </template>
       </div>
     </template>
   </Menu>
 </template>
 <script setup lang="ts">
 import { computed, inject, reactive, ref, Ref } from 'vue';
-import { Editor, SetLinkOptionType } from '@kaitify/core';
+import { Editor, SetLinkOptionType, UpdateLinkOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Button } from "@/core/button"
 import Menu from "@/editor/menu/menu.vue"
@@ -49,17 +63,44 @@ const formData = reactive<SetLinkOptionType>({
   text: '',
   newOpen: false
 })
+//更新链接数据
+const updateData = reactive<UpdateLinkOptionType>({
+  href: '',
+  newOpen: false
+})
+//是否激活
+const isActive = computed<boolean>(() => {
+  return keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getLink?.()
+})
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasLink?.()) {
+  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasLink?.() && !isActive.value) {
+    return true
+  }
+  if (editorRef.value.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
 })
 
+//浮层显示
+const menuShow = () => {
+  const linkNode = editorRef.value?.commands.getLink?.()
+  if (linkNode) {
+    updateData.href = linkNode.marks!.href as string
+    updateData.newOpen = linkNode.marks!.target == '_blank'
+  } else {
+    formData.href = ''
+    formData.text = ''
+    formData.newOpen = false
+  }
+}
 //插入链接
 const insert = async () => {
   if (!formData.href || !editorRef.value) {
@@ -80,6 +121,17 @@ const insert = async () => {
       newOpen: formData.newOpen
     })
   }
+  menuRef.value?.hidePopover()
+}
+//更新链接
+const update = async () => {
+  if (!updateData.href || !editorRef.value) {
+    return
+  }
+  editorRef.value.commands.updateLink?.({
+    href: updateData.href,
+    newOpen: updateData.newOpen
+  })
   menuRef.value?.hidePopover()
 }
 </script>

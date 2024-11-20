@@ -65,6 +65,12 @@ const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
+  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasCodeBlock?.()) {
+    return true
+  }
   return props.disabled
 })
 

@@ -1,11 +1,13 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-options="{ width: 300 }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-options="{ width: 300 }"
+    @popover-show="menuShow">
     <Icon name="mathformula" />
     <template v-slot:popover>
       <div class="kaitify-math">
         <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="t('输入Latex数学公式')" />
         <div class="kaitify-math-footer">
-          <Button :disabled="!mathText" @click="insert">{{ t('插入') }}</Button>
+          <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ t('更新') }}</Button>
+          <Button key="insert" v-else :disabled="!mathText" @click="insert">{{ t('插入') }}</Button>
         </div>
       </div>
     </template>
@@ -41,23 +43,53 @@ const t = inject<(key: string) => string>('t')!
 const menuRef = ref<(typeof Menu) | undefined>()
 //数学公式内容
 const mathText = ref<string>('')
+//是否激活
+const isActive = computed<boolean>(() => {
+  return keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getMath?.()
+})
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasMath?.()) {
+  if (editorRef.value.commands.hasAttachment?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasLink?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasCodeBlock?.()) {
+    return true
+  }
+  if (editorRef.value.commands.hasMath?.() && !isActive.value) {
     return true
   }
   return props.disabled
 })
 
+//浮层显示
+const menuShow = () => {
+  const mathNode = editorRef.value?.commands.getMath?.()
+  if (mathNode) {
+    mathText.value = (mathNode.marks!['kaitify-math'] as string) || ''
+  } else {
+    mathText.value = ''
+  }
+}
 //插入数学公式
 const insert = () => {
   if (!mathText.value || !editorRef.value) {
     return
   }
   editorRef.value.commands.setMath?.(mathText.value)
+  menuRef.value?.hidePopover()
+}
+//更新数学公式
+const update = async () => {
+  if (!mathText.value || !editorRef.value) {
+    return
+  }
+  editorRef.value.commands.updateMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 </script>
