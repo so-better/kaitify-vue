@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px;">
-    <EditorWrapper :bubble-props="{ matches: [{ tag: 'img' }, { tag: 'pre' }], visible: true }" locale="zh-cn"
-      :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
+    <EditorWrapper ref="wrapper" :bubble-props="{ matches: [{ tag: 'img' }, { tag: 'pre' }], visible: true }"
+      locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
       placeholder="输入正文内容..." v-model="content">
       <template #before>
         <UndoMenu />
@@ -16,6 +16,7 @@
         <BlockquoteMenu />
         <CodeMenu />
         <CodeBlockMenu />
+        <CodeBlockLanguagesMenu />
         <ColorMenu />
         <FontFamilyMenu />
         <FontSizeMenu />
@@ -37,6 +38,8 @@
         <UnderlineMenu />
         <VideoMenu :popover-options="{ zIndex: 100, arrow: true }" />
         <TaskMenu />
+        <WrapUpMenu :match="{ tag: 'table' }" />
+        <WrapDownMenu :match="{ tag: 'table' }" />
       </template>
       <template #after="{ textCount }">
         总字数：{{ textCount }}
@@ -58,10 +61,11 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
+const wrapper = ref<(typeof EditorWrapper) | undefined>()
 </script>
 <style lang="less">
 html {

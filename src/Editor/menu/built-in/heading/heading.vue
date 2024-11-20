@@ -94,11 +94,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value) {
-    return options.value[options.value.length - 1]
-  }
-  const data = props.data.find(item => editorRef.value?.commands.allHeading?.(item.value as HeadingLevelType) ?? false)
-  return data || options.value[options.value.length - 1]
+  return props.data.find(item => isActive.value(item)) ?? options.value[options.value.length - 1]
 })
 
 //选择选项

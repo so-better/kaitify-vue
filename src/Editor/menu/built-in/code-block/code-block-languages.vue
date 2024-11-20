@@ -7,40 +7,17 @@
 </template>
 <script setup lang="ts">
 import { computed, inject, ref, Ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { Editor, HljsLanguageType, HljsLanguages } from '@kaitify/core';
 import Menu from "@/editor/menu/menu.vue"
-import { LineHeightMenuPropsType } from './props';
+import { CodeBlockLanguagesMenuPropsType } from './props';
 import { MenuDataType } from '../../props';
 
 defineOptions({
-  name: 'LineHeightMenu'
+  name: 'CodeBlockLanguagesMenu'
 })
 //属性
-const props = withDefaults(defineProps<LineHeightMenuPropsType>(), {
-  disabled: false,
-  defaultValue: 1.5,
-  data: () => [
-    {
-      label: '1',
-      value: 1
-    },
-    {
-      label: '1.15',
-      value: 1.15
-    },
-    {
-      label: '2',
-      value: 2
-    },
-    {
-      label: '2.5',
-      value: 2.5
-    },
-    {
-      label: '3',
-      value: 3
-    }
-  ]
+const props = withDefaults(defineProps<CodeBlockLanguagesMenuPropsType>(), {
+  disabled: false
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
@@ -57,13 +34,21 @@ const menuRef = ref<(typeof Menu) | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [{
-    label: t('默认行高'),
-    value: props.defaultValue
-  }, ...(props.data || [])]
+    label: t('自动识别'),
+    value: ''
+  }, ...([...HljsLanguages].map(item => {
+    return {
+      label: item.charAt(0).toLocaleUpperCase() + item.slice(1),
+      value: item
+    }
+  }))]
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+    return true
+  }
+  if (!editorRef.value.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -71,12 +56,19 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.isLineHeight?.(item.value)) || false
+    if (!keyOfSelectionUpdate.value || !editorRef.value) {
+      return false
+    }
+    const codeBlockNode = editorRef.value.commands.getCodeBlock?.()
+    return !!codeBlockNode && codeBlockNode.marks!['kaitify-hljs'] === item.value
   }
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  return props.data.find(item => isActive.value(item)) || options.value[0]
+  if (!keyOfSelectionUpdate.value || !editorRef.value) {
+    return options.value[0]
+  }
+  return options.value.find(item => isActive.value(item)) ?? options.value[0]
 })
 
 //选择选项
@@ -84,10 +76,6 @@ const onSelect = (item: MenuDataType) => {
   if (!editorRef.value) {
     return
   }
-  if (isActive.value(item)) {
-    editorRef.value.updateRealSelection()
-  } else {
-    editorRef.value.commands.setLineHeight?.(item.value)
-  }
+  editorRef.value.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
 }
 </script>

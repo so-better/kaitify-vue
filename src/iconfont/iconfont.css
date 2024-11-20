@@ -1,3 +1,11 @@
+.kaitify-icon-wrap-down:before {
+	content: '\e672';
+}
+
+.kaitify-icon-wrap-up:before {
+	content: '\e673';
+}
+
 .kaitify-icon-info:before {
 	content: '\e600';
 }
@@ -240,10 +248,6 @@
 
 .kaitify-icon-underline:before {
 	content: '\e7a8';
-}
-
-.kaitify-icon-text-wrap:before {
-	content: '\e7a9';
 }
 
 .kaitify-icon-caret-down:before {

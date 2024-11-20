@@ -91,11 +91,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value) {
-    return options.value[0]
-  }
-  const data = props.data.find(item => editorRef.value?.commands.isFontFamily?.(item.value as string) ?? false)
-  return data || options.value[0]
+  return props.data.find(item => isActive.value(item)) ?? options.value[0]
 })
 
 //选择选项

@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <Transition name="kaitify-bubble">
+    <Transition name="kaitify-bubble" @enter="updatePosition">
       <div v-if="visible" ref="elRef" class="kaitify-bubble" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
@@ -141,14 +141,17 @@ const removeScroll = (el: HTMLElement) => {
     removeScroll(el.parentNode as HTMLElement)
   }
 }
-//监听光标变化，更新气泡位置
+//监听光标变化
 watch(() => keyOfSelectionUpdate.value, () => {
+  //更新气泡位置
   updatePosition()
 })
-//监听编辑器实例传入，更新气泡位置
+//监听编辑器实例传入
 watch(() => editorRef.value, newVal => {
   if (newVal) {
+    //更新气泡位置
     updatePosition()
+    //设置滚动监听
     onScroll(newVal.$el!)
   }
 }, {
