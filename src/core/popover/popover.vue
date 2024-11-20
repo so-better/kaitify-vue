@@ -9,9 +9,12 @@
       <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave"
         :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
-        <div v-if="contentVisible" class="kaitify-popover-wrapper"
-          :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
-          <slot></slot>
+        <div class="kaitify-popover-wrapper">
+          <!-- 内容区域 -->
+          <div v-if="contentVisible" class="kaitify-popover-content"
+            :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
+            <slot></slot>
+          </div>
           <!-- arrow -->
           <div v-if="arrow" ref="arrowRef" class="kaitify-popover-arrow" :data-placement="realPlacement"></div>
         </div>

@@ -11,7 +11,7 @@
         <AlignCenterMenu />
         <AlignRightMenu />
         <AlignJusitfyMenu />
-        <AttachmentMenu :popover-options="{ zIndex: 100 }" />
+        <AttachmentMenu :popover-options="{ zIndex: 100, arrow: true }" />
         <BackColorMenu />
         <BlockquoteMenu />
         <CodeMenu />
@@ -35,7 +35,7 @@
         <SuperscriptMenu />
         <TableMenu />
         <UnderlineMenu />
-        <VideoMenu />
+        <VideoMenu :popover-options="{ zIndex: 100, arrow: true }" />
         <TaskMenu />
       </template>
       <template #after="{ textCount }">
