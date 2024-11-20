@@ -6,7 +6,7 @@
       :width="popoverOptions.width" :maxHeight="popoverOptions.maxHeight" :minWidth="popoverOptions.minWidth"
       @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)"
       @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)"
-      @hidding="emits('popoverHidding', $event)" @hidden="emits('popoverHidden', $event)">
+      @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
       <template v-slot:refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
   data: () => []
 })
 //事件
-const emits = defineEmits(['operate', 'select', 'popoverShow', 'popoverShowing', 'popoverShown', 'popoverHide', 'popoverHidding', 'popoverHidden'])
+const emits = defineEmits(['operate', 'select', 'popoverShow', 'popoverShowing', 'popoverShown', 'popoverHide', 'popoverHiding', 'popoverHidden'])
 //popover组件实例
 const popoverRef = ref<(typeof Popover) | undefined>()
 //popover浮层是否显示

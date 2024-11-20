@@ -1,6 +1,10 @@
 <template>
   <slot name="before" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   <EditorWrapper v-bind="$attrs" />
+  <Bubble :visible="bubbleVisible">
+    <slot name="bubble" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate">
+    </slot>
+  </Bubble>
   <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
 </template>
 <script lang="ts" setup>
@@ -9,6 +13,7 @@ import { Editor } from "@kaitify/core";
 import { WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
 import { translate } from "@/locale";
+import { Bubble } from "../bubble";
 defineOptions({
   name: 'Wrapper',
   inheritAttrs: false
@@ -18,6 +23,7 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   disabled: false,
   locale: 'zh-cn',
+  bubbleVisible: false,
   autofocus: false,
   placeholder: '',
   dark: false,

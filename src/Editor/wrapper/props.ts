@@ -18,6 +18,10 @@ export type WrapperPropsType = {
    */
   locale?: LocaleType
   /**
+   * 是否显示气泡栏
+   */
+  bubbleVisible?: boolean
+  /**
    * 是否自动聚焦
    */
   autofocus?: boolean

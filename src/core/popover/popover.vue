@@ -5,7 +5,7 @@
   </div>
   <Teleport to="body">
     <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown"
-      @before-leave="onHide" @leave="onHidding" @after-leave="onHidden">
+      @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
       <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave"
         :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
   disabled: false
 })
 //事件
-const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hidding', 'hidden'])
+const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hiding', 'hidden'])
 //是否显示
 const visible = ref<boolean>(false)
 //是否显示内容
@@ -140,8 +140,8 @@ const onHide = (el: Element) => {
   emits('hide', el)
 }
 //浮层隐藏时
-const onHidding = (el: Element) => {
-  emits('hidding', el)
+const onHiding = (el: Element) => {
+  emits('hiding', el)
 }
 //浮层隐藏后
 const onHidden = (el: Element) => {
