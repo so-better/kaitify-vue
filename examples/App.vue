@@ -29,22 +29,33 @@
         <LineHeightMenu />
         <LinkMenu />
         <OrderedListMenu />
-        <OrderedListTypeDecimalMenu />
-        <OrderedListTypeLowerAlphaMenu />
-        <OrderedListTypeUpperAlphaMenu />
-        <OrderedListTypeLowerRomanMenu />
-        <OrderedListTypeUpperRomanMenu />
-        <OrderedListTypeLowerGreekMenu />
-        <OrderedListTypeCjkMenu />
+        <OrderedListTypeMenu list-type="decimal" />
+        <OrderedListTypeMenu list-type="lower-alpha" />
+        <OrderedListTypeMenu list-type="upper-alpha" />
+        <OrderedListTypeMenu list-type="lower-roman" />
+        <OrderedListTypeMenu list-type="upper-roman" />
+        <OrderedListTypeMenu list-type="lower-greek" />
+        <OrderedListTypeMenu list-type="cjk-ideographic" />
         <UnorderedListMenu />
-        <UnorderedListTypeDiscMenu />
-        <UnorderedListTypeCircleMenu />
-        <UnorderedListTypeSquareMenu />
+        <UnorderedListTypeMenu list-type="disc" />
+        <UnorderedListTypeMenu list-type="square" />
+        <UnorderedListTypeMenu list-type="circle" />
         <MathMenu />
         <StrikethroughMenu />
         <SubscriptMenu />
         <SuperscriptMenu />
         <TableMenu />
+        <TableUnsetMenu />
+        <TableDeleteRowMenu />
+        <TableDeleteColumnMenu />
+        <TableAddRowMenu type="top" />
+        <TableAddRowMenu type="bottom" />
+        <TableAddColumnMenu type="left" />
+        <TableAddColumnMenu type="right" />
+        <TableMergeCellMenu direction="left" />
+        <TableMergeCellMenu direction="right" />
+        <TableMergeCellMenu direction="top" />
+        <TableMergeCellMenu direction="bottom" />
         <UnderlineMenu />
         <VideoMenu :popover-options="{ zIndex: 100, arrow: true }" />
         <TaskMenu />
@@ -71,7 +82,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, UnorderedListTypeDiscMenu, UnorderedListTypeCircleMenu, UnorderedListTypeSquareMenu, OrderedListTypeDecimalMenu, OrderedListTypeLowerAlphaMenu, OrderedListTypeUpperAlphaMenu, OrderedListTypeLowerRomanMenu, OrderedListTypeUpperRomanMenu, OrderedListTypeLowerGreekMenu, OrderedListTypeCjkMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, UnorderedListTypeMenu, OrderedListTypeMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)

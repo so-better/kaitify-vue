@@ -1,6 +1,6 @@
 <template>
-  <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
-    <Icon name="list-cjk-ideographic" />
+  <Menu :disabled="isDisabled" :active="false" @operate="onOperate">
+    <Icon name="delete-table" />
   </Menu>
 </template>
 <script setup lang="ts">
@@ -8,13 +8,13 @@ import { computed, inject, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import Menu from "@/editor/menu/menu.vue"
-import { OrderedListMenuPropsType } from './props';
+import { TableUnsetMenuPropsType } from './props';
 
 defineOptions({
-  name: 'OrderedListTypeCjkMenu'
+  name: 'TableUnsetMenu'
 })
 //属性
-const props = withDefaults(defineProps<OrderedListMenuPropsType>(), {
+const props = withDefaults(defineProps<TableUnsetMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
@@ -25,32 +25,18 @@ if (!editorRef) {
 }
 //编辑器光标更新key
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
-//是否激活
-const isActive = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value) {
-    return false
-  }
-  const listNode = editorRef.value.commands.getList?.(true)
-  return !!listNode && listNode.hasStyles() && listNode.styles!.listStyleType == 'cjk-ideographic'
-})
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
-  if (!editorRef.value.commands.getList?.(true)) {
+  if (!editorRef.value.commands.getTable?.()) {
     return true
   }
   return props.disabled
 })
 //方法
 const onOperate = () => {
-  if (isActive.value) {
-    return
-  }
-  editorRef.value?.commands.updateListType?.({
-    listType: 'cjk-ideographic',
-    ordered: true
-  })
+  editorRef.value?.commands.unsetTable?.()
 }
 </script>

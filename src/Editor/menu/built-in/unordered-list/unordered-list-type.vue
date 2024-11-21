@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
-    <Icon name="list-square" />
+    <Icon :name="`list-${listType}`" />
   </Menu>
 </template>
 <script setup lang="ts">
@@ -8,13 +8,13 @@ import { computed, inject, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import Menu from "@/editor/menu/menu.vue"
-import { UnorderedListMenuPropsType } from './props';
+import { UnorderedListTypeMenuPropsType } from './props';
 
 defineOptions({
-  name: 'UnorderedListTypeSquareMenu'
+  name: 'UnorderedListTypeMenu'
 })
 //属性
-const props = withDefaults(defineProps<UnorderedListMenuPropsType>(), {
+const props = withDefaults(defineProps<UnorderedListTypeMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
@@ -31,7 +31,16 @@ const isActive = computed<boolean>(() => {
     return false
   }
   const listNode = editorRef.value.commands.getList?.(false)
-  return !!listNode && listNode.hasStyles() && listNode.styles!.listStyleType == 'square'
+  if (!listNode) {
+    return false
+  }
+  if (props.listType == 'disc') {
+    if (listNode.hasStyles() && listNode.styles!.listStyleType && listNode.styles!.listStyleType != 'disc') {
+      return false
+    }
+    return true
+  }
+  return listNode.hasStyles() && listNode.styles!.listStyleType == props.listType
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
@@ -49,7 +58,7 @@ const onOperate = () => {
     return
   }
   editorRef.value?.commands.updateListType?.({
-    listType: 'square',
+    listType: props.listType,
     ordered: false
   })
 }

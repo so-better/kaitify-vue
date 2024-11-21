@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
-    <Icon name="list-decimal" />
+    <Icon :name="`list-${listType}`" />
   </Menu>
 </template>
 <script setup lang="ts">
@@ -8,13 +8,13 @@ import { computed, inject, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import Menu from "@/editor/menu/menu.vue"
-import { OrderedListMenuPropsType } from './props';
+import { OrderedListTypeMenuPropsType } from './props';
 
 defineOptions({
-  name: 'OrderedListTypeDecimalMenu'
+  name: 'OrderedListTypeMenu'
 })
 //属性
-const props = withDefaults(defineProps<OrderedListMenuPropsType>(), {
+const props = withDefaults(defineProps<OrderedListTypeMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
@@ -34,10 +34,13 @@ const isActive = computed<boolean>(() => {
   if (!listNode) {
     return false
   }
-  if (listNode.hasStyles() && listNode.styles!.listStyleType && listNode.styles!.listStyleType != 'decimal') {
-    return false
+  if (props.listType == 'decimal') {
+    if (listNode.hasStyles() && listNode.styles!.listStyleType && listNode.styles!.listStyleType != 'decimal') {
+      return false
+    }
+    return true
   }
-  return true
+  return listNode.hasStyles() && listNode.styles!.listStyleType == props.listType
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
@@ -55,7 +58,7 @@ const onOperate = () => {
     return
   }
   editorRef.value?.commands.updateListType?.({
-    listType: 'decimal',
+    listType: props.listType,
     ordered: true
   })
 }
