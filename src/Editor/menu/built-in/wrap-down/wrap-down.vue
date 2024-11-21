@@ -30,6 +30,10 @@ const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
     return true
   }
+  const matchNode = editorRef.value.getMatchNodeBySelection(props.match)
+  if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
+    return true
+  }
   return props.disabled
 })
 //方法

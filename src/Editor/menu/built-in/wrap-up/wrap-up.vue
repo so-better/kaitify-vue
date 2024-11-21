@@ -27,7 +27,11 @@ if (!editorRef) {
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused() || !props.match) {
+    return true
+  }
+  const matchNode = editorRef.value.getMatchNodeBySelection(props.match)
+  if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
     return true
   }
   return props.disabled
