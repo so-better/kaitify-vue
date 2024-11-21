@@ -30,7 +30,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, inject, Ref, ref, watch } from "vue";
+import { Editor } from "@kaitify/core";
 import { Popover } from "@/core/popover"
 import { Icon } from "@/core/icon"
 import { Button } from "@/core/button"
@@ -57,6 +58,12 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits(['operate', 'select', 'popoverShow', 'popoverShowing', 'popoverShown', 'popoverHide', 'popoverHiding', 'popoverHidden'])
+//编辑器实例
+const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+//组件没有放在Wrapper的插槽中会报错
+if (!editorRef) {
+  throw new Error(`The component must be placed in the slot of the Wrapper.`)
+}
 //popover组件实例
 const popoverRef = ref<(typeof Popover) | undefined>()
 //popover浮层是否显示
@@ -90,6 +97,13 @@ const onOperate = () => {
   }
   emits('operate')
 }
+
+watch(() => editorRef.value, newVal => {
+  if (newVal && props.shortcut) {
+  }
+}, {
+  immediate: true
+})
 
 defineExpose({
   showPopover,
