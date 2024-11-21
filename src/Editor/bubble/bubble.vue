@@ -73,10 +73,10 @@ const getVirtualDomRect = () => {
 }
 //更新气泡位置
 const updatePosition = () => {
-  const domRect = getVirtualDomRect()
-  if (!props.visible || !elRef.value) {
+  if (!props.visible || !elRef.value || !editorRef.value) {
     return
   }
+  const domRect = getVirtualDomRect()
   //销毁当前popperjs实例
   if (popperInstance.value) {
     popperInstance.value.destroy()

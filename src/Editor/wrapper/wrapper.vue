@@ -3,7 +3,13 @@
   <EditorWrapper v-bind="$attrs" />
   <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   <Bubble :visible="bubbleProps?.visible ?? false" :matches="bubbleProps?.matches ?? []">
-    <slot name="bubble" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate">
+    <slot name="bubble" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"
+      :orderedList="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getList?.(true)) ?? false"
+      :unorderedList="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getList?.(false)) ?? false"
+      :codeBlock="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getCodeBlock?.()) ?? false"
+      :table="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getTable?.()) ?? false"
+      :video="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getVideo?.()) ?? false"
+      :image="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getImage?.()) ?? false">
     </slot>
   </Bubble>
 </template>
