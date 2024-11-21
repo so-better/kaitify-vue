@@ -31,6 +31,10 @@ export type TableUnsetMenuPropsType = {
    * 是否禁用
    */
   disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }
 
 export type TableDeleteRowMenuPropsType = {
@@ -38,6 +42,10 @@ export type TableDeleteRowMenuPropsType = {
    * 是否禁用
    */
   disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }
 
 export type TableDeleteColumnMenuPropsType = {
@@ -45,6 +53,10 @@ export type TableDeleteColumnMenuPropsType = {
    * 是否禁用
    */
   disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }
 
 export type TableAddRowMenuPropsType = {
@@ -56,6 +68,10 @@ export type TableAddRowMenuPropsType = {
    * 插入类型
    */
   type?: 'top' | 'bottom'
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }
 
 export type TableAddColumnMenuPropsType = {
@@ -67,6 +83,10 @@ export type TableAddColumnMenuPropsType = {
    * 插入类型
    */
   type?: 'left' | 'right'
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }
 
 export type TableMergeCellMenuPropsType = {
@@ -78,4 +98,8 @@ export type TableMergeCellMenuPropsType = {
    * 合并方向
    */
   direction: TableCellsMergeDirectionType
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }

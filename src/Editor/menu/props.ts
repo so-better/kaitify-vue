@@ -53,5 +53,5 @@ export type MenuPropsType = {
   /**
    * 快捷键设置
    */
-  shortcut?: (e: KeyboardEvent) => boolean
+  shortcut?: ((e: KeyboardEvent) => boolean) | { [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean }
 }

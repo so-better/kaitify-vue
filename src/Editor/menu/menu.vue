@@ -30,7 +30,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref, watch } from "vue";
+import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from "vue";
+import { event as DapEvent, common as DapCommon } from "dap-util"
 import { Editor } from "@kaitify/core";
 import { Popover } from "@/core/popover"
 import { Icon } from "@/core/icon"
@@ -40,6 +41,7 @@ import { MenuDataType, MenuPropsType } from './props';
 defineOptions({
   name: 'Menu'
 })
+const instance = getCurrentInstance()!
 //属性
 const props = withDefaults(defineProps<MenuPropsType>(), {
   disabled: false,
@@ -100,9 +102,33 @@ const onOperate = () => {
 
 watch(() => editorRef.value, newVal => {
   if (newVal && props.shortcut) {
+    DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)
+    DapEvent.on(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`, e => {
+      //popover的菜单
+      if (props.popover && DapCommon.isObject(props.shortcut)) {
+        const shortcut = props.shortcut as { [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean }
+        props.data.forEach(item => {
+          if (typeof shortcut[item.value] == 'function') {
+            if (shortcut[item.value](e as KeyboardEvent)) {
+              onSelect(item)
+            }
+          }
+        })
+      } else if (typeof props.shortcut == 'function') {
+        if (props.shortcut(e as KeyboardEvent)) {
+          onOperate()
+        }
+      }
+    })
   }
 }, {
   immediate: true
+})
+
+onBeforeUnmount(() => {
+  if (editorRef.value) {
+    DapEvent.off(editorRef.value.$el!, `keydown.kaitify_menu_${instance.uid}`)
+  }
 })
 
 defineExpose({

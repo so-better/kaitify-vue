@@ -9,7 +9,7 @@
         <RedoMenu />
         <BoldMenu />
         <AlignLeftMenu />
-        <AlignCenterMenu />
+        <AlignCenterMenu v-if="show" :shortcut="e => e.key == 'b' && e.metaKey" />
         <AlignRightMenu />
         <AlignJusitfyMenu />
         <AttachmentMenu :popover-options="{ zIndex: 100, arrow: true }" />
@@ -20,7 +20,7 @@
         <ColorMenu />
         <FontFamilyMenu />
         <FontSizeMenu />
-        <HeadingMenu />
+        <HeadingMenu :shortcut="{ 1: e => e.key == '1' && e.metaKey }" />
         <HorizontalMenu />
         <ImageMenu />
         <DecreaseIndentMenu />
@@ -126,6 +126,10 @@ const shouldVisible = computed<boolean>(() => {
   }
   return !wrapper.value.editorRef.selection.collapsed()
 })
+const show = ref(false)
+setTimeout(() => {
+  show.value = true
+}, 3000);
 </script>
 <style lang="less">
 html {

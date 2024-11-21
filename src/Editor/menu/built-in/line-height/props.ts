@@ -17,4 +17,8 @@ export type LineHeightMenuPropsType = {
    * 浮层属性
    */
   popoverOptions?: MenuPropsType['popoverOptions']
+  /**
+   * 快捷键设置
+   */
+  shortcut?: { [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean }
 }

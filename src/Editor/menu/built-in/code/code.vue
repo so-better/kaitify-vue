@@ -1,5 +1,5 @@
 <template>
-  <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
+  <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate" :shortcut="shortcut">
     <Icon name="code" />
   </Menu>
 </template>

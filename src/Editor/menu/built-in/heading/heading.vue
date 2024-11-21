@@ -1,6 +1,6 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
-    :item-active="item => isActive(item)"
+    :item-active="item => isActive(item)" :shortcut="shortcut"
     :popover-options="{ width: popoverOptions?.width, maxHeight: popoverOptions?.maxHeight ?? 240, minWidth: popoverOptions?.minWidth ?? 120, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
     {{ selectedData?.label || '' }}
     <template v-slot:label="{ option }">

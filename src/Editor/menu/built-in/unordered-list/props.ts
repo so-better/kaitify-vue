@@ -5,6 +5,10 @@ export type UnorderedListMenuPropsType = {
    * 是否禁用
    */
   disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }
 
 export type UnorderedListTypeMenuPropsType = {
@@ -16,4 +20,8 @@ export type UnorderedListTypeMenuPropsType = {
    * 序标类型
    */
   listType: UnorderListType
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
 }

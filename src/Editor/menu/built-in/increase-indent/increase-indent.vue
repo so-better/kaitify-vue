@@ -1,5 +1,5 @@
 <template>
-  <Menu :disabled="isDisabled" :active="false" @operate="onOperate">
+  <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
     <Icon name="indent-increase" />
   </Menu>
 </template>
