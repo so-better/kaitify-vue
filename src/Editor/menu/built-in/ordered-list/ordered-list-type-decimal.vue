@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
-    <Icon name="list-disc" />
+    <Icon name="list-decimal" />
   </Menu>
 </template>
 <script setup lang="ts">
@@ -8,13 +8,13 @@ import { computed, inject, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import Menu from "@/editor/menu/menu.vue"
-import { UnorderedListMenuPropsType } from './props';
+import { OrderedListMenuPropsType } from './props';
 
 defineOptions({
-  name: 'UnorderedListMenu'
+  name: 'OrderedListTypeDecimalMenu'
 })
 //属性
-const props = withDefaults(defineProps<UnorderedListMenuPropsType>(), {
+const props = withDefaults(defineProps<OrderedListMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
@@ -27,11 +27,24 @@ if (!editorRef) {
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.allList?.(false)) ?? false
+  if (!keyOfSelectionUpdate.value || !editorRef.value) {
+    return false
+  }
+  const listNode = editorRef.value.commands.getList?.(true)
+  if (!listNode) {
+    return false
+  }
+  if (listNode.hasStyles() && listNode.styles!.listStyleType && listNode.styles!.listStyleType != 'decimal') {
+    return false
+  }
+  return true
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+    return true
+  }
+  if (!editorRef.value.commands.getList?.(true)) {
     return true
   }
   return props.disabled
@@ -39,9 +52,11 @@ const isDisabled = computed<boolean>(() => {
 //方法
 const onOperate = () => {
   if (isActive.value) {
-    editorRef.value?.commands.unsetList?.(false)
-  } else {
-    editorRef.value?.commands.setList?.(false)
+    return
   }
+  editorRef.value?.commands.updateListType?.({
+    listType: 'decimal',
+    ordered: true
+  })
 }
 </script>

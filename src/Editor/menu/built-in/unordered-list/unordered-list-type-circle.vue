@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
-    <Icon name="list-disc" />
+    <Icon name="list-circle" />
   </Menu>
 </template>
 <script setup lang="ts">
@@ -11,7 +11,7 @@ import Menu from "@/editor/menu/menu.vue"
 import { UnorderedListMenuPropsType } from './props';
 
 defineOptions({
-  name: 'UnorderedListMenu'
+  name: 'UnorderedListTypeCircleMenu'
 })
 //属性
 const props = withDefaults(defineProps<UnorderedListMenuPropsType>(), {
@@ -27,11 +27,18 @@ if (!editorRef) {
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.allList?.(false)) ?? false
+  if (!keyOfSelectionUpdate.value || !editorRef.value) {
+    return false
+  }
+  const listNode = editorRef.value.commands.getList?.(false)
+  return !!listNode && listNode.hasStyles() && listNode.styles!.listStyleType == 'circle'
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+    return true
+  }
+  if (!editorRef.value.commands.getList?.(false)) {
     return true
   }
   return props.disabled
@@ -39,9 +46,11 @@ const isDisabled = computed<boolean>(() => {
 //方法
 const onOperate = () => {
   if (isActive.value) {
-    editorRef.value?.commands.unsetList?.(false)
-  } else {
-    editorRef.value?.commands.setList?.(false)
+    return
   }
+  editorRef.value?.commands.updateListType?.({
+    listType: 'circle',
+    ordered: false
+  })
 }
 </script>

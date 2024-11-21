@@ -1,3 +1,10 @@
 import OrderedListMenu from './ordered-list.vue'
+import OrderedListTypeDecimalMenu from './ordered-list-type-decimal.vue'
+import OrderedListTypeLowerAlphaMenu from './ordered-list-type-lower-alpha.vue'
+import OrderedListTypeUpperAlphaMenu from './ordered-list-type-upper-alpha.vue'
+import OrderedListTypeLowerRomanMenu from './ordered-list-type-lower-roman.vue'
+import OrderedListTypeUpperRomanMenu from './ordered-list-type-upper-roman.vue'
+import OrderedListTypeLowerGreekMenu from './ordered-list-type-lower-greek.vue'
+import OrderedListTypeCjkMenu from './ordered-list-type-cjk.vue'
 export * from './props'
-export { OrderedListMenu }
+export { OrderedListMenu, OrderedListTypeDecimalMenu, OrderedListTypeLowerAlphaMenu, OrderedListTypeUpperAlphaMenu, OrderedListTypeLowerRomanMenu, OrderedListTypeUpperRomanMenu, OrderedListTypeLowerGreekMenu, OrderedListTypeCjkMenu }

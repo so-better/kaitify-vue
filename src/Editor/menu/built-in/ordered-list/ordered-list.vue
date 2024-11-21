@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate">
-    <Icon name="list-ordered" />
+    <Icon name="list-decimal" />
   </Menu>
 </template>
 <script setup lang="ts">

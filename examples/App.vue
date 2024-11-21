@@ -29,7 +29,17 @@
         <LineHeightMenu />
         <LinkMenu />
         <OrderedListMenu />
+        <OrderedListTypeDecimalMenu />
+        <OrderedListTypeLowerAlphaMenu />
+        <OrderedListTypeUpperAlphaMenu />
+        <OrderedListTypeLowerRomanMenu />
+        <OrderedListTypeUpperRomanMenu />
+        <OrderedListTypeLowerGreekMenu />
+        <OrderedListTypeCjkMenu />
         <UnorderedListMenu />
+        <UnorderedListTypeDiscMenu />
+        <UnorderedListTypeCircleMenu />
+        <UnorderedListTypeSquareMenu />
         <MathMenu />
         <StrikethroughMenu />
         <SubscriptMenu />
@@ -61,7 +71,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, UnorderedListTypeDiscMenu, UnorderedListTypeCircleMenu, UnorderedListTypeSquareMenu, OrderedListTypeDecimalMenu, OrderedListTypeLowerAlphaMenu, OrderedListTypeUpperAlphaMenu, OrderedListTypeLowerRomanMenu, OrderedListTypeUpperRomanMenu, OrderedListTypeLowerGreekMenu, OrderedListTypeCjkMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
