@@ -2,7 +2,7 @@
   <slot name="before" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   <EditorWrapper v-bind="$attrs" />
   <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
-  <Bubble :visible="bubbleProps?.visible ?? false" :matches="bubbleProps?.matches ?? []">
+  <Bubble :visible="isMouseDown ? false : (bubbleProps?.visible ?? false)" :matches="bubbleProps?.matches ?? []">
     <slot name="bubble" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"
       :codeBlock="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getCodeBlock?.()) ?? false"
       :table="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getTable?.()) ?? false"
@@ -53,6 +53,8 @@ const internalModification = ref<boolean>(false)
 const keyOfSelectionUpdate = ref<number>(0)
 //编辑器总字数
 const textCount = ref<number>(0)
+//是否鼠标按下
+const isMouseDown = ref<boolean>(false)
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(() => props.modelValue, async (newVal) => {
@@ -178,6 +180,12 @@ const EditorWrapper = defineComponent(() => {
   return () => {
     return h('div', {
       ref: elRef,
+      onMousedown: () => {
+        isMouseDown.value = true
+      },
+      onMouseup: () => {
+        isMouseDown.value = false
+      },
     }, {
       default: () => [...vnodes.value]
     })
