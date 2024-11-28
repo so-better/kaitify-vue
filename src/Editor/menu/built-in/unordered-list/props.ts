@@ -1,4 +1,4 @@
-import { UnorderListType } from '@kaitify/core'
+import { MenuPropsType } from "@/editor/menu/props"
 
 export type UnorderedListMenuPropsType = {
   /**
@@ -6,20 +6,9 @@ export type UnorderedListMenuPropsType = {
    */
   disabled?: boolean
   /**
-   * 快捷键设置
-   */
-  shortcut?: (e: KeyboardEvent) => boolean
-}
-
-export type UnorderedListTypeMenuPropsType = {
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean
-  /**
-   * 序标类型
-   */
-  listType: UnorderListType
+  * 浮层属性
+  */
+  popoverOptions?: MenuPropsType['popoverOptions']
   /**
    * 快捷键设置
    */

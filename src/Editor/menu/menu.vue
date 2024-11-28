@@ -100,6 +100,7 @@ const onOperate = () => {
   emits('operate')
 }
 
+//设置快捷键
 watch(() => editorRef.value, newVal => {
   if (newVal && props.shortcut) {
     DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)

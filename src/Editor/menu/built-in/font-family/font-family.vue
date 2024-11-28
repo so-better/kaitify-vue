@@ -10,7 +10,7 @@ import { computed, inject, ref, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import Menu from "@/editor/menu/menu.vue"
 import { FontFamilyMenuPropsType } from './props';
-import { MenuDataType } from '../../props';
+import { MenuDataType } from '@/editor/menu/props';
 
 defineOptions({
   name: 'FontFamilyMenu'

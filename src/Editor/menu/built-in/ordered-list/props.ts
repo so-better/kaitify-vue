@@ -1,4 +1,4 @@
-import { OrderedListType } from '@kaitify/core'
+import { MenuPropsType } from "@/editor/menu/props"
 
 export type OrderedListMenuPropsType = {
   /**
@@ -6,22 +6,13 @@ export type OrderedListMenuPropsType = {
    */
   disabled?: boolean
   /**
+  * 浮层属性
+  */
+  popoverOptions?: MenuPropsType['popoverOptions']
+  /**
    * 快捷键设置
    */
   shortcut?: (e: KeyboardEvent) => boolean
 }
 
-export type OrderedListTypeMenuPropsType = {
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean
-  /**
-   * 序标类型
-   */
-  listType: OrderedListType
-  /**
-   * 快捷键设置
-   */
-  shortcut?: (e: KeyboardEvent) => boolean
-}
+

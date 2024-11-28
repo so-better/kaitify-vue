@@ -1,5 +1,5 @@
 import { TableCellsMergeDirectionType } from '@kaitify/core'
-import { MenuPropsType } from '../../props'
+import { MenuPropsType } from '@/editor/menu/props'
 
 export type TableGridType = {
   x: number

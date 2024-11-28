@@ -10,7 +10,7 @@
         <RedoMenu />
         <BoldMenu />
         <AlignLeftMenu />
-        <AlignCenterMenu v-if="show" :shortcut="e => e.key == 'b' && e.metaKey" />
+        <AlignCenterMenu :shortcut="e => e.key == 'b' && e.metaKey" />
         <AlignRightMenu />
         <AlignJusitfyMenu />
         <AttachmentMenu :popover-options="{ zIndex: 100, arrow: true }" />
@@ -43,9 +43,9 @@
       <template #after="{ textCount }">
         总字数：{{ textCount }}
       </template>
-      <template #bubble="{ orderedList, unorderedList, codeBlock, table }">
+      <template #bubble="{ codeBlock, table }">
         <div v-if="codeBlock" style="padding: 5px;">
-          <CodeBlockLanguagesMenu />
+          <CodeBlockLanguagesMenu :languages="['java', 'javascript']" />
           <WrapUpMenu :match="{ tag: 'pre' }" />
           <WrapDownMenu :match="{ tag: 'pre' }" />
         </div>
@@ -63,24 +63,6 @@
           <TableUnsetMenu />
           <WrapUpMenu :match="{ tag: 'table' }" />
           <WrapDownMenu :match="{ tag: 'table' }" />
-        </div>
-        <div v-else-if="orderedList" style="padding: 5px;">
-          <OrderedListTypeMenu list-type="decimal" />
-          <OrderedListTypeMenu list-type="lower-alpha" />
-          <OrderedListTypeMenu list-type="upper-alpha" />
-          <OrderedListTypeMenu list-type="lower-roman" />
-          <OrderedListTypeMenu list-type="upper-roman" />
-          <OrderedListTypeMenu list-type="lower-greek" />
-          <OrderedListTypeMenu list-type="cjk-ideographic" />
-          <WrapUpMenu :match="{ tag: 'ol' }" />
-          <WrapDownMenu :match="{ tag: 'ol' }" />
-        </div>
-        <div v-else-if="unorderedList" style="padding: 5px;">
-          <UnorderedListTypeMenu list-type="disc" />
-          <UnorderedListTypeMenu list-type="square" />
-          <UnorderedListTypeMenu list-type="circle" />
-          <WrapUpMenu :match="{ tag: 'ul' }" />
-          <WrapDownMenu :match="{ tag: 'ul' }" />
         </div>
         <div v-else style="padding: 5px;">
           <BoldMenu />
@@ -101,7 +83,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, UnorderedListTypeMenu, OrderedListTypeMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, DarkMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, DarkMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
@@ -127,10 +109,7 @@ const shouldVisible = computed<boolean>(() => {
   }
   return !wrapper.value.editorRef.selection.collapsed()
 })
-const show = ref(false)
-setTimeout(() => {
-  show.value = true
-}, 3000);
+
 </script>
 <style lang="less">
 html {

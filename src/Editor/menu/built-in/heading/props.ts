@@ -1,4 +1,4 @@
-import { MenuDataType, MenuPropsType } from '../../props'
+import { MenuDataType, MenuPropsType } from '@/editor/menu/props'
 
 export type HeadingMenuPropsType = {
   /**

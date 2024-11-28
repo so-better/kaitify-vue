@@ -10,14 +10,15 @@ import { computed, inject, ref, Ref } from 'vue';
 import { Editor, HljsLanguageType, HljsLanguages } from '@kaitify/core';
 import Menu from "@/editor/menu/menu.vue"
 import { CodeBlockLanguagesMenuPropsType } from './props';
-import { MenuDataType } from '../../props';
+import { MenuDataType } from '@/editor/menu/props';
 
 defineOptions({
   name: 'CodeBlockLanguagesMenu'
 })
 //属性
 const props = withDefaults(defineProps<CodeBlockLanguagesMenuPropsType>(), {
-  disabled: false
+  disabled: false,
+  languages: () => [...HljsLanguages]
 })
 //编辑器实例
 const editorRef = inject<Ref<Editor | undefined>>('editorRef')
@@ -36,7 +37,7 @@ const options = computed<MenuDataType[]>(() => {
   return [{
     label: t('自动识别'),
     value: ''
-  }, ...([...HljsLanguages].map(item => {
+  }, ...(props.languages.map(item => {
     return {
       label: item.charAt(0).toLocaleUpperCase() + item.slice(1),
       value: item
@@ -60,7 +61,13 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
       return false
     }
     const codeBlockNode = editorRef.value.commands.getCodeBlock?.()
-    return !!codeBlockNode && codeBlockNode.marks!['kaitify-hljs'] === item.value
+    if (!codeBlockNode) {
+      return false
+    }
+    if (item.value == '') {
+      return !codeBlockNode.hasMarks() || !codeBlockNode.marks!['kaitify-hljs']
+    }
+    return codeBlockNode.marks!['kaitify-hljs'] === item.value
   }
 })
 //选择的值

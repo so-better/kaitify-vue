@@ -1,4 +1,4 @@
-import { MenuPropsType } from '../../props'
+import { MenuPropsType } from '@/editor/menu/props'
 
 export type ImageMenuPropsType = {
   /**

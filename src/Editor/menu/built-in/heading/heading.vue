@@ -13,7 +13,7 @@ import { computed, inject, ref, Ref } from 'vue';
 import { Editor, HeadingLevelType } from '@kaitify/core';
 import Menu from "@/editor/menu/menu.vue"
 import { HeadingMenuPropsType } from './props';
-import { MenuDataType } from '../../props';
+import { MenuDataType } from '@/editor/menu/props';
 
 defineOptions({
   name: 'HeadingMenu'
