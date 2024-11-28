@@ -154,6 +154,7 @@ onMounted(async () => {
       emits('beforeUpdateView')
     },
     afterUpdateView() {
+      textCount.value = this.getText().length || 0
       emits('afterUpdateView')
     },
     //使用vue作视图渲染
