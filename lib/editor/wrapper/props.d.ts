@@ -1,16 +1,26 @@
+import { LocaleType } from '../../locale';
 import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType } from '@kaitify/core';
+import { BubblePropsType } from '../bubble';
 /**
  * 编辑器参数类型
  */
-export type EditorPropsType = {
+export type WrapperPropsType = {
     /**
      * 编辑器的值
      */
     modelValue: string;
     /**
-     * 编辑器初始是否可编辑，默认true
+     * 编辑器是否禁用
      */
-    editable?: boolean;
+    disabled?: boolean;
+    /**
+     * 语言环境
+     */
+    locale?: LocaleType;
+    /**
+     * bubble气泡参数
+     */
+    bubbleProps?: BubblePropsType;
     /**
      * 是否自动聚焦
      */

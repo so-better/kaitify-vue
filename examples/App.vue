@@ -43,8 +43,13 @@
       <template #after="{ textCount }">
         总字数：{{ textCount }}
       </template>
-      <template #bubble="{ codeBlock, table }">
-        <div v-if="codeBlock" style="padding: 5px;">
+      <template #bubble="{ codeBlock, table, video }">
+        <div v-if="video" style="padding: 5px;">
+          <VideoControlsMenu />
+          <VideoMutedMenu />
+          <VideoLoopMenu />
+        </div>
+        <div v-else-if="codeBlock" style="padding: 5px;">
           <CodeBlockLanguagesMenu :languages="['java', 'javascript']" />
           <WrapUpMenu :match="{ tag: 'pre' }" />
           <WrapDownMenu :match="{ tag: 'pre' }" />
@@ -83,7 +88,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, DarkMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, DarkMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)

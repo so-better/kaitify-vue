@@ -106,24 +106,12 @@
 	content: '\e6a0';
 }
 
-.kaitify-icon-stop:before {
-	content: '\e67c';
-}
-
 .kaitify-icon-loop:before {
 	content: '\e621';
 }
 
-.kaitify-icon-autoplay:before {
-	content: '\e618';
-}
-
 .kaitify-icon-muted:before {
 	content: '\ea0f';
-}
-
-.kaitify-icon-unmuted:before {
-	content: '\ea11';
 }
 
 .kaitify-icon-controls:before {
@@ -132,14 +120,6 @@
 
 .kaitify-icon-video:before {
 	content: '\e622';
-}
-
-.kaitify-icon-single:before {
-	content: '\e63e';
-}
-
-.kaitify-icon-rotate:before {
-	content: '\e652';
 }
 
 .kaitify-icon-delete:before {

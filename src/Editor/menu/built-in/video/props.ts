@@ -18,3 +18,37 @@ export type VideoMenuPropsType = {
    */
   popoverOptions?: MenuPropsType['popoverOptions']
 }
+
+export type VideoControlsMenuPropsType = {
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
+}
+
+
+export type VideoMutedMenuPropsType = {
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
+}
+
+export type VideoLoopMenuPropsType = {
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean
+  /**
+   * 快捷键设置
+   */
+  shortcut?: (e: KeyboardEvent) => boolean
+}

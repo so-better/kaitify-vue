@@ -7,7 +7,8 @@
       :codeBlock="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getCodeBlock?.()) ?? false"
       :table="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getTable?.()) ?? false"
       :video="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getVideo?.()) ?? false"
-      :image="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getImage?.()) ?? false">
+      :image="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getImage?.()) ?? false"
+      :link="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getLink?.()) ?? false">
     </slot>
   </Bubble>
 </template>

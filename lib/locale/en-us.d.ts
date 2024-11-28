@@ -1,0 +1,23 @@
+declare const _default: {
+    本地上传: string;
+    远程地址: string;
+    附件名称: string;
+    附件地址: string;
+    附件: string;
+    插入: string;
+    更新: string;
+    默认颜色: string;
+    默认字体: string;
+    默认字号: string;
+    默认行高: string;
+    正文: string;
+    图片名称: string;
+    图片地址: string;
+    图片: string;
+    链接地址: string;
+    新窗口打开: string;
+    链接文字: string;
+    是否自动播放: string;
+    视频地址: string;
+};
+export default _default;
