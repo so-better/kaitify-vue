@@ -1,0 +1,53 @@
+:root {
+  --vp-home-hero-name-background: linear-gradient(120deg, #8b1bbf 20%, #308af3);
+  --vp-home-hero-name-color: transparent;
+  --vp-c-indigo-1: #1269cd;
+  --vp-c-indigo-2: #1e79e1;
+  --vp-c-indigo-3: #308af3;
+
+  --vp-code-block-bg: #f7f8fa;
+
+  h5 > .VPBadge.danger {
+    font-family: var(--vp-font-family-mono);
+  }
+
+  &.dark {
+    --vp-code-block-bg: #1f1f22;
+  }
+}
+
+.demo-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid fade(#308af3, 30%);
+  background: fade(#308af3, 10%);
+  border-radius: 3px;
+  font-size: 14px;
+  color: #308af3;
+  transition: all 300ms;
+
+  &:not(:disabled):focus-visible {
+    outline: none;
+  }
+
+  &:not(:disabled):hover {
+    cursor: pointer;
+    background: fade(#308af3, 20%);
+  }
+
+  &:not(:disabled):active {
+    border: 1px solid fade(#308af3, 50%);
+    background: fade(#308af3, 30%);
+  }
+
+  & + .demo-button {
+    margin-left: 10px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

@@ -1,6 +1,6 @@
 {
 	"name": "@kaitify/vue",
-	"version": "0.0.1",
+	"version": "0.0.1-beta.1",
 	"private": false,
 	"type": "module",
 	"author": "so-better",
@@ -11,7 +11,9 @@
 	"description": "基于@kaitify/core开发的vue富文本编辑器核心库",
 	"scripts": {
 		"dev": "vite",
-		"lib": "vue-tsc && vite build"
+		"lib": "vue-tsc && vite build",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.8",
@@ -28,7 +30,8 @@
 		"vite": "^5.4.10",
 		"vite-plugin-css-injected-by-js": "^3.5.1",
 		"vite-plugin-dts": "^4.3.0",
-		"vue-tsc": "^2.1.10"
+		"vue-tsc": "^2.1.10",
+		"vitepress": "^1.5.0"
 	},
 	"browserslist": [
 		"> 1%",
@@ -38,5 +41,9 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/so-better/kaitify-vue"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
 	}
 }
