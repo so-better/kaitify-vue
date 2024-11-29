@@ -21,9 +21,9 @@ const props = withDefaults(defineProps<CodeBlockLanguagesMenuPropsType>(), {
   languages: () => [...HljsLanguages]
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -46,10 +46,10 @@ const options = computed<MenuDataType[]>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (!editorRef.value.commands.getCodeBlock?.()) {
+  if (!editor.value.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -57,10 +57,10 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    if (!keyOfSelectionUpdate.value || !editorRef.value) {
+    if (!keyOfSelectionUpdate.value || !editor.value) {
       return false
     }
-    const codeBlockNode = editorRef.value.commands.getCodeBlock?.()
+    const codeBlockNode = editor.value.commands.getCodeBlock?.()
     if (!codeBlockNode) {
       return false
     }
@@ -72,7 +72,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value) {
+  if (!keyOfSelectionUpdate.value || !editor.value) {
     return options.value[0]
   }
   return options.value.find(item => isActive.value(item)) ?? options.value[0]
@@ -80,9 +80,9 @@ const selectedData = computed<MenuDataType | undefined>(() => {
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!editorRef.value) {
+  if (!editor.value) {
     return
   }
-  editorRef.value.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
+  editor.value.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
 }
 </script>

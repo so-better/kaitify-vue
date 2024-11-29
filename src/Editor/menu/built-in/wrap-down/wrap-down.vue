@@ -18,19 +18,19 @@ const props = withDefaults(defineProps<WrapDownMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  const matchNode = editorRef.value.getMatchNodeBySelection(props.match)
+  const matchNode = editor.value.getMatchNodeBySelection(props.match)
   if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
     return true
   }
@@ -38,16 +38,16 @@ const isDisabled = computed<boolean>(() => {
 })
 //方法
 const onOperate = () => {
-  if (!editorRef.value || !props.match) {
+  if (!editor.value || !props.match) {
     return
   }
-  const matchNode = editorRef.value.getMatchNodeBySelection(props.match)
+  const matchNode = editor.value.getMatchNodeBySelection(props.match)
   if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
     return
   }
   const paragraph = KNode.create({
     type: 'block',
-    tag: editorRef.value.blockRenderTag,
+    tag: editor.value.blockRenderTag,
     children: [
       {
         type: 'closed',
@@ -55,8 +55,8 @@ const onOperate = () => {
       }
     ]
   })
-  editorRef.value.addNodeAfter(paragraph, matchNode)
-  editorRef.value.setSelectionBefore(paragraph, 'all')
-  editorRef.value.updateView()
+  editor.value.addNodeAfter(paragraph, matchNode)
+  editor.value.setSelectionBefore(paragraph, 'all')
+  editor.value.updateView()
 }
 </script>

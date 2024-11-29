@@ -45,9 +45,9 @@ const props = withDefaults(defineProps<VideoMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -63,13 +63,13 @@ const remoteData = reactive<SetVideoOptionType>({
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
     return true
   }
-  if (editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -78,14 +78,14 @@ const isDisabled = computed<boolean>(() => {
 //选择本地视频
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !editorRef.value) {
+  if (!file || !editor.value) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  editorRef.value.commands.setVideo?.({
+  editor.value.commands.setVideo?.({
     src: url,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width,
     autoplay: remoteData.autoplay
@@ -94,10 +94,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程视频
 const insert = async () => {
-  if (!remoteData.src || !editorRef.value) {
+  if (!remoteData.src || !editor.value) {
     return
   }
-  editorRef.value.commands.setVideo?.({
+  editor.value.commands.setVideo?.({
     src: remoteData.src,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width,
     autoplay: remoteData.autoplay

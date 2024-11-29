@@ -61,9 +61,9 @@ const props = withDefaults(defineProps<FontSizeMenuPropsType>(), {
     }]
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -81,16 +81,16 @@ const options = computed<MenuDataType[]>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (!editorRef.value.selection.collapsed() && !editorRef.value.getFocusNodesBySelection('text').length) {
+  if (!editor.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
     return true
   }
-  if (editorRef.value.selection.collapsed() && (!!editorRef.value.commands.getAttachment?.() || !!editorRef.value.commands.getMath?.())) {
+  if (editor.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
     return true
   }
-  if (!!editorRef.value.commands.getCodeBlock?.()) {
+  if (!!editor.value.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -98,7 +98,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.isFontSize?.(item.value as string)) ?? false
+    return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.isFontSize?.(item.value as string)) ?? false
   }
 })
 //选择的值
@@ -108,15 +108,15 @@ const selectedData = computed<MenuDataType | undefined>(() => {
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!editorRef.value) {
+  if (!editor.value) {
     return
   }
   if (item.value == '') {
-    editorRef.value.commands.removeTextStyle?.(['fontSize'])
+    editor.value.commands.removeTextStyle?.(['fontSize'])
   } else if (isActive.value(item)) {
-    editorRef.value.updateRealSelection()
+    editor.value.updateRealSelection()
   } else {
-    editorRef.value.commands.setFontSize?.(item.value as string)
+    editor.value.commands.setFontSize?.(item.value as string)
   }
 }
 </script>

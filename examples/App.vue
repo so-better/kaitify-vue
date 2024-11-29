@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px;">
     <EditorWrapper ref="wrapper"
-      :bubble-props="{ matches: [{ tag: 'table' }, { tag: 'pre' }, { tag: 'ul' }, { tag: 'ol' }], visible: shouldVisible }"
+      :bubble-props="{ matches: [{ tag: 'table' }, { tag: 'pre' }, { tag: 'video' }], visible: shouldVisible }"
       locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
       placeholder="输入正文内容..." v-model="content">
       <template #before>
@@ -41,33 +41,33 @@
         <VideoMenu :popover-options="{ zIndex: 100, arrow: true }" />
         <TaskMenu />
       </template>
-      <template #after="{ textCount }">
-        总字数：{{ textCount }}
+      <template #after="{ state }">
+        总字数：{{ state.textCount }}
       </template>
-      <template #bubble="{ codeBlock, table, video }">
-        <div v-if="video" style="padding: 5px;">
+      <template #bubble="{ state }">
+        <div v-if="state.isVideo" style="padding: 5px;">
           <VideoControlsMenu />
           <VideoMutedMenu />
           <VideoLoopMenu />
         </div>
-        <div v-else-if="codeBlock" style="padding: 5px;">
-          <CodeBlockLanguagesMenu :languages="['java', 'javascript']" />
+        <div v-else-if="state.isCodeBlock" style="padding: 5px;">
           <WrapUpMenu :match="{ tag: 'pre' }" />
+          <CodeBlockLanguagesMenu :languages="['java', 'javascript']" />
           <WrapDownMenu :match="{ tag: 'pre' }" />
         </div>
-        <div v-else-if="table" style="padding: 5px;">
-          <TableDeleteRowMenu />
-          <TableDeleteColumnMenu />
+        <div v-else-if="state.isTable" style="padding: 5px;">
+          <WrapUpMenu :match="{ tag: 'table' }" />
           <TableAddRowMenu type="top" />
           <TableAddRowMenu type="bottom" />
+          <TableDeleteRowMenu />
           <TableAddColumnMenu type="left" />
           <TableAddColumnMenu type="right" />
+          <TableDeleteColumnMenu />
           <TableMergeCellMenu direction="left" />
           <TableMergeCellMenu direction="right" />
           <TableMergeCellMenu direction="top" />
           <TableMergeCellMenu direction="bottom" />
           <TableUnsetMenu />
-          <WrapUpMenu :match="{ tag: 'table' }" />
           <WrapDownMenu :match="{ tag: 'table' }" />
         </div>
         <div v-else style="padding: 5px;">
@@ -96,25 +96,19 @@ const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
 const wrapper = ref<(typeof EditorWrapper) | undefined>()
 const shouldVisible = computed<boolean>(() => {
-  if (!wrapper.value || !wrapper.value.editorRef || !wrapper.value.keyOfSelectionUpdate) {
+  if (!wrapper.value) {
     return false
   }
-  if (!wrapper.value.editorRef.selection.focused()) {
-    return false
-  }
-  if (!!wrapper.value.editorRef.commands.getTable()) {
+  if (!!wrapper.value.state.isTable) {
     return true
   }
-  if (!!wrapper.value.editorRef.commands.getList(true)) {
+  if (!!wrapper.value.state.isCodeBlock) {
     return true
   }
-  if (!!wrapper.value.editorRef.commands.getList(false)) {
+  if (!!wrapper.value.state.isVideo) {
     return true
   }
-  if (!!wrapper.value.editorRef.commands.getCodeBlock()) {
-    return true
-  }
-  return !wrapper.value.editorRef.selection.collapsed()
+  return wrapper.value.state.isTextSelection
 })
 
 </script>

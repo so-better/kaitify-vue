@@ -18,9 +18,9 @@ const props = withDefaults(defineProps<VideoMutedMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -30,7 +30,7 @@ const isActive = computed<boolean>(() => {
   if (!keyOfSelectionUpdate.value) {
     return false
   }
-  const videoNode = editorRef.value?.commands.getVideo?.()
+  const videoNode = editor.value?.commands.getVideo?.()
   if (!videoNode) {
     return false
   }
@@ -38,10 +38,10 @@ const isActive = computed<boolean>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (!editorRef.value.commands.getVideo?.()) {
+  if (!editor.value.commands.getVideo?.()) {
     return true
   }
   return props.disabled
@@ -49,11 +49,11 @@ const isDisabled = computed<boolean>(() => {
 //方法
 const onOperate = () => {
   if (isActive.value) {
-    editorRef.value?.commands.updateVideo?.({
+    editor.value?.commands.updateVideo?.({
       muted: false
     })
   } else {
-    editorRef.value?.commands.updateVideo?.({
+    editor.value?.commands.updateVideo?.({
       muted: true
     })
   }

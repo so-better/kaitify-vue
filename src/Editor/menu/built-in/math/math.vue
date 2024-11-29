@@ -31,9 +31,9 @@ const props = withDefaults(defineProps<MathMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -46,23 +46,23 @@ const menuRef = ref<(typeof Menu) | undefined>()
 const mathText = ref<string>('')
 //是否激活
 const isActive = computed<boolean>(() => {
-  return keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getMath?.()
+  return keyOfSelectionUpdate.value > 0 && !!editor.value?.commands.getMath?.()
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.()) {
+  if (editor.value.commands.hasAttachment?.()) {
     return true
   }
-  if (editorRef.value.commands.hasLink?.()) {
+  if (editor.value.commands.hasLink?.()) {
     return true
   }
-  if (editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasCodeBlock?.()) {
     return true
   }
-  if (editorRef.value.commands.hasMath?.() && !isActive.value) {
+  if (editor.value.commands.hasMath?.() && !isActive.value) {
     return true
   }
   return props.disabled
@@ -70,7 +70,7 @@ const isDisabled = computed<boolean>(() => {
 
 //浮层显示
 const menuShow = () => {
-  const mathNode = editorRef.value?.commands.getMath?.()
+  const mathNode = editor.value?.commands.getMath?.()
   if (mathNode) {
     mathText.value = (mathNode.marks!['kaitify-math'] as string) || ''
   } else {
@@ -79,18 +79,18 @@ const menuShow = () => {
 }
 //插入数学公式
 const insert = () => {
-  if (!mathText.value || !editorRef.value) {
+  if (!mathText.value || !editor.value) {
     return
   }
-  editorRef.value.commands.setMath?.(mathText.value)
+  editor.value.commands.setMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 //更新数学公式
 const update = async () => {
-  if (!mathText.value || !editorRef.value) {
+  if (!mathText.value || !editor.value) {
     return
   }
-  editorRef.value.commands.updateMath?.(mathText.value)
+  editor.value.commands.updateMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 </script>

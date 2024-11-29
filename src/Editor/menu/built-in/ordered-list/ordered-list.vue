@@ -29,9 +29,9 @@ const props = withDefaults(defineProps<OrderedListMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -42,7 +42,7 @@ const menuRef = ref<(typeof Menu) | undefined>()
 const listTypes = ref<OrderedListType[]>(['decimal', 'lower-alpha', 'upper-alpha', 'lower-roman', 'upper-roman', 'lower-greek', 'cjk-ideographic'])
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
   return props.disabled
@@ -50,7 +50,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const itemActive = computed<(item: OrderedListType) => boolean>(() => {
   return item => {
-    return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.allList?.({
+    return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.allList?.({
       ordered: true,
       listType: item
     })) ?? false
@@ -58,20 +58,20 @@ const itemActive = computed<(item: OrderedListType) => boolean>(() => {
 })
 //菜单是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.allList?.({
+  return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.allList?.({
     ordered: true
   })) ?? false
 })
 
 //选择选项
 const onSelect = (item: OrderedListType) => {
-  if (!editorRef.value) {
+  if (!editor.value) {
     return
   }
   if (itemActive.value(item)) {
-    editorRef.value.updateRealSelection()
+    editor.value.updateRealSelection()
   } else {
-    editorRef.value.commands.setList?.({
+    editor.value.commands.setList?.({
       ordered: true,
       listType: item
     })

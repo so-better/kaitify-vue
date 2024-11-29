@@ -1,21 +1,15 @@
 <template>
-  <slot name="before" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
+  <slot name="before" :state="state" :editor="editor" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <slot name="after" :textCount="textCount" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
-  <Bubble :visible="isMouseDown ? false : (bubbleProps?.visible ?? false)" :matches="bubbleProps?.matches ?? []">
-    <slot name="bubble" :editorRef="editorRef" :keyOfSelectionUpdate="keyOfSelectionUpdate"
-      :codeBlock="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getCodeBlock?.()) ?? false"
-      :table="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getTable?.()) ?? false"
-      :video="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getVideo?.()) ?? false"
-      :image="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getImage?.()) ?? false"
-      :link="(keyOfSelectionUpdate > 0 && !!editorRef?.commands.getLink?.()) ?? false">
-    </slot>
+  <slot name="after" :state="state" :editor="editor" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
+  <Bubble :visible="bubbleVisible" :matches="bubbleProps?.matches ?? []" :zIndex="bubbleProps?.zIndex">
+    <slot name="bubble" :state="state" :editor="editor" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
   </Bubble>
 </template>
 <script lang="ts" setup>
-import { defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
+import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
 import { Editor } from "@kaitify/core";
-import { WrapperPropsType } from "./props"
+import { StateType, WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
 import { translate } from "@/locale";
 import { Bubble } from "../bubble";
@@ -44,7 +38,7 @@ const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagr
 //编辑器dom元素
 const elRef = ref<HTMLElement | undefined>()
 //编辑器实例
-const editorRef = ref<Editor | undefined>()
+const editor = ref<Editor | undefined>()
 //编辑器内容虚拟节点
 const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
@@ -55,54 +49,89 @@ const keyOfSelectionUpdate = ref<number>(0)
 const textCount = ref<number>(0)
 //是否鼠标按下
 const isMouseDown = ref<boolean>(false)
+//是否显示气泡栏
+const bubbleVisible = computed<boolean>(() => {
+  if (props.disabled) {
+    return false
+  }
+  if (isMouseDown.value) {
+    return false
+  }
+  return props.bubbleProps?.visible ?? false
+})
+//编辑器状态数据
+const state = computed<StateType>(() => {
+  const stateData: StateType = {
+    textCount: textCount.value,
+    isTextSelection: false,
+    isImage: false,
+    isVideo: false,
+    isLink: false,
+    isCodeBlock: false,
+    isUnorderedList: false,
+    isOrderedList: false,
+    isTable: false
+  }
+  if (keyOfSelectionUpdate.value > 0) {
+    stateData.isTextSelection = !!editor.value?.getFocusNodesBySelection('text')
+    stateData.isImage = !!editor.value?.commands.getImage?.()
+    stateData.isVideo = !!editor.value?.commands.getVideo?.()
+    stateData.isLink = !!editor.value?.commands.getLink?.()
+    stateData.isCodeBlock = !!editor.value?.commands.getCodeBlock?.()
+    stateData.isUnorderedList = !!editor.value?.commands.getList?.({ ordered: false })
+    stateData.isOrderedList = !!editor.value?.commands.getList?.({ ordered: true })
+    stateData.isTable = !!editor.value?.commands.getTable?.()
+  }
+  return stateData
+})
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(() => props.modelValue, async (newVal) => {
-  if (editorRef.value && newVal && !internalModification.value) {
-    await editorRef.value.review(newVal)
-    textCount.value = editorRef.value.getText().length
+  if (editor.value && newVal && !internalModification.value) {
+    await editor.value.review(newVal)
+    textCount.value = editor.value.getText().length
   }
 })
 //监听以下属性变化，对编辑器进行更新
 watch(() => props.disabled, newVal => {
-  if (editorRef.value) {
-    editorRef.value.setEditable(!newVal)
+  if (editor.value) {
+    editor.value.setEditable(!newVal)
   }
 })
 watch(() => props.dark, newVal => {
-  if (editorRef.value) {
-    editorRef.value.setDark(newVal)
+  if (editor.value) {
+    editor.value.setDark(newVal)
   }
 })
 watch(() => props.allowCopy, newVal => {
-  if (editorRef.value) {
-    editorRef.value.allowCopy = newVal
+  if (editor.value) {
+    editor.value.allowCopy = newVal
   }
 })
 watch(() => props.allowCut, newVal => {
-  if (editorRef.value) {
-    editorRef.value.allowCut = newVal
+  if (editor.value) {
+    editor.value.allowCut = newVal
   }
 })
 watch(() => props.allowPaste, newVal => {
-  if (editorRef.value) {
-    editorRef.value.allowPaste = newVal
+  if (editor.value) {
+    editor.value.allowPaste = newVal
   }
 })
 watch(() => props.allowPasteHtml, newVal => {
-  if (editorRef.value) {
-    editorRef.value.allowPasteHtml = newVal
+  if (editor.value) {
+    editor.value.allowPasteHtml = newVal
   }
 })
 watch(() => props.priorityPasteFiles, newVal => {
-  if (editorRef.value) {
-    editorRef.value.priorityPasteFiles = newVal
+  if (editor.value) {
+    editor.value.priorityPasteFiles = newVal
   }
 })
 
 //初始化渲染编辑器
 onMounted(async () => {
-  editorRef.value = await Editor.configure({
+  editor.value = await Editor.configure({
     el: elRef.value!,
     value: props.modelValue,
     placeholder: props.placeholder,
@@ -198,18 +227,18 @@ const t = (key: string) => {
 }
 
 //对子孙组件提供的属性
-provide('elRef', elRef)
-provide('editorRef', editorRef)
+provide('el', elRef)
+provide('editor', editor)
 provide('keyOfSelectionUpdate', keyOfSelectionUpdate)
-provide('textCount', textCount)
+provide('state', state)
 provide('t', t)
 provide('getLocale', () => props.locale)
 
 //对外导出的属性
 defineExpose({
   elRef,
-  editorRef,
+  editor,
   keyOfSelectionUpdate,
-  textCount
+  state
 })
 </script>

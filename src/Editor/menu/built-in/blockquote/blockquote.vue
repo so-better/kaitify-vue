@@ -18,20 +18,20 @@ const props = withDefaults(defineProps<BlockquoteMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.allBlockquote?.()) || false
+  return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.allBlockquote?.()) || false
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
   return props.disabled
@@ -39,9 +39,9 @@ const isDisabled = computed<boolean>(() => {
 //方法
 const onOperate = () => {
   if (isActive.value) {
-    editorRef.value?.commands.unsetBlockquote?.()
+    editor.value?.commands.unsetBlockquote?.()
   } else {
-    editorRef.value?.commands.setBlockquote?.()
+    editor.value?.commands.setBlockquote?.()
   }
 }
 </script>

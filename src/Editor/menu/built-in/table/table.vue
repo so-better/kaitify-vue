@@ -36,9 +36,9 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
   maxColumns: 10
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -84,16 +84,16 @@ const specification = computed<TableGridType>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasTable?.() || editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasTable?.() || editor.value.commands.hasCodeBlock?.()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
     return true
   }
-  if (editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -114,10 +114,10 @@ const changeTableSize = (data: TableGridType) => {
 }
 //插入表格
 const insert = async (data: TableGridType) => {
-  if (!editorRef.value || props.maxRows < 1 || props.maxColumns < 1) {
+  if (!editor.value || props.maxRows < 1 || props.maxColumns < 1) {
     return
   }
-  editorRef.value.commands.setTable?.({
+  editor.value.commands.setTable?.({
     rows: data.x,
     columns: data.y
   })

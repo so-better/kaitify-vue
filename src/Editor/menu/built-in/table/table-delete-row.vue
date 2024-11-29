@@ -18,25 +18,25 @@ const props = withDefaults(defineProps<TableDeleteRowMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (!editorRef.value.commands.getTable?.()) {
+  if (!editor.value.commands.getTable?.()) {
     return true
   }
   return props.disabled
 })
 //方法
 const onOperate = () => {
-  editorRef.value?.commands.deleteTableRow?.()
+  editor.value?.commands.deleteTableRow?.()
 }
 </script>

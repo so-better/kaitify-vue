@@ -61,9 +61,9 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 //事件
 const emits = defineEmits(['operate', 'select', 'popoverShow', 'popoverShowing', 'popoverShown', 'popoverHide', 'popoverHiding', 'popoverHidden'])
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //popover组件实例
@@ -101,7 +101,7 @@ const onOperate = () => {
 }
 
 //设置快捷键
-watch(() => editorRef.value, newVal => {
+watch(() => editor.value, newVal => {
   if (newVal && props.shortcut) {
     DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)
     DapEvent.on(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`, e => {
@@ -127,8 +127,8 @@ watch(() => editorRef.value, newVal => {
 })
 
 onBeforeUnmount(() => {
-  if (editorRef.value) {
-    DapEvent.off(editorRef.value.$el!, `keydown.kaitify_menu_${instance.uid}`)
+  if (editor.value) {
+    DapEvent.off(editor.value.$el!, `keydown.kaitify_menu_${instance.uid}`)
   }
 })
 

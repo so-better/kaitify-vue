@@ -18,29 +18,29 @@ const props = withDefaults(defineProps<StrikethroughMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && editorRef.value?.commands.isStrikethrough?.()) ?? false
+  return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.isStrikethrough?.()) ?? false
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (!editorRef.value.selection.collapsed() && !editorRef.value.getFocusNodesBySelection('text').length) {
+  if (!editor.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
     return true
   }
-  if (editorRef.value.selection.collapsed() && (!!editorRef.value.commands.getAttachment?.() || !!editorRef.value.commands.getMath?.())) {
+  if (editor.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
     return true
   }
-  if (!!editorRef.value.commands.getCodeBlock?.()) {
+  if (!!editor.value.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -48,9 +48,9 @@ const isDisabled = computed<boolean>(() => {
 //方法
 const onOperate = () => {
   if (isActive.value) {
-    editorRef.value?.commands.unsetStrikethrough?.()
+    editor.value?.commands.unsetStrikethrough?.()
   } else {
-    editorRef.value?.commands.setStrikethrough?.()
+    editor.value?.commands.setStrikethrough?.()
   }
 }
 </script>

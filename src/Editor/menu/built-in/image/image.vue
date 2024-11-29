@@ -47,9 +47,9 @@ const props = withDefaults(defineProps<ImageMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -70,25 +70,25 @@ const updateData = reactive<UpdateImageOptionType>({
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
     return true
   }
-  if (editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
 })
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getImage?.())
+  return (keyOfSelectionUpdate.value > 0 && !!editor.value?.commands.getImage?.())
 })
 
 //浮层显示
 const menuShow = () => {
-  const imageNode = editorRef.value?.commands.getImage?.()
+  const imageNode = editor.value?.commands.getImage?.()
   if (imageNode) {
     updateData.src = imageNode.marks!.src as string
     updateData.alt = (imageNode.marks!.alt as string) || ''
@@ -100,14 +100,14 @@ const menuShow = () => {
 //选择本地图片
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !editorRef.value) {
+  if (!file || !editor.value) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  editorRef.value.commands.setImage?.({
+  editor.value.commands.setImage?.({
     src: url,
     alt: file.name || t('图片'),
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
@@ -116,10 +116,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程图片
 const insert = async () => {
-  if (!remoteData.src || !editorRef.value) {
+  if (!remoteData.src || !editor.value) {
     return
   }
-  editorRef.value.commands.setImage?.({
+  editor.value.commands.setImage?.({
     src: remoteData.src,
     alt: remoteData.alt,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
@@ -128,10 +128,10 @@ const insert = async () => {
 }
 //更新图片
 const update = async () => {
-  if (!updateData.src || !editorRef.value) {
+  if (!updateData.src || !editor.value) {
     return
   }
-  editorRef.value.commands.updateImage?.({
+  editor.value.commands.updateImage?.({
     src: updateData.src,
     alt: updateData.alt
   })

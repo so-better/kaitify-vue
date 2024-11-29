@@ -18,23 +18,23 @@ const props = withDefaults(defineProps<DarkMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editorRef.value) {
+  if (!editor.value) {
     return true
   }
   return props.disabled
 })
 //方法
 const onOperate = () => {
-  if (!editorRef.value) {
+  if (!editor.value) {
     return
   }
-  editorRef.value.setDark(!editorRef.value.isDark())
+  editor.value.setDark(!editor.value.isDark())
 }
 </script>

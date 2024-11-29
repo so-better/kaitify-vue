@@ -16,14 +16,13 @@
         </template>
         <!-- 插入链接 -->
         <template v-else>
-          <input v-if="editorRef?.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')"
+          <input v-if="editor?.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')"
             type="text" />
           <input v-model.trim="formData.href" :placeholder="t('链接地址')" type="url" />
           <div class="kaitify-link-footer">
             <Checkbox v-model="formData.newOpen" :label="t('新窗口打开')" />
-            <Button @click="insert"
-              :disabled="!formData.href || (editorRef?.selection.collapsed() && !formData.text)">{{
-                t('插入') }}</Button>
+            <Button @click="insert" :disabled="!formData.href || (editor?.selection.collapsed() && !formData.text)">{{
+              t('插入') }}</Button>
           </div>
         </template>
       </div>
@@ -47,9 +46,9 @@ const props = withDefaults(defineProps<LinkMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -71,20 +70,20 @@ const updateData = reactive<UpdateLinkOptionType>({
 })
 //是否激活
 const isActive = computed<boolean>(() => {
-  return keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getLink?.()
+  return keyOfSelectionUpdate.value > 0 && !!editor.value?.commands.getLink?.()
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.() || editorRef.value.commands.hasMath?.()) {
+  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
     return true
   }
-  if (editorRef.value.commands.hasLink?.() && !isActive.value) {
+  if (editor.value.commands.hasLink?.() && !isActive.value) {
     return true
   }
-  if (editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -92,7 +91,7 @@ const isDisabled = computed<boolean>(() => {
 
 //浮层显示
 const menuShow = () => {
-  const linkNode = editorRef.value?.commands.getLink?.()
+  const linkNode = editor.value?.commands.getLink?.()
   if (linkNode) {
     updateData.href = linkNode.marks!.href as string
     updateData.newOpen = linkNode.marks!.target == '_blank'
@@ -104,20 +103,20 @@ const menuShow = () => {
 }
 //插入链接
 const insert = async () => {
-  if (!formData.href || !editorRef.value) {
+  if (!formData.href || !editor.value) {
     return
   }
-  if (editorRef.value.selection.collapsed()) {
+  if (editor.value.selection.collapsed()) {
     if (!formData.text) {
       return
     }
-    editorRef.value.commands.setLink?.({
+    editor.value.commands.setLink?.({
       href: formData.href,
       text: formData.text,
       newOpen: formData.newOpen
     })
   } else {
-    editorRef.value.commands.setLink?.({
+    editor.value.commands.setLink?.({
       href: formData.href,
       newOpen: formData.newOpen
     })
@@ -126,10 +125,10 @@ const insert = async () => {
 }
 //更新链接
 const update = async () => {
-  if (!updateData.href || !editorRef.value) {
+  if (!updateData.href || !editor.value) {
     return
   }
-  editorRef.value.commands.updateLink?.({
+  editor.value.commands.updateLink?.({
     href: updateData.href,
     newOpen: updateData.newOpen
   })

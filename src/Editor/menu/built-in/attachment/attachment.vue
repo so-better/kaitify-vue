@@ -47,9 +47,9 @@ const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
   disabled: false
 })
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')
+const editor = inject<Ref<Editor | undefined>>('editor')
 //组件没有放在Wrapper的插槽中会报错
-if (!editorRef) {
+if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //编辑器光标更新key
@@ -70,23 +70,23 @@ const updateData = reactive<UpdateAttachmentOptionType>({
 })
 //是否激活
 const isActive = computed<boolean>(() => {
-  return keyOfSelectionUpdate.value > 0 && !!editorRef.value?.commands.getAttachment?.()
+  return keyOfSelectionUpdate.value > 0 && !!editor.value?.commands.getAttachment?.()
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editorRef.value || !editorRef.value.selection.focused()) {
+  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
     return true
   }
-  if (editorRef.value.commands.hasMath?.()) {
+  if (editor.value.commands.hasMath?.()) {
     return true
   }
-  if (editorRef.value.commands.hasCodeBlock?.()) {
+  if (editor.value.commands.hasCodeBlock?.()) {
     return true
   }
-  if (editorRef.value.commands.hasLink?.()) {
+  if (editor.value.commands.hasLink?.()) {
     return true
   }
-  if (editorRef.value.commands.hasAttachment?.() && !isActive.value) {
+  if (editor.value.commands.hasAttachment?.() && !isActive.value) {
     return true
   }
   return props.disabled
@@ -94,7 +94,7 @@ const isDisabled = computed<boolean>(() => {
 
 //浮层显示
 const menuShow = () => {
-  const info = editorRef.value?.commands.getAttachmentInfo?.()
+  const info = editor.value?.commands.getAttachmentInfo?.()
   if (info) {
     updateData.text = info.text
     updateData.url = info.url
@@ -106,14 +106,14 @@ const menuShow = () => {
 //选择本地文件
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !editorRef.value) {
+  if (!file || !editor.value) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  editorRef.value.commands.setAttachment?.({
+  editor.value.commands.setAttachment?.({
     url: url,
     text: file.name || t('附件'),
     icon: props.iconUrl
@@ -122,10 +122,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程附件
 const insert = async () => {
-  if (!remoteData.url || !remoteData.text || !editorRef.value) {
+  if (!remoteData.url || !remoteData.text || !editor.value) {
     return
   }
-  editorRef.value.commands.setAttachment?.({
+  editor.value.commands.setAttachment?.({
     url: remoteData.url,
     text: remoteData.text,
     icon: props.iconUrl
@@ -134,10 +134,10 @@ const insert = async () => {
 }
 //更新远程附件
 const update = async () => {
-  if (!updateData.url || !updateData.text || !editorRef.value) {
+  if (!updateData.url || !updateData.text || !editor.value) {
     return
   }
-  editorRef.value.commands.updateAttachment?.({
+  editor.value.commands.updateAttachment?.({
     url: updateData.url,
     text: updateData.text
   })

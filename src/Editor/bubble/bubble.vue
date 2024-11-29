@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
 //事件
 const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hiding', 'hidden',])
 //编辑器实例
-const editorRef = inject<Ref<Editor | undefined>>('editorRef')!
+const editor = inject<Ref<Editor | undefined>>('editor')!
 //编辑器光标更新key
 const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
 //popperjs实例
@@ -35,11 +35,11 @@ const elRef = ref<HTMLElement | undefined>()
 
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
-  if (keyOfSelectionUpdate.value > 0 && editorRef.value!.selection.focused()) {
+  if (keyOfSelectionUpdate.value > 0 && editor.value!.selection.focused()) {
     let matchNode: KNode | null = null
     if (props.matches && props.matches.length) {
       for (let i = 0; i < props.matches.length; i++) {
-        const node = editorRef.value!.getMatchNodeBySelection(props.matches[i])
+        const node = editor.value!.getMatchNodeBySelection(props.matches[i])
         if (node) {
           matchNode = node
           break
@@ -47,11 +47,11 @@ const getVirtualDomRect = () => {
       }
     }
     if (matchNode) {
-      const matchDom = editorRef.value!.findDom(matchNode)
+      const matchDom = editor.value!.findDom(matchNode)
       return matchDom.getBoundingClientRect()
     }
     const selection = window.getSelection();
-    if (!selection || !selection.rangeCount) return editorRef.value!.$el!.getBoundingClientRect();
+    if (!selection || !selection.rangeCount) return editor.value!.$el!.getBoundingClientRect();
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (rects.length) {
@@ -69,11 +69,11 @@ const getVirtualDomRect = () => {
       } as DOMRect
     }
   }
-  return editorRef.value!.$el!.getBoundingClientRect();
+  return editor.value!.$el!.getBoundingClientRect();
 }
 //更新气泡位置
 const updatePosition = () => {
-  if (!props.visible || !elRef.value || !editorRef.value) {
+  if (!props.visible || !elRef.value || !editor.value) {
     return
   }
   const domRect = getVirtualDomRect()
@@ -147,7 +147,7 @@ watch(() => keyOfSelectionUpdate.value, () => {
   updatePosition()
 })
 //监听编辑器实例传入
-watch(() => editorRef.value, newVal => {
+watch(() => editor.value, newVal => {
   if (newVal) {
     //更新气泡位置
     updatePosition()
@@ -159,8 +159,8 @@ watch(() => editorRef.value, newVal => {
 })
 
 onBeforeUnmount(() => {
-  if (editorRef.value?.$el) {
-    removeScroll(editorRef.value.$el)
+  if (editor.value?.$el) {
+    removeScroll(editor.value.$el)
   }
   if (popperInstance.value) {
     popperInstance.value.destroy()
