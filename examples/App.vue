@@ -42,21 +42,20 @@
         <TaskMenu />
       </template>
       <template #after="{ state }">
-        {{ state.selection?.start?.offset }}
-        总字数：{{ state.textCount }}
+        总字数：{{ state.editor?.getContent().length ?? 0 }}
       </template>
       <template #bubble="{ state }">
-        <div v-if="state.isVideo" style="padding: 5px;">
+        <div v-if="state.editor?.commands.getVideo?.()" style="padding: 5px;">
           <VideoControlsMenu />
           <VideoMutedMenu />
           <VideoLoopMenu />
         </div>
-        <div v-else-if="state.isCodeBlock" style="padding: 5px;">
+        <div v-else-if="state.editor?.commands.getCodeBlock?.()" style="padding: 5px;">
           <WrapUpMenu :match="{ tag: 'pre' }" />
           <CodeBlockLanguagesMenu :languages="['java', 'javascript']" />
           <WrapDownMenu :match="{ tag: 'pre' }" />
         </div>
-        <div v-else-if="state.isTable" style="padding: 5px;">
+        <div v-else-if="state.editor?.commands.getTable?.()" style="padding: 5px;">
           <WrapUpMenu :match="{ tag: 'table' }" />
           <TableAddRowMenu type="top" />
           <TableAddRowMenu type="bottom" />
@@ -100,16 +99,16 @@ const shouldVisible = computed<boolean>(() => {
   if (!wrapper.value) {
     return false
   }
-  if (!!wrapper.value.state.isTable) {
+  if (!!wrapper.value.state.editor?.commands.getTable()) {
     return true
   }
-  if (!!wrapper.value.state.isCodeBlock) {
+  if (!!wrapper.value.state.editor?.commands.getCodeBlock()) {
     return true
   }
-  if (!!wrapper.value.state.isVideo) {
+  if (!!wrapper.value.state.editor?.commands.getVideo()) {
     return true
   }
-  return wrapper.value.state.isTextSelection
+  return !!wrapper.value.state.editor?.getFocusNodesBySelection('text').length
 })
 
 </script>

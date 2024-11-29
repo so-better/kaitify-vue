@@ -7,7 +7,7 @@
         <div class="kaitify-colors-header">
           <Button @click="unsetBackColor" block large>
             <Icon name="remove" />
-            <span class="kaitify-colors-header-text">{{ t('默认颜色') }}</span>
+            <span class="kaitify-colors-header-text">{{ state.t('默认颜色') }}</span>
           </Button>
         </div>
         <div class="kaitify-colors-content">
@@ -20,8 +20,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, Ref, ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { computed, ComputedRef, inject, ref } from 'vue';
 import { Icon } from '@/core/icon';
 import { Button } from "@/core/button"
 import { StateType } from '@/editor/wrapper';
@@ -36,58 +35,51 @@ const props = withDefaults(defineProps<BackColorMenuPropsType>(), {
   disabled: false,
   colors: () => ['#000000', '#505050', '#808080', '#BBBBBB', '#CCCCCC', '#EEEEEE', '#F7F7F7', '#FFFFFF', '#EC1A0A', '#FF9900', '#FFFF00', '#07C160', '#00FFFF', '#0B73DE', '#9C00FF', '#FF00FF', '#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE', '#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD', '#e45649', '#F7AD6B', '#FFD663', '#94BD7B', '#73A5AD', '#6BADDE', '#8C7BC6', '#C67BA5', '#CE0000', '#E79439', '#EFC631', '#50a14f', '#4A7B8C', '#03A8F3', '#634AA5', '#A54A7B', '#9C0000', '#B56308', '#BD9400', '#397B21', '#104A5A', '#085294', '#311873', '#731842', '#630000', '#7B3900', '#986801', '#295218', '#083139', '#003163', '#21104A', '#4A1031']
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
+//颜色是否激活
+const isActive = computed<(item: string) => boolean>(() => {
+  return item => {
+    return state.value.editor?.commands.isBackColor?.(item) ?? false
+  }
+})
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (!state.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
+  if (!state.value.editor.selection.collapsed() && !state.value.editor.getFocusNodesBySelection('text').length) {
     return true
   }
-  if (state.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
+  if (state.value.editor.selection.collapsed() && (!!state.value.editor.commands.getAttachment?.() || !!state.value.editor.commands.getMath?.())) {
     return true
   }
-  if (!!editor.value.commands.getCodeBlock?.()) {
+  if (!!state.value.editor.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
 })
-//颜色是否激活
-const isActive = computed<(item: string) => boolean>(() => {
-  return item => {
-    return state.value.selection.focused() && (editor.value?.commands.isBackColor?.(item) ?? false)
-  }
-})
 
 //设置颜色
 const setBackColor = (val: string) => {
-  if (!editor.value) {
+  if (!state.value.editor || state.value.editor.commands.isBackColor?.(val)) {
     return
   }
-  if (editor.value.commands.isBackColor?.(val)) {
-    return
-  }
-  editor.value.commands.setBackColor?.(val)
+  state.value.editor?.commands.setBackColor?.(val)
   menuRef.value?.hidePopover()
 }
 //移除颜色
 const unsetBackColor = () => {
-  if (!editor.value) {
+  if (!state.value.editor) {
     return
   }
-  editor.value.commands.removeTextStyle?.(['backgroundColor', 'background'])
+  state.value.editor.commands.removeTextStyle?.(['backgroundColor', 'background'])
   menuRef.value?.hidePopover()
 }
 </script>

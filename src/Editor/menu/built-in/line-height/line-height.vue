@@ -6,8 +6,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref, Ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { computed, ComputedRef, inject, ref } from 'vue';
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { LineHeightMenuPropsType } from './props';
@@ -43,28 +42,24 @@ const props = withDefaults(defineProps<LineHeightMenuPropsType>(), {
     }
   ]
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [{
-    label: t('默认行高'),
+    label: state.value.t('默认行高'),
     value: props.defaultValue
   }, ...(props.data || [])]
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
@@ -72,7 +67,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    return state.value.selection.focused() && (editor.value?.commands.isLineHeight?.(item.value) ?? false)
+    return state.value.editor?.commands.isLineHeight?.(item.value) ?? false
   }
 })
 //选择的值
@@ -82,13 +77,13 @@ const selectedData = computed<MenuDataType | undefined>(() => {
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!editor.value) {
+  if (!state.value.editor) {
     return
   }
   if (isActive.value(item)) {
-    editor.value.updateRealSelection()
+    state.value.editor.updateRealSelection()
   } else {
-    editor.value.commands.setLineHeight?.(item.value)
+    state.value.editor.commands.setLineHeight?.(item.value)
   }
 }
 </script>

@@ -6,8 +6,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref, Ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { computed, ComputedRef, inject, ref } from 'vue';
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { FontFamilyMenuPropsType } from './props';
@@ -49,37 +48,33 @@ const props = withDefaults(defineProps<FontFamilyMenuPropsType>(), {
       value: 'Consolas,monospace'
     }]
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [{
-    label: t('默认字体'),
+    label: state.value.t('默认字体'),
     value: ''
   }, ...(props.data || [])]
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (!state.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
+  if (!state.value.editor.selection.collapsed() && !state.value.editor.getFocusNodesBySelection('text').length) {
     return true
   }
-  if (state.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
+  if (state.value.editor.selection.collapsed() && (!!state.value.editor.commands.getAttachment?.() || !!state.value.editor.commands.getMath?.())) {
     return true
   }
-  if (!!editor.value.commands.getCodeBlock?.()) {
+  if (!!state.value.editor.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -87,7 +82,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    return state.value.selection.focused() && (editor.value?.commands.isFontFamily?.(item.value as string) ?? false)
+    return state.value.editor?.commands.isFontFamily?.(item.value as string) ?? false
   }
 })
 //选择的值
@@ -97,15 +92,15 @@ const selectedData = computed<MenuDataType | undefined>(() => {
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!editor.value) {
+  if (!state.value.editor) {
     return
   }
   if (item.value == '') {
-    editor.value.commands.removeTextStyle?.(['fontFamily'])
+    state.value.editor.commands.removeTextStyle?.(['fontFamily'])
   } else if (isActive.value(item)) {
-    editor.value.updateRealSelection()
+    state.value.editor.updateRealSelection()
   } else {
-    editor.value.commands.setFontFamily?.(item.value as string)
+    state.value.editor.commands.setFontFamily?.(item.value as string)
   }
 }
 </script>

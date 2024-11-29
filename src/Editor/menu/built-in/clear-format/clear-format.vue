@@ -4,8 +4,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, Ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { computed, ComputedRef, inject } from 'vue';
 import { Icon } from '@/core/icon';
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
@@ -18,23 +17,21 @@ defineOptions({
 const props = withDefaults(defineProps<ClearFormatMenuPropsType>(), {
   disabled: false
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
 //方法
 const onOperate = () => {
-  editor.value?.commands.clearFormat?.()
+  state.value.editor?.commands.clearFormat?.()
 }
 </script>

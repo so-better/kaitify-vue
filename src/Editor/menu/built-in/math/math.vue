@@ -5,18 +5,17 @@
     <Icon name="mathformula" />
     <template v-slot:popover>
       <div class="kaitify-math">
-        <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="t('输入Latex数学公式')" />
+        <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="state.t('输入Latex数学公式')" />
         <div class="kaitify-math-footer">
-          <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ t('更新') }}</Button>
-          <Button key="insert" v-else :disabled="!mathText" @click="insert">{{ t('插入') }}</Button>
+          <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ state.t('更新') }}</Button>
+          <Button key="insert" v-else :disabled="!mathText" @click="insert">{{ state.t('插入') }}</Button>
         </div>
       </div>
     </template>
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref, Ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { computed, ComputedRef, inject, ref } from 'vue';
 import { Icon } from '@/core/icon';
 import { Button } from "@/core/button"
 import { StateType } from '@/editor/wrapper';
@@ -31,39 +30,35 @@ defineOptions({
 const props = withDefaults(defineProps<MathMenuPropsType>(), {
   disabled: false
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //数学公式内容
 const mathText = ref<string>('')
 //是否激活
 const isActive = computed<boolean>(() => {
-  return state.value.selection.focused() && !!editor.value?.commands.getMath?.()
+  return !!state.value.editor?.commands.getMath?.()
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (editor.value.commands.hasAttachment?.()) {
+  if (state.value.editor.commands.hasAttachment?.()) {
     return true
   }
-  if (editor.value.commands.hasLink?.()) {
+  if (state.value.editor.commands.hasLink?.()) {
     return true
   }
-  if (editor.value.commands.hasCodeBlock?.()) {
+  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
-  if (editor.value.commands.hasMath?.() && !isActive.value) {
+  if (state.value.editor.commands.hasMath?.() && !isActive.value) {
     return true
   }
   return props.disabled
@@ -71,7 +66,7 @@ const isDisabled = computed<boolean>(() => {
 
 //浮层显示
 const menuShow = () => {
-  const mathNode = editor.value?.commands.getMath?.()
+  const mathNode = state.value.editor?.commands.getMath?.()
   if (mathNode) {
     mathText.value = (mathNode.marks!['kaitify-math'] as string) || ''
   } else {
@@ -80,18 +75,18 @@ const menuShow = () => {
 }
 //插入数学公式
 const insert = () => {
-  if (!mathText.value || !editor.value) {
+  if (!mathText.value || !state.value.editor) {
     return
   }
-  editor.value.commands.setMath?.(mathText.value)
+  state.value.editor.commands.setMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 //更新数学公式
 const update = async () => {
-  if (!mathText.value || !editor.value) {
+  if (!mathText.value || !state.value.editor) {
     return
   }
-  editor.value.commands.updateMath?.(mathText.value)
+  state.value.editor.commands.updateMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 </script>

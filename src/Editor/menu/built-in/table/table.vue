@@ -20,8 +20,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref, Ref } from 'vue';
-import { Editor } from '@kaitify/core';
+import { computed, ComputedRef, inject, ref } from 'vue';
 import { Icon } from '@/core/icon';
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
@@ -36,14 +35,13 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
   maxRows: 10,
   maxColumns: 10
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //获取表格尺寸数据
@@ -85,16 +83,22 @@ const specification = computed<TableGridType>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (editor.value.commands.hasTable?.() || editor.value.commands.hasCodeBlock?.()) {
+  if (state.value.editor.commands.hasTable?.()) {
     return true
   }
-  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
+  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
-  if (editor.value.commands.hasCodeBlock?.()) {
+  if (state.value.editor.commands.hasAttachment?.()) {
+    return true
+  }
+  if (state.value.editor.commands.hasMath?.()) {
+    return true
+  }
+  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -115,10 +119,10 @@ const changeTableSize = (data: TableGridType) => {
 }
 //插入表格
 const insert = async (data: TableGridType) => {
-  if (!editor.value || props.maxRows < 1 || props.maxColumns < 1) {
+  if (!state.value.editor || props.maxRows < 1 || props.maxColumns < 1) {
     return
   }
-  editor.value.commands.setTable?.({
+  state.value.editor.commands.setTable?.({
     rows: data.x,
     columns: data.y
   })

@@ -30,12 +30,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from "vue";
+import { computed, ComputedRef, getCurrentInstance, inject, onBeforeUnmount, ref, watch } from "vue";
 import { event as DapEvent, common as DapCommon } from "dap-util"
-import { Editor } from "@kaitify/core";
 import { Popover } from "@/core/popover"
 import { Icon } from "@/core/icon"
 import { Button } from "@/core/button"
+import { StateType } from "../wrapper";
 import { MenuDataType, MenuPropsType } from './props';
 
 defineOptions({
@@ -60,10 +60,10 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits(['operate', 'select', 'popoverShow', 'popoverShowing', 'popoverShown', 'popoverHide', 'popoverHiding', 'popoverHidden'])
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //popover组件实例
@@ -101,7 +101,7 @@ const onOperate = () => {
 }
 
 //设置快捷键
-watch(() => editor.value, newVal => {
+watch(() => state.value.editor, newVal => {
   if (newVal && props.shortcut) {
     DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)
     DapEvent.on(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`, e => {
@@ -127,8 +127,8 @@ watch(() => editor.value, newVal => {
 })
 
 onBeforeUnmount(() => {
-  if (editor.value) {
-    DapEvent.off(editor.value.$el!, `keydown.kaitify_menu_${instance.uid}`)
+  if (state.value.editor) {
+    DapEvent.off(state.value.editor.$el!, `keydown.kaitify_menu_${instance.uid}`)
   }
 })
 

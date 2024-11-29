@@ -3,7 +3,7 @@
     :popover-options="{ width: popoverOptions?.width ?? 300, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
     <Icon name="video" />
     <template v-slot:popover>
-      <Tabs :names="[t('本地上传'), t('远程地址')]">
+      <Tabs :names="[state.t('本地上传'), state.t('远程地址')]">
         <template v-slot="{ index }">
           <div v-if="index == 0" class="kaitify-video-upload">
             <div class="kaitify-video-upload-wrapper">
@@ -11,14 +11,14 @@
               <Icon name="upload" />
             </div>
             <div class="kaitify-video-upload-footer">
-              <Checkbox v-model="remoteData.autoplay" :label="t('是否自动播放')" />
+              <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
             </div>
           </div>
           <div v-else class="kaitify-video-remote">
-            <input v-model.trim="remoteData.src" :placeholder="t('视频地址')" type="url" />
+            <input v-model.trim="remoteData.src" :placeholder="state.t('视频地址')" type="url" />
             <div class="kaitify-video-remote-footer">
-              <Checkbox v-model="remoteData.autoplay" :label="t('是否自动播放')" />
-              <Button @click="insert" :disabled="!remoteData.src">{{ t('插入') }}</Button>
+              <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
+              <Button @click="insert" :disabled="!remoteData.src">{{ state.t('插入') }}</Button>
             </div>
           </div>
         </template>
@@ -27,9 +27,9 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, reactive, ref, Ref } from 'vue';
+import { computed, ComputedRef, inject, reactive, ref } from 'vue';
 import { file as DapFile } from "dap-util"
-import { Editor, SetVideoOptionType } from '@kaitify/core';
+import { SetVideoOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
 import { Button } from "@/core/button"
@@ -45,16 +45,12 @@ defineOptions({
 const props = withDefaults(defineProps<VideoMenuPropsType>(), {
   disabled: false
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //远程视频数据
@@ -64,13 +60,16 @@ const remoteData = reactive<SetVideoOptionType>({
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
+  if (state.value.editor.commands.hasAttachment?.()) {
     return true
   }
-  if (editor.value.commands.hasCodeBlock?.()) {
+  if (state.value.editor.commands.hasMath?.()) {
+    return true
+  }
+  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -79,14 +78,14 @@ const isDisabled = computed<boolean>(() => {
 //选择本地视频
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !editor.value) {
+  if (!file || !state.value.editor) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  editor.value.commands.setVideo?.({
+  state.value.editor.commands.setVideo?.({
     src: url,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width,
     autoplay: remoteData.autoplay
@@ -95,10 +94,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程视频
 const insert = async () => {
-  if (!remoteData.src || !editor.value) {
+  if (!remoteData.src || !state.value.editor) {
     return
   }
-  editor.value.commands.setVideo?.({
+  state.value.editor.commands.setVideo?.({
     src: remoteData.src,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width,
     autoplay: remoteData.autoplay

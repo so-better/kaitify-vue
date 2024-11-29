@@ -124,14 +124,8 @@ export type WrapperPropsType = {
  * 编辑器状态对象
  */
 export type StateType = {
-  selection: Selection
-  textCount: number
-  isTextSelection: boolean
-  isImage: boolean
-  isVideo: boolean
-  isLink: boolean
-  isCodeBlock: boolean
-  isOrderedList: boolean
-  isUnorderedList: boolean
-  isTable: boolean
+  editor?: Editor
+  selection?: Selection
+  locale: LocaleType
+  t: (key: string) => string
 }

@@ -5,23 +5,23 @@
     <Icon name="image" />
     <template v-slot:popover>
       <div v-if="isActive" class="kaitify-image-update">
-        <input v-model.trim="updateData.alt" :placeholder="t('图片名称')" type="text" />
-        <input v-model.trim="updateData.src" :placeholder="t('图片地址')" type="url" />
+        <input v-model.trim="updateData.alt" :placeholder="state.t('图片名称')" type="text" />
+        <input v-model.trim="updateData.src" :placeholder="state.t('图片地址')" type="url" />
         <div class="kaitify-image-update-footer">
-          <Button @click="update" :disabled="!updateData.src">{{ t('更新') }}</Button>
+          <Button @click="update" :disabled="!updateData.src">{{ state.t('更新') }}</Button>
         </div>
       </div>
-      <Tabs v-else :names="[t('本地上传'), t('远程地址')]">
+      <Tabs v-else :names="[state.t('本地上传'), state.t('远程地址')]">
         <template v-slot="{ index }">
           <div v-if="index == 0" class="kaitify-image-upload">
             <input type="file" accept="image/*" @change="fileChange" />
             <Icon name="upload" />
           </div>
           <div v-else class="kaitify-image-remote">
-            <input v-model.trim="remoteData.alt" :placeholder="t('图片名称')" type="text" />
-            <input v-model.trim="remoteData.src" :placeholder="t('图片地址')" type="url" />
+            <input v-model.trim="remoteData.alt" :placeholder="state.t('图片名称')" type="text" />
+            <input v-model.trim="remoteData.src" :placeholder="state.t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
-              <Button @click="insert" :disabled="!remoteData.src">{{ t('插入') }}</Button>
+              <Button @click="insert" :disabled="!remoteData.src">{{ state.t('插入') }}</Button>
             </div>
           </div>
         </template>
@@ -30,9 +30,9 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, reactive, ref, Ref } from 'vue';
+import { computed, ComputedRef, inject, reactive, ref } from 'vue';
 import { file as DapFile } from "dap-util"
-import { Editor, SetImageOptionType, UpdateImageOptionType } from '@kaitify/core';
+import { SetImageOptionType, UpdateImageOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
 import { Button } from "@/core/button"
@@ -47,16 +47,12 @@ defineOptions({
 const props = withDefaults(defineProps<ImageMenuPropsType>(), {
   disabled: false
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //远程图片数据
@@ -71,25 +67,28 @@ const updateData = reactive<UpdateImageOptionType>({
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
+  if (state.value.editor.commands.hasAttachment?.()) {
     return true
   }
-  if (editor.value.commands.hasCodeBlock?.()) {
+  if (state.value.editor.commands.hasMath?.()) {
+    return true
+  }
+  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
 })
 //是否激活
 const isActive = computed<boolean>(() => {
-  return state.value.selection.focused() && !!editor.value?.commands.getImage?.()
+  return !!state.value.editor?.commands.getImage?.()
 })
 
 //浮层显示
 const menuShow = () => {
-  const imageNode = editor.value?.commands.getImage?.()
+  const imageNode = state.value.editor?.commands.getImage?.()
   if (imageNode) {
     updateData.src = imageNode.marks!.src as string
     updateData.alt = (imageNode.marks!.alt as string) || ''
@@ -101,26 +100,26 @@ const menuShow = () => {
 //选择本地图片
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !editor.value) {
+  if (!file || !state.value.editor) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  editor.value.commands.setImage?.({
+  state.value.editor.commands.setImage?.({
     src: url,
-    alt: file.name || t('图片'),
+    alt: file.name || state.value.t('图片'),
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
   })
   menuRef.value?.hidePopover()
 }
 //插入远程图片
 const insert = async () => {
-  if (!remoteData.src || !editor.value) {
+  if (!remoteData.src || !state.value.editor) {
     return
   }
-  editor.value.commands.setImage?.({
+  state.value.editor.commands.setImage?.({
     src: remoteData.src,
     alt: remoteData.alt,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
@@ -129,10 +128,10 @@ const insert = async () => {
 }
 //更新图片
 const update = async () => {
-  if (!updateData.src || !editor.value) {
+  if (!updateData.src || !state.value.editor) {
     return
   }
-  editor.value.commands.updateImage?.({
+  state.value.editor.commands.updateImage?.({
     src: updateData.src,
     alt: updateData.alt
   })

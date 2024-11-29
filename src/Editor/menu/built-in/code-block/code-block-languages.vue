@@ -6,8 +6,8 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref, Ref } from 'vue';
-import { Editor, HljsLanguageType, HljsLanguages } from '@kaitify/core';
+import { computed, ComputedRef, inject, ref } from 'vue';
+import { HljsLanguageType, HljsLanguages } from '@kaitify/core';
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { CodeBlockLanguagesMenuPropsType } from './props';
@@ -21,22 +21,18 @@ const props = withDefaults(defineProps<CodeBlockLanguagesMenuPropsType>(), {
   disabled: false,
   languages: () => [...HljsLanguages]
 })
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
-if (!editor) {
+if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译方法
-const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [{
-    label: t('自动识别'),
+    label: state.value.t('自动识别'),
     value: ''
   }, ...(props.languages.map(item => {
     return {
@@ -47,10 +43,10 @@ const options = computed<MenuDataType[]>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (!editor.value.commands.getCodeBlock?.()) {
+  if (!state.value.editor.commands.getCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -58,10 +54,10 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    if (!editor.value || !state.value.selection.focused()) {
+    if (!state.value.editor?.selection.focused()) {
       return false
     }
-    const codeBlockNode = editor.value.commands.getCodeBlock?.()
+    const codeBlockNode = state.value.editor.commands.getCodeBlock?.()
     if (!codeBlockNode) {
       return false
     }
@@ -73,7 +69,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  if (!editor.value || !state.value.selection.focused()) {
+  if (!state.value.editor?.selection.focused()) {
     return options.value[0]
   }
   return options.value.find(item => isActive.value(item)) ?? options.value[0]
@@ -81,9 +77,9 @@ const selectedData = computed<MenuDataType | undefined>(() => {
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!editor.value) {
+  if (!state.value.editor) {
     return
   }
-  editor.value.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
+  state.value.editor.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
 }
 </script>

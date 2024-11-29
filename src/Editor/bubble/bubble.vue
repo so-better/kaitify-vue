@@ -8,10 +8,10 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, Ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from "vue"
+import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from "vue"
 import { createPopper, Instance } from '@popperjs/core';
 import { event as DapEvent } from "dap-util"
-import { Editor, KNode } from "@kaitify/core";
+import { KNode } from "@kaitify/core";
 import { BubblePropsType } from "./props";
 import { StateType } from "../wrapper";
 defineOptions({
@@ -25,8 +25,6 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
 })
 //事件
 const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hiding', 'hidden',])
-//编辑器实例
-const editor = inject<Ref<Editor | undefined>>('editor')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 //popperjs实例
@@ -36,11 +34,14 @@ const elRef = ref<HTMLElement | undefined>()
 
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
-  if (state.value.selection.focused()) {
+  if (!state.value.editor) {
+    return null
+  }
+  if (state.value.editor.selection.focused()) {
     let matchNode: KNode | null = null
     if (props.matches && props.matches.length) {
       for (let i = 0; i < props.matches.length; i++) {
-        const node = editor.value!.getMatchNodeBySelection(props.matches[i])
+        const node = state.value.editor.getMatchNodeBySelection(props.matches[i])
         if (node) {
           matchNode = node
           break
@@ -48,11 +49,11 @@ const getVirtualDomRect = () => {
       }
     }
     if (matchNode) {
-      const matchDom = editor.value!.findDom(matchNode)
+      const matchDom = state.value.editor.findDom(matchNode)
       return matchDom.getBoundingClientRect()
     }
     const selection = window.getSelection();
-    if (!selection || !selection.rangeCount) return editor.value!.$el!.getBoundingClientRect();
+    if (!selection || !selection.rangeCount) return state.value.editor.$el!.getBoundingClientRect();
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (rects.length) {
@@ -70,14 +71,14 @@ const getVirtualDomRect = () => {
       } as DOMRect
     }
   }
-  return editor.value!.$el!.getBoundingClientRect();
+  return state.value.editor!.$el!.getBoundingClientRect();
 }
 //更新气泡位置
 const updatePosition = () => {
-  if (!props.visible || !elRef.value || !editor.value) {
+  if (!props.visible || !elRef.value || !state.value.editor) {
     return
   }
-  const domRect = getVirtualDomRect()
+  const domRect = getVirtualDomRect()!
   //销毁当前popperjs实例
   if (popperInstance.value) {
     popperInstance.value.destroy()
@@ -150,7 +151,7 @@ watch(() => state.value.selection, () => {
   deep: true
 })
 //监听编辑器实例传入
-watch(() => editor.value, newVal => {
+watch(() => state.value.editor, newVal => {
   if (newVal) {
     //更新气泡位置
     updatePosition()
@@ -162,8 +163,8 @@ watch(() => editor.value, newVal => {
 })
 
 onBeforeUnmount(() => {
-  if (editor.value?.$el) {
-    removeScroll(editor.value.$el)
+  if (state.value.editor?.$el) {
+    removeScroll(state.value.editor.$el)
   }
   if (popperInstance.value) {
     popperInstance.value.destroy()

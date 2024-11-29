@@ -1,14 +1,14 @@
 <template>
-  <slot name="before" :state="state" :editor="editor"></slot>
+  <slot name="before" :state="state"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <slot name="after" :state="state" :editor="editor"></slot>
+  <slot name="after" :state="state"></slot>
   <Bubble :visible="bubbleVisible" :matches="bubbleProps?.matches ?? []" :zIndex="bubbleProps?.zIndex">
-    <slot name="bubble" :state="state" :editor="editor"></slot>
+    <slot name="bubble" :state="state"></slot>
   </Bubble>
 </template>
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
-import { Editor, Selection } from "@kaitify/core";
+import { Editor } from "@kaitify/core";
 import { StateType, WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
 import { translate } from "@/locale";
@@ -43,10 +43,8 @@ const editor = ref<Editor | undefined>()
 const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
 const internalModification = ref<boolean>(false)
-//编辑器光标更新标记
-const keyOfSelectionUpdate = ref<number>(0)
-//编辑器总字数
-const textCount = ref<number>(0)
+//编辑器更新标记
+const updateKey = ref<number>(0)
 //是否鼠标按下
 const isMouseDown = ref<boolean>(false)
 //是否显示气泡栏
@@ -62,27 +60,16 @@ const bubbleVisible = computed<boolean>(() => {
 //编辑器状态数据
 const state = computed<StateType>(() => {
   const data: StateType = {
-    selection: new Selection(),
-    textCount: textCount.value,
-    isTextSelection: false,
-    isImage: false,
-    isVideo: false,
-    isLink: false,
-    isCodeBlock: false,
-    isUnorderedList: false,
-    isOrderedList: false,
-    isTable: false
+    editor: editor.value,
+    selection: undefined,
+    locale: props.locale,
+    t: (key: string) => {
+      return translate(props.locale, key)
+    }
   }
-  if (keyOfSelectionUpdate.value > 0 && editor.value) {
-    data.selection = editor.value.selection
-    data.isTextSelection = !!editor.value.getFocusNodesBySelection('text').length
-    data.isImage = !!editor.value.commands.getImage?.()
-    data.isVideo = !!editor.value.commands.getVideo?.()
-    data.isLink = !!editor.value.commands.getLink?.()
-    data.isCodeBlock = !!editor.value.commands.getCodeBlock?.()
-    data.isUnorderedList = !!editor.value.commands.getList?.({ ordered: false })
-    data.isOrderedList = !!editor.value.commands.getList?.({ ordered: true })
-    data.isTable = !!editor.value.commands.getTable?.()
+  if (!!updateKey.value) {
+    data.editor = editor.value
+    data.selection = editor.value?.selection
   }
   return data
 })
@@ -91,43 +78,50 @@ const state = computed<StateType>(() => {
 watch(() => props.modelValue, async (newVal) => {
   if (editor.value && newVal && !internalModification.value) {
     await editor.value.review(newVal)
-    textCount.value = editor.value.getText().length
+    updateKey.value++
   }
 })
 //监听以下属性变化，对编辑器进行更新
 watch(() => props.disabled, newVal => {
   if (editor.value) {
     editor.value.setEditable(!newVal)
+    updateKey.value++
   }
 })
 watch(() => props.dark, newVal => {
   if (editor.value) {
     editor.value.setDark(newVal)
+    updateKey.value++
   }
 })
 watch(() => props.allowCopy, newVal => {
   if (editor.value) {
     editor.value.allowCopy = newVal
+    updateKey.value++
   }
 })
 watch(() => props.allowCut, newVal => {
   if (editor.value) {
     editor.value.allowCut = newVal
+    updateKey.value++
   }
 })
 watch(() => props.allowPaste, newVal => {
   if (editor.value) {
     editor.value.allowPaste = newVal
+    updateKey.value++
   }
 })
 watch(() => props.allowPasteHtml, newVal => {
   if (editor.value) {
     editor.value.allowPasteHtml = newVal
+    updateKey.value++
   }
 })
 watch(() => props.priorityPasteFiles, newVal => {
   if (editor.value) {
     editor.value.priorityPasteFiles = newVal
+    updateKey.value++
   }
 })
 
@@ -162,7 +156,7 @@ onMounted(async () => {
     onDetachMentBlockFromParentCallback: props.onDetachMentBlockFromParentCallback,
     beforePatchNodeToFormat: props.beforePatchNodeToFormat,
     onSelectionUpdate(selection) {
-      keyOfSelectionUpdate.value++
+      updateKey.value++
       emits('selectionupdate', selection)
     },
     onInsertParagraph(node) {
@@ -187,7 +181,6 @@ onMounted(async () => {
       emits('beforeUpdateView')
     },
     afterUpdateView() {
-      textCount.value = this.getText().length || 0
       emits('afterUpdateView')
     },
     //使用vue作视图渲染
@@ -201,7 +194,7 @@ onMounted(async () => {
       emits('update:modelValue', newVal)
       await nextTick()
       internalModification.value = false
-      textCount.value = this.getText().length || 0
+      updateKey.value++
     }
   })
 })
@@ -223,21 +216,12 @@ const EditorWrapper = defineComponent(() => {
   }
 })
 
-//翻译方法
-const t = (key: string) => {
-  return translate(props.locale, key)
-}
-
 //对子孙组件提供的属性
-provide('editor', editor)
 provide('state', state)
-provide('t', t)
-provide('getLocale', () => props.locale)
 
 //对外导出的属性
 defineExpose({
   elRef,
-  editor,
   state
 })
 </script>
