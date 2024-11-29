@@ -1,5 +1,5 @@
 import { LocaleType } from '../../locale';
-import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType } from '@kaitify/core';
+import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType, Selection } from '@kaitify/core';
 import { BubblePropsType } from '../bubble';
 /**
  * 编辑器参数类型
@@ -18,7 +18,7 @@ export type WrapperPropsType = {
      */
     locale?: LocaleType;
     /**
-     * bubble气泡参数
+     * bubble气泡栏参数
      */
     bubbleProps?: BubblePropsType;
     /**
@@ -117,4 +117,19 @@ export type WrapperPropsType = {
      * 编辑器updateView执行时，通过比对新旧节点数组获取需要格式化的节点，在这些节点被格式化前，触发此方法，回调参数即当前需要被格式化的节点，该方法返回一个节点，返回的节点将会被格式化，如果你不需要任何特殊处理，返回入参提供的节点即可
      */
     beforePatchNodeToFormat?: (this: Editor, node: KNode) => KNode;
+};
+/**
+ * 编辑器状态对象
+ */
+export type StateType = {
+    selection?: Selection;
+    textCount: number;
+    isTextSelection: boolean;
+    isImage: boolean;
+    isVideo: boolean;
+    isLink: boolean;
+    isCodeBlock: boolean;
+    isOrderedList: boolean;
+    isUnorderedList: boolean;
+    isTable: boolean;
 };

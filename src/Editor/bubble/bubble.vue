@@ -8,11 +8,12 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, Ref, inject, watch, getCurrentInstance, onBeforeUnmount } from "vue"
+import { ref, Ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from "vue"
 import { createPopper, Instance } from '@popperjs/core';
 import { event as DapEvent } from "dap-util"
 import { Editor, KNode } from "@kaitify/core";
 import { BubblePropsType } from "./props";
+import { StateType } from "../wrapper";
 defineOptions({
   name: 'Bubble'
 })
@@ -26,8 +27,8 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
 const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hiding', 'hidden',])
 //编辑器实例
 const editor = inject<Ref<Editor | undefined>>('editor')!
-//编辑器光标更新key
-const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
 //popperjs实例
 const popperInstance = ref<Instance | undefined>()
 //气泡元素
@@ -35,7 +36,7 @@ const elRef = ref<HTMLElement | undefined>()
 
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
-  if (keyOfSelectionUpdate.value > 0 && editor.value!.selection.focused()) {
+  if (state.value.selection && editor.value!.selection.focused()) {
     let matchNode: KNode | null = null
     if (props.matches && props.matches.length) {
       for (let i = 0; i < props.matches.length; i++) {
@@ -142,9 +143,11 @@ const removeScroll = (el: HTMLElement) => {
   }
 }
 //监听光标变化
-watch(() => keyOfSelectionUpdate.value, () => {
+watch(() => state.value.selection, () => {
   //更新气泡位置
   updatePosition()
+}, {
+  deep: true
 })
 //监听编辑器实例传入
 watch(() => editor.value, newVal => {

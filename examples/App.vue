@@ -42,6 +42,7 @@
         <TaskMenu />
       </template>
       <template #after="{ state }">
+        {{ state.selection?.start?.offset }}
         总字数：{{ state.textCount }}
       </template>
       <template #bubble="{ state }">

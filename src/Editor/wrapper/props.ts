@@ -1,5 +1,5 @@
 import { LocaleType } from '@/locale'
-import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType } from '@kaitify/core'
+import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType, Selection } from '@kaitify/core'
 import { BubblePropsType } from '../bubble'
 
 /**
@@ -124,6 +124,7 @@ export type WrapperPropsType = {
  * 编辑器状态对象
  */
 export type StateType = {
+  selection?: Selection
   textCount: number
   isTextSelection: boolean
   isImage: boolean

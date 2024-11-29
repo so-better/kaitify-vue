@@ -1,25 +1,18 @@
 import { Editor } from '@kaitify/core';
-import { WrapperPropsType } from './props';
+import { StateType, WrapperPropsType } from './props';
 declare function __VLS_template(): {
     slots: {
         before?(_: {
-            textCount: number;
-            editorRef: Editor | undefined;
-            keyOfSelectionUpdate: number;
+            state: StateType;
+            editor: Editor | undefined;
         }): any;
         after?(_: {
-            textCount: number;
-            editorRef: Editor | undefined;
-            keyOfSelectionUpdate: number;
+            state: StateType;
+            editor: Editor | undefined;
         }): any;
         bubble?(_: {
-            editorRef: Editor | undefined;
-            keyOfSelectionUpdate: number;
-            codeBlock: boolean;
-            table: boolean;
-            video: boolean;
-            image: boolean;
-            link: boolean;
+            state: StateType;
+            editor: Editor | undefined;
         }): any;
     };
     refs: {};
@@ -28,9 +21,8 @@ declare function __VLS_template(): {
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
-    editorRef: import('vue').Ref<Editor | undefined, Editor | undefined>;
-    keyOfSelectionUpdate: import('vue').Ref<number, number>;
-    textCount: import('vue').Ref<number, number>;
+    editor: import('vue').Ref<Editor | undefined, Editor | undefined>;
+    state: import('vue').ComputedRef<StateType>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     blur: (...args: any[]) => void;
     focus: (...args: any[]) => void;

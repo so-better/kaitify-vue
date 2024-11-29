@@ -30,12 +30,13 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, reactive, ref, Ref } from 'vue';
+import { computed, ComputedRef, inject, reactive, ref, Ref } from 'vue';
 import { file as DapFile } from "dap-util"
 import { Editor, SetImageOptionType, UpdateImageOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Tabs } from "@/core/tabs"
 import { Button } from "@/core/button"
+import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { ImageMenuPropsType } from './props';
 
@@ -52,8 +53,8 @@ const editor = inject<Ref<Editor | undefined>>('editor')
 if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器光标更新key
-const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
 //翻译方法
 const t = inject<(key: string) => string>('t')!
 //菜单组件实例
@@ -70,7 +71,7 @@ const updateData = reactive<UpdateImageOptionType>({
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
+  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
     return true
   }
   if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
@@ -83,7 +84,7 @@ const isDisabled = computed<boolean>(() => {
 })
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && !!editor.value?.commands.getImage?.())
+  return !!state.value.selection && !!editor.value?.commands.getImage?.()
 })
 
 //浮层显示

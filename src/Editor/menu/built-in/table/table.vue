@@ -20,9 +20,10 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, ref, Ref } from 'vue';
+import { computed, ComputedRef, inject, ref, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
+import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { TableGridType, TableMenuPropsType } from './props';
 
@@ -41,8 +42,8 @@ const editor = inject<Ref<Editor | undefined>>('editor')
 if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器光标更新key
-const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //获取表格尺寸数据
@@ -84,7 +85,7 @@ const specification = computed<TableGridType>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
+  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
     return true
   }
   if (editor.value.commands.hasTable?.() || editor.value.commands.hasCodeBlock?.()) {

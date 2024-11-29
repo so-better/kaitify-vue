@@ -1,9 +1,9 @@
 <template>
-  <slot name="before" :state="state" :editor="editor" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
+  <slot name="before" :state="state" :editor="editor"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <slot name="after" :state="state" :editor="editor" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
+  <slot name="after" :state="state" :editor="editor"></slot>
   <Bubble :visible="bubbleVisible" :matches="bubbleProps?.matches ?? []" :zIndex="bubbleProps?.zIndex">
-    <slot name="bubble" :state="state" :editor="editor" :keyOfSelectionUpdate="keyOfSelectionUpdate"></slot>
+    <slot name="bubble" :state="state" :editor="editor"></slot>
   </Bubble>
 </template>
 <script lang="ts" setup>
@@ -62,6 +62,7 @@ const bubbleVisible = computed<boolean>(() => {
 //编辑器状态数据
 const state = computed<StateType>(() => {
   const stateData: StateType = {
+    selection: undefined,
     textCount: textCount.value,
     isTextSelection: false,
     isImage: false,
@@ -73,7 +74,8 @@ const state = computed<StateType>(() => {
     isTable: false
   }
   if (keyOfSelectionUpdate.value > 0) {
-    stateData.isTextSelection = !!editor.value?.getFocusNodesBySelection('text')
+    stateData.selection = editor.value?.selection
+    stateData.isTextSelection = !!editor.value?.getFocusNodesBySelection('text').length
     stateData.isImage = !!editor.value?.commands.getImage?.()
     stateData.isVideo = !!editor.value?.commands.getVideo?.()
     stateData.isLink = !!editor.value?.commands.getLink?.()
@@ -227,9 +229,7 @@ const t = (key: string) => {
 }
 
 //对子孙组件提供的属性
-provide('el', elRef)
 provide('editor', editor)
-provide('keyOfSelectionUpdate', keyOfSelectionUpdate)
 provide('state', state)
 provide('t', t)
 provide('getLocale', () => props.locale)
@@ -238,7 +238,6 @@ provide('getLocale', () => props.locale)
 defineExpose({
   elRef,
   editor,
-  keyOfSelectionUpdate,
   state
 })
 </script>

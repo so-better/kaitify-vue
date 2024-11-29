@@ -4,9 +4,10 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref } from 'vue';
+import { computed, ComputedRef, inject, Ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
+import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { StrikethroughMenuPropsType } from './props';
 
@@ -23,15 +24,15 @@ const editor = inject<Ref<Editor | undefined>>('editor')
 if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器光标更新key
-const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.isStrikethrough?.()) ?? false
+  return !!state.value.selection && (editor.value?.commands.isStrikethrough?.() ?? false)
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
+  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
     return true
   }
   if (!editor.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {

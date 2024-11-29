@@ -20,10 +20,11 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref } from 'vue';
+import { computed, ComputedRef, inject, Ref, ref } from 'vue';
 import { Editor } from '@kaitify/core';
 import { Icon } from '@/core/icon';
 import { Button } from "@/core/button"
+import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
 import { BackColorMenuPropsType } from './props';
 
@@ -41,15 +42,15 @@ const editor = inject<Ref<Editor | undefined>>('editor')
 if (!editor) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
-//编辑器光标更新key
-const keyOfSelectionUpdate = inject<Ref<number>>('keyOfSelectionUpdate')!
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
 //翻译方法
 const t = inject<(key: string) => string>('t')!
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!keyOfSelectionUpdate.value || !editor.value || !editor.value.selection.focused()) {
+  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
     return true
   }
   if (!editor.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
@@ -66,7 +67,7 @@ const isDisabled = computed<boolean>(() => {
 //颜色是否激活
 const isActive = computed<(item: string) => boolean>(() => {
   return item => {
-    return (keyOfSelectionUpdate.value > 0 && editor.value?.commands.isBackColor?.(item)) || false
+    return !!state.value.selection && (editor.value?.commands.isBackColor?.(item) ?? false)
   }
 })
 
