@@ -36,7 +36,7 @@ const elRef = ref<HTMLElement | undefined>()
 
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
-  if (state.value.selection && editor.value!.selection.focused()) {
+  if (state.value.selection.focused()) {
     let matchNode: KNode | null = null
     if (props.matches && props.matches.length) {
       for (let i = 0; i < props.matches.length; i++) {

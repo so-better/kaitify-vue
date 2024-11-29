@@ -124,7 +124,7 @@ export type WrapperPropsType = {
  * 编辑器状态对象
  */
 export type StateType = {
-  selection?: Selection
+  selection: Selection
   textCount: number
   isTextSelection: boolean
   isImage: boolean

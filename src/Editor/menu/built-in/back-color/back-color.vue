@@ -50,13 +50,13 @@ const t = inject<(key: string) => string>('t')!
 const menuRef = ref<(typeof Menu) | undefined>()
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
-  if (!editor.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
+  if (!state.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
     return true
   }
-  if (editor.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
+  if (state.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
     return true
   }
   if (!!editor.value.commands.getCodeBlock?.()) {
@@ -67,7 +67,7 @@ const isDisabled = computed<boolean>(() => {
 //颜色是否激活
 const isActive = computed<(item: string) => boolean>(() => {
   return item => {
-    return !!state.value.selection && (editor.value?.commands.isBackColor?.(item) ?? false)
+    return state.value.selection.focused() && (editor.value?.commands.isBackColor?.(item) ?? false)
   }
 })
 

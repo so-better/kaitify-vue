@@ -28,10 +28,13 @@ if (!editor) {
 const state = inject<ComputedRef<StateType>>('state')!
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
-  if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
+  if (editor.value.commands.hasAttachment?.()) {
+    return true
+  }
+  if (editor.value.commands.hasMath?.()) {
     return true
   }
   if (editor.value.commands.hasLink?.()) {

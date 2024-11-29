@@ -47,11 +47,11 @@ const menuRef = ref<(typeof Menu) | undefined>()
 const mathText = ref<string>('')
 //是否激活
 const isActive = computed<boolean>(() => {
-  return !!state.value.selection && !!editor.value?.commands.getMath?.()
+  return state.value.selection.focused() && !!editor.value?.commands.getMath?.()
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   if (editor.value.commands.hasAttachment?.()) {

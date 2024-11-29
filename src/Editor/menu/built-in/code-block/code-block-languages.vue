@@ -47,7 +47,7 @@ const options = computed<MenuDataType[]>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   if (!editor.value.commands.getCodeBlock?.()) {
@@ -58,7 +58,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    if (!state.value.selection || !editor.value) {
+    if (!editor.value || !state.value.selection.focused()) {
       return false
     }
     const codeBlockNode = editor.value.commands.getCodeBlock?.()
@@ -73,7 +73,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  if (!state.value.selection || !editor.value) {
+  if (!editor.value || !state.value.selection.focused()) {
     return options.value[0]
   }
   return options.value.find(item => isActive.value(item)) ?? options.value[0]

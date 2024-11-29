@@ -70,13 +70,13 @@ const options = computed<MenuDataType[]>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
-  if (!editor.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
+  if (!state.value.selection.collapsed() && !editor.value.getFocusNodesBySelection('text').length) {
     return true
   }
-  if (editor.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
+  if (state.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
     return true
   }
   if (!!editor.value.commands.getCodeBlock?.()) {
@@ -87,7 +87,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const isActive = computed<(item: MenuDataType) => boolean>(() => {
   return item => {
-    return !!state.value.selection && (editor.value?.commands.isFontFamily?.(item.value as string) ?? false)
+    return state.value.selection.focused() && (editor.value?.commands.isFontFamily?.(item.value as string) ?? false)
   }
 })
 //选择的值

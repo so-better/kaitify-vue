@@ -28,11 +28,11 @@ if (!editor) {
 const state = inject<ComputedRef<StateType>>('state')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return !!state.value.selection && (editor.value?.commands.isAlign?.('right') ?? false)
+  return state.value.selection.focused() && (editor.value?.commands.isAlign?.('right') ?? false)
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   return props.disabled

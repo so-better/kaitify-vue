@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
-import { Editor } from "@kaitify/core";
+import { Editor, Selection } from "@kaitify/core";
 import { StateType, WrapperPropsType } from "./props"
 import { createVNodes } from "./render"
 import { translate } from "@/locale";
@@ -61,8 +61,8 @@ const bubbleVisible = computed<boolean>(() => {
 })
 //编辑器状态数据
 const state = computed<StateType>(() => {
-  const stateData: StateType = {
-    selection: undefined,
+  const data: StateType = {
+    selection: new Selection(),
     textCount: textCount.value,
     isTextSelection: false,
     isImage: false,
@@ -73,18 +73,18 @@ const state = computed<StateType>(() => {
     isOrderedList: false,
     isTable: false
   }
-  if (keyOfSelectionUpdate.value > 0) {
-    stateData.selection = editor.value?.selection
-    stateData.isTextSelection = !!editor.value?.getFocusNodesBySelection('text').length
-    stateData.isImage = !!editor.value?.commands.getImage?.()
-    stateData.isVideo = !!editor.value?.commands.getVideo?.()
-    stateData.isLink = !!editor.value?.commands.getLink?.()
-    stateData.isCodeBlock = !!editor.value?.commands.getCodeBlock?.()
-    stateData.isUnorderedList = !!editor.value?.commands.getList?.({ ordered: false })
-    stateData.isOrderedList = !!editor.value?.commands.getList?.({ ordered: true })
-    stateData.isTable = !!editor.value?.commands.getTable?.()
+  if (keyOfSelectionUpdate.value > 0 && editor.value) {
+    data.selection = editor.value.selection
+    data.isTextSelection = !!editor.value.getFocusNodesBySelection('text').length
+    data.isImage = !!editor.value.commands.getImage?.()
+    data.isVideo = !!editor.value.commands.getVideo?.()
+    data.isLink = !!editor.value.commands.getLink?.()
+    data.isCodeBlock = !!editor.value.commands.getCodeBlock?.()
+    data.isUnorderedList = !!editor.value.commands.getList?.({ ordered: false })
+    data.isOrderedList = !!editor.value.commands.getList?.({ ordered: true })
+    data.isTable = !!editor.value.commands.getTable?.()
   }
-  return stateData
+  return data
 })
 
 //监听外部修改编辑器的值，进行编辑器视图的更新

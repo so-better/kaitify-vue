@@ -16,12 +16,11 @@
         </template>
         <!-- 插入链接 -->
         <template v-else>
-          <input v-if="editor?.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')"
-            type="text" />
+          <input v-if="state.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')" type="text" />
           <input v-model.trim="formData.href" :placeholder="t('链接地址')" type="url" />
           <div class="kaitify-link-footer">
             <Checkbox v-model="formData.newOpen" :label="t('新窗口打开')" />
-            <Button @click="insert" :disabled="!formData.href || (editor?.selection.collapsed() && !formData.text)">{{
+            <Button @click="insert" :disabled="!formData.href || (state.selection.collapsed() && !formData.text)">{{
               t('插入') }}</Button>
           </div>
         </template>
@@ -71,11 +70,11 @@ const updateData = reactive<UpdateLinkOptionType>({
 })
 //是否激活
 const isActive = computed<boolean>(() => {
-  return !!state.value.selection && !!editor.value?.commands.getLink?.()
+  return state.value.selection.focused() && !!editor.value?.commands.getLink?.()
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   if (editor.value.commands.hasAttachment?.() || editor.value.commands.hasMath?.()) {
@@ -107,7 +106,7 @@ const insert = async () => {
   if (!formData.href || !editor.value) {
     return
   }
-  if (editor.value.selection.collapsed()) {
+  if (state.value.selection.collapsed()) {
     if (!formData.text) {
       return
     }

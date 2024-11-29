@@ -28,7 +28,7 @@ if (!editor) {
 const state = inject<ComputedRef<StateType>>('state')!
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused() || !props.match) {
+  if (!editor.value || !state.value.selection.focused() || !props.match) {
     return true
   }
   const matchNode = editor.value.getMatchNodeBySelection(props.match)

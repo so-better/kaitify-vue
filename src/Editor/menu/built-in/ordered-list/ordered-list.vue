@@ -43,7 +43,7 @@ const menuRef = ref<(typeof Menu) | undefined>()
 const listTypes = ref<OrderedListType[]>(['decimal', 'lower-alpha', 'upper-alpha', 'lower-roman', 'upper-roman', 'lower-greek', 'cjk-ideographic'])
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   return props.disabled
@@ -51,7 +51,7 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const itemActive = computed<(item: OrderedListType) => boolean>(() => {
   return item => {
-    return !!state.value.selection && (editor.value?.commands.allList?.({
+    return state.value.selection.focused() && (editor.value?.commands.allList?.({
       ordered: true,
       listType: item
     }) ?? false)
@@ -59,7 +59,7 @@ const itemActive = computed<(item: OrderedListType) => boolean>(() => {
 })
 //菜单是否激活
 const isActive = computed<boolean>(() => {
-  return !!state.value.selection && (editor.value?.commands.allList?.({
+  return state.value.selection.focused() && (editor.value?.commands.allList?.({
     ordered: true
   }) ?? false)
 })

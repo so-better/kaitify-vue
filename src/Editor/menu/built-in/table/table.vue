@@ -85,7 +85,7 @@ const specification = computed<TableGridType>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   if (editor.value.commands.hasTable?.() || editor.value.commands.hasCodeBlock?.()) {

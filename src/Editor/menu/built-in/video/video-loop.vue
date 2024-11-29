@@ -28,7 +28,7 @@ if (!editor) {
 const state = inject<ComputedRef<StateType>>('state')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  if (!state.value.selection) {
+  if (!state.value.selection.focused()) {
     return false
   }
   const videoNode = editor.value?.commands.getVideo?.()
@@ -39,7 +39,7 @@ const isActive = computed<boolean>(() => {
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
   if (!editor.value.commands.getVideo?.()) {

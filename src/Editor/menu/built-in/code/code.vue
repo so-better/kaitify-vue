@@ -28,14 +28,17 @@ if (!editor) {
 const state = inject<ComputedRef<StateType>>('state')!
 //是否激活
 const isActive = computed<boolean>(() => {
-  return !!state.value.selection && (editor.value?.commands.allCode?.() ?? false)
+  return state.value.selection.focused() && (editor.value?.commands.allCode?.() ?? false)
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
-  if (!state.value.selection || !editor.value || !editor.value.selection.focused()) {
+  if (!editor.value || !state.value.selection.focused()) {
     return true
   }
-  if (editor.value.selection.collapsed() && (!!editor.value.commands.getAttachment?.() || !!editor.value.commands.getMath?.())) {
+  if (!!editor.value.commands.hasAttachment?.()) {
+    return true
+  }
+  if (!!editor.value.commands.hasMath?.()) {
     return true
   }
   if (editor.value.commands.hasLink?.()) {
