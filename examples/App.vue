@@ -2,7 +2,7 @@
   <div style="padding: 10px;">
     <EditorWrapper ref="wrapper"
       :bubble-props="{ matches: [{ tag: 'table' }, { tag: 'pre' }, { tag: 'video' }], visible: shouldVisible }"
-      locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
+      locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '80%', height: '500px' }" allow-paste-html
       placeholder="输入正文内容..." v-model="content">
       <template #before>
         <DarkMenu />

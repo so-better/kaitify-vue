@@ -3,8 +3,8 @@ import path from 'path'
 import fs from 'fs'
 
 export default defineConfig({
-  base: '/@kaitify/vue/',
-  title: 'kaitify for vue',
+  base: '/kaitify-vue/',
+  title: 'kaitify-vue',
   description: '一个基于@kaitify/core开发的vue富文本编辑器核心库',
   lastUpdated: true,
   head: [['link', { rel: 'icon', type: 'image/png', href: './logo.png' }]],
@@ -18,6 +18,7 @@ export default defineConfig({
     },
     nav: [
       { text: '指南', link: '/guide/introduction', activeMatch: '/guide' },
+      { text: '内置菜单', link: '/menus/introduction', activeMatch: '/menus' },
       { text: '更新日志', link: '/changelog' }
     ],
     sidebar: {
@@ -36,6 +37,23 @@ export default defineConfig({
             {
               text: '快速上手',
               link: '/guide/quick-start'
+            }
+          ]
+        },
+        {
+          text: '组件',
+          items: [
+            {
+              text: 'Wrapper',
+              link: '/guide/wrapper'
+            },
+            {
+              text: 'Bubble',
+              link: '/guide/bubble'
+            },
+            {
+              text: 'Menu',
+              link: '/guide/menu'
             }
           ]
         }
