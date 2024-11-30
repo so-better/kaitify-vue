@@ -6,9 +6,11 @@ title: 快速上手
 
 ## 构建一个编辑器
 
+直接使用 `kaitify-vue` 提供的 `Wrapper` 组件来渲染编辑器
+
 ```vue
 <template>
-  <Wrapper ref="wrapper" style="width:500px;height:500px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
+	<Wrapper ref="wrapper" style="width:500px;height:500px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -30,7 +32,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" v-model="content"></Wrapper>
+	<Wrapper ref="wrapper" v-model="content"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -48,9 +50,9 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" v-model="content">
-    <template #bubble="{ state }"> 我是气泡栏组件 </template>
-  </Wrapper>
+	<Wrapper ref="wrapper" v-model="content">
+		<template #bubble="{ state }"> 我是气泡栏组件 </template>
+	</Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -68,11 +70,11 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" v-model="content">
-    <template #before>
-      <Menu>菜单按钮</Menu>
-    </template>
-  </Wrapper>
+	<Wrapper ref="wrapper" v-model="content">
+		<template #before>
+			<Menu>菜单按钮</Menu>
+		</template>
+	</Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper, Menu } from '@kaitify/vue'

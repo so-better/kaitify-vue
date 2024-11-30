@@ -3,7 +3,7 @@
     <EditorWrapper ref="wrapper"
       :bubble-props="{ matches: [{ tag: 'table' }, { tag: 'pre' }, { tag: 'video' }], visible: shouldVisible }"
       locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '80%', height: '500px' }" allow-paste-html
-      placeholder="输入正文内容..." v-model="content">
+      placeholder="输入正文内容..." v-model="content" @created="onCreated">
       <template #before>
         <DarkMenu />
         <UndoMenu />
@@ -41,8 +41,8 @@
         <VideoMenu :popover-options="{ zIndex: 100, arrow: true }" />
         <TaskMenu />
       </template>
-      <template #after="{ state }">
-        总字数：{{ state.editor?.getContent().length ?? 0 }}
+      <template #after="{ state: { editor } }">
+        总字数：{{ editor?.getContent().length ?? 0 }}
       </template>
       <template #bubble="{ state }">
         <div v-if="state.editor?.commands.getVideo?.()" style="padding: 5px;">
@@ -110,7 +110,9 @@ const shouldVisible = computed<boolean>(() => {
   }
   return !!wrapper.value.state.editor?.getFocusNodesBySelection('text').length
 })
-
+const onCreated = () => {
+  console.log(wrapper.value?.state);
+}
 </script>
 <style lang="less">
 html {

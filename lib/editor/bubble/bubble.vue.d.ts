@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 import { Instance } from '@popperjs/core';
 import { BubblePropsType } from './props';
 declare function __VLS_template(): {
@@ -12,8 +11,8 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<BubblePropsType, {
-    elRef: Ref<HTMLElement | undefined, HTMLElement | undefined>;
-    popperInstance: Ref<Instance | undefined, Instance | undefined>;
+    elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
+    popperInstance: import('vue').Ref<Instance | undefined, Instance | undefined>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     show: (...args: any[]) => void;
     showing: (...args: any[]) => void;

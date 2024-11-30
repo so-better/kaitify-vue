@@ -18,5 +18,6 @@ export default {
   新窗口打开: 'New Window',
   链接文字: 'Link Text',
   是否自动播放: 'AutoPlay',
-  视频地址: 'Video Address'
+  视频地址: 'Video Address',
+  输入Latex数学公式: 'Enter Latex Mathematical Formulas'
 }

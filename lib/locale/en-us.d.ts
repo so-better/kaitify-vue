@@ -19,5 +19,6 @@ declare const _default: {
     链接文字: string;
     是否自动播放: string;
     视频地址: string;
+    输入Latex数学公式: string;
 };
 export default _default;

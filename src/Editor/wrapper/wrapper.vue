@@ -22,6 +22,7 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   disabled: false,
   locale: 'zh-cn',
+  hideBubbleOnMousedown: false,
   autofocus: false,
   placeholder: '',
   dark: false,
@@ -34,7 +35,7 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   blockRenderTag: 'p'
 })
 //编辑器事件
-const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView'])
+const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView', 'created'])
 //编辑器dom元素
 const elRef = ref<HTMLElement | undefined>()
 //编辑器实例
@@ -52,7 +53,7 @@ const bubbleVisible = computed<boolean>(() => {
   if (props.disabled) {
     return false
   }
-  if (isMouseDown.value) {
+  if (isMouseDown.value && props.hideBubbleOnMousedown) {
     return false
   }
   return props.bubbleProps?.visible ?? false
@@ -197,6 +198,7 @@ onMounted(async () => {
       updateKey.value++
     }
   })
+  emits('created')
 })
 
 //编辑区域组件

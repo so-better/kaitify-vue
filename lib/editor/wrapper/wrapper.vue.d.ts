@@ -1,18 +1,14 @@
-import { Editor } from '@kaitify/core';
 import { StateType, WrapperPropsType } from './props';
 declare function __VLS_template(): {
     slots: {
         before?(_: {
             state: StateType;
-            editor: Editor | undefined;
         }): any;
         after?(_: {
             state: StateType;
-            editor: Editor | undefined;
         }): any;
         bubble?(_: {
             state: StateType;
-            editor: Editor | undefined;
         }): any;
     };
     refs: {};
@@ -21,9 +17,9 @@ declare function __VLS_template(): {
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
-    editor: import('vue').Ref<Editor | undefined, Editor | undefined>;
     state: import('vue').ComputedRef<StateType>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    created: (...args: any[]) => void;
     blur: (...args: any[]) => void;
     focus: (...args: any[]) => void;
     keydown: (...args: any[]) => void;
@@ -35,6 +31,7 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     beforeUpdateView: (...args: any[]) => void;
     afterUpdateView: (...args: any[]) => void;
 }, string, import('vue').PublicProps, Readonly<WrapperPropsType> & Readonly<{
+    onCreated?: ((...args: any[]) => any) | undefined;
     onBlur?: ((...args: any[]) => any) | undefined;
     onFocus?: ((...args: any[]) => any) | undefined;
     onKeydown?: ((...args: any[]) => any) | undefined;
@@ -49,6 +46,7 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     disabled: boolean;
     modelValue: string;
     locale: import('../../locale').LocaleType;
+    hideBubbleOnMousedown: boolean;
     autofocus: boolean;
     placeholder: string;
     dark: boolean;

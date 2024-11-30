@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 import { MenuDataType, MenuPropsType } from './props';
 declare function __VLS_template(): {
     slots: {
@@ -55,12 +54,12 @@ declare function __VLS_template(): {
                 onHiding?: ((...args: any[]) => any) | undefined;
                 onHidden?: ((...args: any[]) => any) | undefined;
             }>, {
-                visible: Ref<boolean, boolean>;
+                visible: import('vue').Ref<boolean, boolean>;
                 showPopover: () => void;
                 hidePopover: () => void;
-                popperInstance: Ref<import('@popperjs/core').Instance | undefined, import('@popperjs/core').Instance | undefined>;
+                popperInstance: import('vue').Ref<import('@popperjs/core').Instance | undefined, import('@popperjs/core').Instance | undefined>;
                 update: () => Promise<void>;
-                realPlacement: Ref<import('../../core/popover').PopoverPlacementType, import('../../core/popover').PopoverPlacementType>;
+                realPlacement: import('vue').Ref<import('../../core/popover').PopoverPlacementType, import('../../core/popover').PopoverPlacementType>;
             }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
                 show: (...args: any[]) => void;
                 showing: (...args: any[]) => void;
@@ -112,12 +111,12 @@ declare function __VLS_template(): {
             onHiding?: ((...args: any[]) => any) | undefined;
             onHidden?: ((...args: any[]) => any) | undefined;
         }>, "visible" | "showPopover" | "hidePopover" | "popperInstance" | "update" | "realPlacement" | ("disabled" | "placement" | "arrow" | "trigger" | "animation" | "zIndex" | "delay")> & import('vue').ShallowUnwrapRef<{
-            visible: Ref<boolean, boolean>;
+            visible: import('vue').Ref<boolean, boolean>;
             showPopover: () => void;
             hidePopover: () => void;
-            popperInstance: Ref<import('@popperjs/core').Instance | undefined, import('@popperjs/core').Instance | undefined>;
+            popperInstance: import('vue').Ref<import('@popperjs/core').Instance | undefined, import('@popperjs/core').Instance | undefined>;
             update: () => Promise<void>;
-            realPlacement: Ref<import('../../core/popover').PopoverPlacementType, import('../../core/popover').PopoverPlacementType>;
+            realPlacement: import('vue').Ref<import('../../core/popover').PopoverPlacementType, import('../../core/popover').PopoverPlacementType>;
         }> & {} & import('vue').ComponentCustomProperties & {} & {
             $slots: {
                 refer?(_: {}): any;

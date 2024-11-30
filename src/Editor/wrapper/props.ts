@@ -19,6 +19,10 @@ export type WrapperPropsType = {
    */
   locale?: LocaleType
   /**
+   * 鼠标按下时是否不显示气泡栏
+   */
+  hideBubbleOnMousedown?: boolean
+  /**
    * bubble气泡栏参数
    */
   bubbleProps?: BubblePropsType

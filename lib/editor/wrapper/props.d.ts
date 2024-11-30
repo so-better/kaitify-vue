@@ -18,6 +18,10 @@ export type WrapperPropsType = {
      */
     locale?: LocaleType;
     /**
+     * 鼠标按下时是否不显示气泡栏
+     */
+    hideBubbleOnMousedown?: boolean;
+    /**
      * bubble气泡栏参数
      */
     bubbleProps?: BubblePropsType;
@@ -122,14 +126,8 @@ export type WrapperPropsType = {
  * 编辑器状态对象
  */
 export type StateType = {
+    editor?: Editor;
     selection?: Selection;
-    textCount: number;
-    isTextSelection: boolean;
-    isImage: boolean;
-    isVideo: boolean;
-    isLink: boolean;
-    isCodeBlock: boolean;
-    isOrderedList: boolean;
-    isUnorderedList: boolean;
-    isTable: boolean;
+    locale: LocaleType;
+    t: (key: string) => string;
 };
