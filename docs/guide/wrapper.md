@@ -94,11 +94,11 @@ const content = ref('<p>hello</p>')
 
 编辑器语言环境，取值范围是 `zh-cn` `en-us`，分别表示中文简体和英文语言环境，默认为 `zh-cn`
 
-##### hide-bubble-on-mousedown <Badge type="danger" text="boolean" />
+##### hideBubbleOnMousedown <Badge type="danger" text="boolean" />
 
-鼠标在编辑器内按下时是否不显示气泡栏，默认为 `false`，如果该值为 `true`，在鼠标按下时即使 `bubble-props` 的 `visible` 属性是 `true`，也无法显示气泡栏
+鼠标在编辑器内按下时是否不显示气泡栏，默认为 `false`，如果该值为 `true`，在鼠标按下时即使 `bubbleProps` 的 `visible` 属性是 `true`，也无法显示气泡栏
 
-##### bubble-props <Badge type="danger" text="BubblePropsType" />
+##### bubbleProps <Badge type="danger" text="BubblePropsType" />
 
 编辑器气泡栏相关属性配置，具体可以查看 [Bubble 组件的文档](/guide/bubble)
 
@@ -204,13 +204,13 @@ const content = ref('<p>hello</p>')
 
 部分 `Editor` 实例的函数属性我们通过 `vue` 组件事件的方式来设置，同时 `kaitify-vue` 也提供了一部分的事件
 
-##### selectionupdate
+##### selectionUpdate
 
 编辑器光标发生变化触发的事件，回调参数为编辑器的 `Selection` 对象实例
 
 ```vue
 <template>
-	<Wrapper v-model="content" @selectionupdate="onSelectionUpdate"></Wrapper>
+	<Wrapper v-model="content" @selectionUpdate="onSelectionUpdate"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper, Selection } from '@kaitify/vue'
@@ -394,6 +394,120 @@ const onCreated = () => {
 </script>
 ```
 
+##### bubbleShow
+
+气泡栏显示前触发的事件，回调参数为气泡栏的 `dom`
+
+```vue
+<template>
+	<Wrapper v-model="content" @bubbleShow="bubbleShow"></Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const content = ref('<p>hello</p>')
+
+const bubbleShow = (el: Element) => {
+	console.log('气泡栏显示前触发', el)
+}
+</script>
+```
+
+##### bubbleShowing
+
+气泡栏显示时触发的事件，回调参数为气泡栏的 `dom`
+
+```vue
+<template>
+	<Wrapper v-model="content" @bubbleShowing="bubbleShowing"></Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const content = ref('<p>hello</p>')
+
+const bubbleShowing = (el: Element) => {
+	console.log('气泡栏显示时触发', el)
+}
+</script>
+```
+
+##### bubbleShown
+
+气泡栏显示后触发的事件，回调参数为气泡栏的 `dom`
+
+```vue
+<template>
+	<Wrapper v-model="content" @bubbleShown="bubbleShown"></Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const content = ref('<p>hello</p>')
+
+const bubbleShown = (el: Element) => {
+	console.log('气泡栏显示后触发', el)
+}
+</script>
+```
+
+##### bubbleHide
+
+气泡栏隐藏前触发的事件，回调参数为气泡栏的 `dom`
+
+```vue
+<template>
+	<Wrapper v-model="content" @bubbleHide="bubbleHide"></Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const content = ref('<p>hello</p>')
+
+const bubbleHide = (el: Element) => {
+	console.log('气泡栏隐藏前触发', el)
+}
+</script>
+```
+
+##### bubbleHiding
+
+气泡栏隐藏时触发的事件，回调参数为气泡栏的 `dom`
+
+```vue
+<template>
+	<Wrapper v-model="content" @bubbleHiding="bubbleHiding"></Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const content = ref('<p>hello</p>')
+
+const bubbleHiding = (el: Element) => {
+	console.log('气泡栏隐藏时触发', el)
+}
+</script>
+```
+
+##### bubbleHidden
+
+气泡栏隐藏后触发的事件，回调参数为气泡栏的 `dom`
+
+```vue
+<template>
+	<Wrapper v-model="content" @bubbleHidden="bubbleHidden"></Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const content = ref('<p>hello</p>')
+
+const bubbleHidden = (el: Element) => {
+	console.log('气泡栏隐藏后触发', el)
+}
+</script>
+```
+
 ## API 组件属性/方法
 
 `Wrapper` 提供了部分属性/方法可以通过组件实例来调用
@@ -404,17 +518,17 @@ const onCreated = () => {
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content"></Wrapper>
+	<Wrapper ref="wrapper" v-model="content" created="onCreated"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 
-onMounted(() => {
+const onCreated = () => {
 	console.log('组件实例dom', wrapper.value.elRef)
-})
+}
 </script>
 ```
 
@@ -430,7 +544,7 @@ onMounted(() => {
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 
@@ -438,5 +552,35 @@ const onCreated = () => {
 	const state = wrapper.value.state
 	console.log(state.editor)
 }
+</script>
+```
+
+## Slots 插槽
+
+##### before
+
+该插槽的内容会在编辑器前面显示，通常可以作为菜单栏的位置，该插槽提供一个默认参数 `state`，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+
+##### after
+
+该插槽的内容会在编辑器后面显示，该插槽提供一个默认参数 `state`，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+
+##### bubble
+
+该插槽的内容会在编辑器后面显示，该插槽提供一个默认参数 `state`，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+
+```vue
+<template>
+	<Wrapper v-model="content">
+		<template #before="{ state }">before</template>
+		<template #afer="{ state }">after</template>
+		<template #bubble="{ state }">气泡栏</template>
+	</Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
+const wrapper = ref<typeof Wrapper | undefined>()
+const content = ref('<p>hello</p>')
 </script>
 ```

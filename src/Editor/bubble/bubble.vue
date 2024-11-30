@@ -1,6 +1,7 @@
 <template>
   <Teleport to="body">
-    <Transition name="kaitify-bubble" @enter="updatePosition">
+    <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown"
+      @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
       <div v-if="visible" ref="elRef" class="kaitify-bubble" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
@@ -143,6 +144,32 @@ const removeScroll = (el: HTMLElement) => {
     removeScroll(el.parentNode as HTMLElement)
   }
 }
+//气泡栏显示前
+const onShow = (el: Element) => {
+  emits('show', el)
+}
+//气泡栏显示时
+const onShowing = (el: Element) => {
+  updatePosition()
+  emits('showing', el)
+}
+//气泡栏显示后
+const onShown = (el: Element) => {
+  emits('shown', el)
+}
+//气泡栏隐藏前
+const onHide = (el: Element) => {
+  emits('hide', el)
+}
+//气泡栏隐藏时
+const onHiding = (el: Element) => {
+  emits('hiding', el)
+}
+//气泡栏隐藏后
+const onHidden = (el: Element) => {
+  emits('hidden', el)
+}
+
 //监听光标变化
 watch(() => state.value.selection, () => {
   //更新气泡位置

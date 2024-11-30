@@ -2,7 +2,9 @@
   <slot name="before" :state="state"></slot>
   <EditorWrapper v-bind="$attrs" />
   <slot name="after" :state="state"></slot>
-  <Bubble :visible="bubbleVisible" :matches="bubbleProps?.matches ?? []" :zIndex="bubbleProps?.zIndex">
+  <Bubble :visible="bubbleVisible" :matches="bubbleProps?.matches ?? []" :zIndex="bubbleProps?.zIndex"
+    @show="onBubbleShow" @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding"
+    @hidden="onBubbleHidden">
     <slot name="bubble" :state="state"></slot>
   </Bubble>
 </template>
@@ -35,7 +37,7 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   blockRenderTag: 'p'
 })
 //编辑器事件
-const emits = defineEmits(['update:modelValue', 'selectionupdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView', 'created'])
+const emits = defineEmits(['update:modelValue', 'selectionUpdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView', 'created', 'bubbleShow', 'bubbleShowing', 'bubbleShown', 'bubbleHide', 'bubbleHiding', 'bubbleHidden'])
 //编辑器dom元素
 const elRef = ref<HTMLElement | undefined>()
 //编辑器实例
@@ -74,6 +76,31 @@ const state = computed<StateType>(() => {
   }
   return data
 })
+
+//气泡栏显示前
+const onBubbleShow = (el: Element) => {
+  emits('bubbleShow', el)
+}
+//气泡栏显示时
+const onBubbleShowing = (el: Element) => {
+  emits('bubbleShowing', el)
+}
+//气泡栏显示后
+const onBubbleShown = (el: Element) => {
+  emits('bubbleShown', el)
+}
+//气泡栏隐藏前
+const onBubbleHide = (el: Element) => {
+  emits('bubbleHide', el)
+}
+//气泡栏隐藏时
+const onBubbleHiding = (el: Element) => {
+  emits('bubbleHiding', el)
+}
+//气泡栏隐藏后
+const onBubbleHidden = (el: Element) => {
+  emits('bubbleHidden', el)
+}
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(() => props.modelValue, async (newVal) => {
@@ -158,7 +185,7 @@ onMounted(async () => {
     beforePatchNodeToFormat: props.beforePatchNodeToFormat,
     onSelectionUpdate(selection) {
       updateKey.value++
-      emits('selectionupdate', selection)
+      emits('selectionUpdate', selection)
     },
     onInsertParagraph(node) {
       emits('insertParagraph', node)
