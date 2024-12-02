@@ -40,7 +40,7 @@ import { AttachmentMenu } from '@kaitify/vue'
 
 ##### customUpload <Badge type="danger" text="(file: File) => string | Promise<string>" />
 
-自定义附件上传的方法，该方法返回一个字符串值，表示上传后的附件文件地址，回调参数为 `File` 文件，如果不设置该方法，附件默认以 `base64` 字符串的形式插入编辑器中
+自定义本地附件上传的方法，该方法返回一个字符串值，表示上传后的附件文件地址，回调参数为 `File` 文件，如果不设置该方法，附件默认以 `base64` 字符串的形式插入编辑器中
 
 ## 代码示例
 
