@@ -2,6 +2,35 @@ import { defineConfig } from 'vitepress'
 import path from 'path'
 import fs from 'fs'
 
+const getMenuList = () => {
+  const items = fs.readdirSync(path.resolve(__dirname, '../../src/editor/menu/built-in'))
+  const folderNames: string[] = []
+  for (const item of items) {
+    const itemPath = path.join(path.resolve(__dirname, '../../src/editor/menu/built-in'), item)
+    const stats = fs.statSync(itemPath)
+    if (stats.isDirectory()) {
+      folderNames.push(item)
+    }
+  }
+  const menuNames: string[] = []
+  folderNames.forEach(item => {
+    const list = fs.readdirSync(path.resolve(__dirname, `../../src/editor/menu/built-in/${item}`))
+    for (const el of list) {
+      if (el.endsWith('.vue')) {
+        const lastIndex = el.lastIndexOf('.vue')
+        const name = el.substring(0, lastIndex)
+        menuNames.push(name)
+        //创建内置菜单的md文件
+        const docPath = path.join(path.resolve(__dirname, '../../docs/menus/built-in'), `${name}.md`)
+        if (!fs.existsSync(docPath)) {
+          fs.writeFileSync(docPath, '', { encoding: 'utf-8' })
+        }
+      }
+    }
+  })
+  return menuNames
+}
+
 export default defineConfig({
   base: '/kaitify-vue/',
   title: 'kaitify-vue',
@@ -69,6 +98,26 @@ export default defineConfig({
               link: '/guide/locale'
             }
           ]
+        }
+      ],
+      '/menus': [
+        {
+          text: '开始使用',
+          items: [
+            {
+              text: '简介',
+              link: '/menus/introduction'
+            }
+          ]
+        },
+        {
+          text: '内置菜单',
+          items: getMenuList().map(name => {
+            return {
+              text: name,
+              link: `/menus/built-in/${name}`
+            }
+          })
         }
       ]
     },
