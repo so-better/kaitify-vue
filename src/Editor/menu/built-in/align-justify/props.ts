@@ -1,4 +1,4 @@
-export type AlignJusitfyMenuPropsType = {
+export type AlignJustifyMenuPropsType = {
   /**
    * 是否禁用
    */

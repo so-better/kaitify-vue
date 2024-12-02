@@ -1,6 +1,6 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
-    :popover-options="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+    :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="video" />
     <template #popover>
       <Tabs :names="[state.t('本地上传'), state.t('远程地址')]">

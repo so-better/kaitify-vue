@@ -13,8 +13,8 @@
         <AlignLeftMenu />
         <AlignCenterMenu :shortcut="e => e.key == 'b' && e.metaKey" />
         <AlignRightMenu />
-        <AlignJusitfyMenu />
-        <AttachmentMenu :popover-options="{ zIndex: 100, arrow: true }" />
+        <AlignJustifyMenu />
+        <AttachmentMenu :popover-props="{ zIndex: 100, arrow: true }" />
         <BackColorMenu />
         <BlockquoteMenu />
         <CodeMenu />
@@ -38,7 +38,7 @@
         <SuperscriptMenu />
         <TableMenu />
         <UnderlineMenu />
-        <VideoMenu :popover-options="{ zIndex: 100, arrow: true }" />
+        <VideoMenu :popover-props="{ zIndex: 100, arrow: true }" />
         <TaskMenu />
       </template>
       <template #after="{ state: { editor } }">
@@ -90,7 +90,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJusitfyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, DarkMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, DarkMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)

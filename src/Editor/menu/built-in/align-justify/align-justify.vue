@@ -8,13 +8,13 @@ import { computed, ComputedRef, inject } from 'vue';
 import { Icon } from '@/core/icon';
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
-import { AlignJusitfyMenuPropsType } from './props';
+import { AlignJustifyMenuPropsType } from './props';
 
 defineOptions({
   name: 'AlignJustifyMenu'
 })
 //属性
-const props = withDefaults(defineProps<AlignJusitfyMenuPropsType>(), {
+const props = withDefaults(defineProps<AlignJustifyMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
