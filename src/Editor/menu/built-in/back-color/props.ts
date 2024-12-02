@@ -12,5 +12,5 @@ export type BackColorMenuPropsType = {
   /**
    * 浮层属性
    */
-  popoverOptions?: MenuPropsType['popoverOptions']
+  popoverProps?: MenuPropsType['popoverProps']
 }

@@ -16,7 +16,7 @@ export type VideoMenuPropsType = {
   /**
    * 浮层属性
    */
-  popoverOptions?: MenuPropsType['popoverOptions']
+  popoverProps?: MenuPropsType['popoverProps']
 }
 
 export type VideoControlsMenuPropsType = {
@@ -29,7 +29,6 @@ export type VideoControlsMenuPropsType = {
    */
   shortcut?: (e: KeyboardEvent) => boolean
 }
-
 
 export type VideoMutedMenuPropsType = {
   /**

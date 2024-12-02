@@ -1,8 +1,8 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
-    :popover-options="{ width: popoverOptions?.width, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
+    :popover-options="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="font-color" />
-    <template v-slot:popover>
+    <template #popover>
       <div class="kaitify-colors-panel">
         <div class="kaitify-colors-header">
           <Button @click="unsetColor" block large>

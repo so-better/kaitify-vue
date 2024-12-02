@@ -43,7 +43,7 @@ export type MenuPropsType = {
     /**
      * 浮层属性
      */
-    popoverOptions?: Omit<PopoverPropsType, 'disabled' | 'delay'>;
+    popoverProps?: Omit<PopoverPropsType, 'disabled' | 'delay'>;
     /**
      * 可选数据
      */

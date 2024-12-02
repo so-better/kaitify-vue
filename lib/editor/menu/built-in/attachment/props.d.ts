@@ -7,7 +7,7 @@ export type AttachmentMenuPropsType = {
     /**
      * 浮层属性
      */
-    popoverOptions?: MenuPropsType['popoverOptions'];
+    popoverProps?: MenuPropsType['popoverProps'];
     /**
      * 附件logo图片地址
      */

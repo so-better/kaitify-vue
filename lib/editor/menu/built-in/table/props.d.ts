@@ -21,7 +21,7 @@ export type TableMenuPropsType = {
     /**
      * 浮层属性
      */
-    popoverOptions?: MenuPropsType['popoverOptions'];
+    popoverProps?: MenuPropsType['popoverProps'];
 };
 export type TableUnsetMenuPropsType = {
     /**

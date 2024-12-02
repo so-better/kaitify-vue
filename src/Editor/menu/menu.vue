@@ -1,13 +1,13 @@
 <template>
   <div class="kaitify-menu">
-    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="popoverOptions.zIndex ?? 10"
-      :animation="popoverOptions.animation ?? 'translate'" :arrow="popoverOptions.arrow"
-      :placement="popoverOptions.placement ?? 'bottom-start'" :trigger="popoverOptions.trigger ?? 'click'"
-      :width="popoverOptions.width" :maxHeight="popoverOptions.maxHeight" :minWidth="popoverOptions.minWidth"
+    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="popoverProps.zIndex ?? 10"
+      :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow"
+      :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'"
+      :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth"
       @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)"
       @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)"
       @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
-      <template v-slot:refer>
+      <template #refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
           <Icon v-if="popover" name="caret-down" class="kaitify-menu-caret"
@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
   disabled: false,
   active: false,
   popover: false,
-  popoverOptions: () => {
+  popoverProps: () => {
     return {
       width: 'auto',
       placement: 'bottom-start',

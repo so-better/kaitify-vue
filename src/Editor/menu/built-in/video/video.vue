@@ -1,10 +1,10 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
-    :popover-options="{ width: popoverOptions?.width ?? 300, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
+    :popover-options="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="video" />
-    <template v-slot:popover>
+    <template #popover>
       <Tabs :names="[state.t('本地上传'), state.t('远程地址')]">
-        <template v-slot="{ index }">
+        <template #default="{ index }">
           <div v-if="index == 0" class="kaitify-video-upload">
             <div class="kaitify-video-upload-wrapper">
               <input type="file" accept="video/*" @change="fileChange" />

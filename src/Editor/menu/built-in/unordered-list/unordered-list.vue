@@ -1,8 +1,8 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :shortcut="shortcut"
-    :popover-options="{ width: popoverOptions?.width ?? 175, maxHeight: popoverOptions?.maxHeight, minWidth: popoverOptions?.minWidth, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
+    :popover-options="{ width: popoverProps?.width ?? 175, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="list-disc" />
-    <template v-slot:popover>
+    <template #popover>
       <div class="kaitify-unordered-list">
         <div class="kaitify-unordered-list-item" v-for="item in listTypes">
           <Button large :active="itemActive(item)" @click="onSelect(item)">

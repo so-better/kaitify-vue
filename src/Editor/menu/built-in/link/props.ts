@@ -8,5 +8,5 @@ export type LinkMenuPropsType = {
   /**
    * 浮层属性
    */
-  popoverOptions?: MenuPropsType['popoverOptions']
+  popoverProps?: MenuPropsType['popoverProps']
 }

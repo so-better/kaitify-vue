@@ -11,7 +11,7 @@ export type HeadingMenuPropsType = {
     /**
      * 浮层属性
      */
-    popoverOptions?: MenuPropsType['popoverOptions'];
+    popoverProps?: MenuPropsType['popoverProps'];
     /**
      * 快捷键设置
      */

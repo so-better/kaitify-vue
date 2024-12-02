@@ -153,7 +153,7 @@ declare const __VLS_component: import('vue').DefineComponent<MenuPropsType, {
     disabled: boolean;
     active: boolean;
     popover: boolean;
-    popoverOptions: Omit<import('../../core/popover').PopoverPropsType, "disabled" | "delay">;
+    popoverProps: Omit<import('../../core/popover').PopoverPropsType, "disabled" | "delay">;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

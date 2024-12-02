@@ -16,5 +16,5 @@ export type ImageMenuPropsType = {
   /**
    * 浮层属性
    */
-  popoverOptions?: MenuPropsType['popoverOptions']
+  popoverProps?: MenuPropsType['popoverProps']
 }

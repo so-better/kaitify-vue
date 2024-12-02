@@ -1,4 +1,4 @@
-import { MenuPropsType } from "@/editor/menu/props"
+import { MenuPropsType } from '@/editor/menu/props'
 
 export type UnorderedListMenuPropsType = {
   /**
@@ -6,9 +6,9 @@ export type UnorderedListMenuPropsType = {
    */
   disabled?: boolean
   /**
-  * 浮层属性
-  */
-  popoverOptions?: MenuPropsType['popoverOptions']
+   * 浮层属性
+   */
+  popoverProps?: MenuPropsType['popoverProps']
   /**
    * 快捷键设置
    */

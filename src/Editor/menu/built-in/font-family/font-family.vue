@@ -1,7 +1,7 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
     :item-active="item => isActive(item)" :shortcut="shortcut"
-    :popover-options="{ width: popoverOptions?.width, maxHeight: popoverOptions?.maxHeight ?? 240, minWidth: popoverOptions?.minWidth ?? 90, animation: popoverOptions?.animation, arrow: popoverOptions?.arrow, placement: popoverOptions?.placement, trigger: popoverOptions?.trigger, zIndex: popoverOptions?.zIndex }">
+    :popover-options="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 90, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     {{ selectedData?.label || '' }}
   </Menu>
 </template>

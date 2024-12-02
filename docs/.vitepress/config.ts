@@ -56,6 +56,19 @@ export default defineConfig({
               link: '/guide/menu'
             }
           ]
+        },
+        {
+          text: '其他',
+          items: [
+            {
+              text: '菜单快捷键',
+              link: '/guide/shortcut'
+            },
+            {
+              text: '国际化支持',
+              link: '/guide/locale'
+            }
+          ]
         }
       ]
     },
