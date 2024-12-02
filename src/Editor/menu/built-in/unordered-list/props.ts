@@ -9,8 +9,4 @@ export type UnorderedListMenuPropsType = {
    * 浮层属性
    */
   popoverProps?: MenuPropsType['popoverProps']
-  /**
-   * 快捷键设置
-   */
-  shortcut?: (e: KeyboardEvent) => boolean
 }

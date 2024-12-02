@@ -1,0 +1,57 @@
+---
+title: wrap-down 向下换行
+---
+
+# wrap-down 向下换行
+
+在匹配的节点位置向下换行
+
+## 使用方法
+
+- 引入组件
+
+```ts
+import { WrapDownMenu } from '@kaitify/vue'
+```
+
+- 在 `Wrapper` 包裹器插槽中使用
+
+```html
+<Wrapper v-model="content">
+  <template #before>
+    <WrapDownMenu :match="{tag:'pre'}" />
+  </template>
+</Wrapper>
+```
+
+## Props 参数
+
+##### disabled <Badge type="danger" text="boolean" />
+
+是否禁用该菜单，默认为 `false`
+
+##### match <Badge type="danger" text="KNodeMatchOptionType" />
+
+匹配相关的节点，如果匹配上了，则会在点击菜单时向下换行，关于该属性的释义，同 [kaitify 中的 KNode 的 isMatch 方法中的入参](https://www.so-better.cn/@kaitify/core/apis/knode-function#ismatch)
+
+##### shortcut <Badge type="danger" text="(e: KeyboardEvent) => boolean" />
+
+菜单快捷键实现，继承自 `Menu` 组件的同名属性，具体使用可参考 [Menu 组件的 shortcut](/guide/menu#shortcut)
+
+## 代码示例
+
+<Wrapper :dark="isDark" v-model="content" placeholder="输入内容..." style="width:100%;height:200px;">
+  <template #before>
+    <div style="margin-bottom:10px;">
+      <WrapDownMenu :match="{tag:'h1'}" />
+    </div>
+  </template>
+</Wrapper>
+
+<script lang="ts" setup>
+import { useData } from 'vitepress'
+import { Wrapper, WrapDownMenu } from '../../../lib/kaitify-vue.es.js'
+import { ref } from 'vue'
+const { isDark } = useData()
+const content = ref('<h1>hello</h1>')
+</script>

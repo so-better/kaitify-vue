@@ -49,5 +49,5 @@ import { useData } from 'vitepress'
 import { Wrapper, AlignLeftMenu } from '../../../lib/kaitify-vue.es.js'
 import { ref } from 'vue'
 const { isDark } = useData()
-const content = ref('<p>hello</p>')
+const content = ref('<p style="text-align:center;">hello</p>')
 </script>
