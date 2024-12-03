@@ -22,11 +22,11 @@ hero:
 features:
   - title: '@kaitify/core'
     details: 基于原生JS的富文本编辑器核心库
-    link: https://github.com/so-better/kaitify-core
+    link: https://www.so-better.cn/kaitify-core/
   - title: 'ruax'
     details: 一个轻量的前端封装异步请求的 JS 库
-    link: https://github.com/so-better/ruax
+    link: https://www.so-better.cn/ruax/
   - title: 'animator-clip'
     details: 一个基于 JavaScript 的 requestAnimationFrame API 封装的轻量级 JS 动画插件
-    link: https://github.com/so-better/animator-clip
+    link: https://www.so-better.cn/animator-clip/
 ---

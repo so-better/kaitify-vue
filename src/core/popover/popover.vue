@@ -181,19 +181,6 @@ const handleClick = () => {
   if (visible.value) hidePopover()
   else showPopover()
 }
-//点击其他地方关闭浮层
-DapEvent.on(document.documentElement, `click.kaitify-popover-${instance.uid}`, e => {
-  //点击目标元素
-  if (referRef.value?.contains(e.target as HTMLElement)) {
-    return
-  }
-  //点击浮层元素
-  if (popoverRef.value?.contains(e.target as HTMLElement)) {
-    return
-  }
-  //关闭浮层
-  hidePopover()
-})
 //监听外部改变placement，更新poperjs对象
 watch(() => props.placement, (newVal) => {
   //更新realPlacement的值
@@ -251,6 +238,19 @@ onMounted(() => {
       ],
     })
   }
+  //点击其他地方关闭浮层
+  DapEvent.on(document.documentElement, `click.kaitify-popover-${instance.uid}`, e => {
+    //点击目标元素
+    if (referRef.value?.contains(e.target as HTMLElement)) {
+      return
+    }
+    //点击浮层元素
+    if (popoverRef.value?.contains(e.target as HTMLElement)) {
+      return
+    }
+    //关闭浮层
+    hidePopover()
+  })
 })
 onBeforeUnmount(() => {
   if (popperInstance.value) {

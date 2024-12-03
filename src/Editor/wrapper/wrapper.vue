@@ -2,8 +2,8 @@
   <slot name="before" :state="state"></slot>
   <EditorWrapper v-bind="$attrs" />
   <slot name="after" :state="state"></slot>
-  <Bubble :visible="bubbleVisible" :matches="bubbleProps?.matches ?? []" :zIndex="bubbleProps?.zIndex"
-    @show="onBubbleShow" @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding"
+  <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="onBubbleShow"
+    @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding"
     @hidden="onBubbleHidden">
     <slot name="bubble" :state="state"></slot>
   </Bubble>

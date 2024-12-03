@@ -68,12 +68,12 @@ declare function __VLS_template(): {
                 hiding: (...args: any[]) => void;
                 hidden: (...args: any[]) => void;
             }, string, {
+                zIndex: number;
                 disabled: boolean;
+                animation: "fade" | "translate" | (string & {});
                 placement: import('../../core/popover').PopoverPlacementType;
                 arrow: boolean;
                 trigger: "hover" | "click" | "custom";
-                animation: "fade" | "translate" | (string & {});
-                zIndex: number;
                 delay: number;
             }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & {
                 beforeCreate?: (() => void) | (() => void)[];
@@ -96,12 +96,12 @@ declare function __VLS_template(): {
             $nextTick: typeof import('vue').nextTick;
             $watch<T extends string | ((...args: any) => any)>(source: T, cb: T extends (...args: any) => infer R ? (...args: [R, R, import('@vue/reactivity').OnCleanup]) => any : (...args: [any, any, import('@vue/reactivity').OnCleanup]) => any, options?: import('vue').WatchOptions): import('vue').WatchStopHandle;
         } & Readonly<{
+            zIndex: number;
             disabled: boolean;
+            animation: "fade" | "translate" | (string & {});
             placement: import('../../core/popover').PopoverPlacementType;
             arrow: boolean;
             trigger: "hover" | "click" | "custom";
-            animation: "fade" | "translate" | (string & {});
-            zIndex: number;
             delay: number;
         }> & Omit<Readonly<import('../../core/popover').PopoverPropsType> & Readonly<{
             onShow?: ((...args: any[]) => any) | undefined;
@@ -110,7 +110,7 @@ declare function __VLS_template(): {
             onHide?: ((...args: any[]) => any) | undefined;
             onHiding?: ((...args: any[]) => any) | undefined;
             onHidden?: ((...args: any[]) => any) | undefined;
-        }>, "visible" | "showPopover" | "hidePopover" | "popperInstance" | "update" | "realPlacement" | ("disabled" | "placement" | "arrow" | "trigger" | "animation" | "zIndex" | "delay")> & import('vue').ShallowUnwrapRef<{
+        }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("zIndex" | "disabled" | "animation" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
             visible: import('vue').Ref<boolean, boolean>;
             showPopover: () => void;
             hidePopover: () => void;

@@ -8,7 +8,7 @@ title: 简介
 
 `kaitify-vue` 是一套基于 `kaitify` 富文本编辑器核心库进行开发和设计的富文本编辑器，使用 `Vue3` 框架作视图渲染，并提供相关的组件供开发者使用
 
-本文档不再对 `kaitify` 进赘述，关于编辑器底层的核心理念，在 `kaitify` 文档中都有讲述，如果你对 `kaitify` 有兴趣，可以访问 [@kaitify/core 文档](https://www.so-better.cn/@kaitify/core/)，获取进一步的了解
+本文档不再对 `kaitify` 进赘述，关于编辑器底层的核心理念，在 `kaitify` 文档中都有讲述，如果你对 `kaitify` 有兴趣，可以访问 [@kaitify/core 文档](https://www.so-better.cn/kaitify-core/)，获取进一步的了解
 
 ## 结合 Vue3
 

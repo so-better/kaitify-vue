@@ -19,7 +19,6 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
     state: import('vue').ComputedRef<StateType>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    created: (...args: any[]) => void;
     blur: (...args: any[]) => void;
     focus: (...args: any[]) => void;
     keydown: (...args: any[]) => void;
@@ -30,6 +29,7 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     deleteComplete: (...args: any[]) => void;
     beforeUpdateView: (...args: any[]) => void;
     afterUpdateView: (...args: any[]) => void;
+    created: (...args: any[]) => void;
     bubbleShow: (...args: any[]) => void;
     bubbleShowing: (...args: any[]) => void;
     bubbleShown: (...args: any[]) => void;
@@ -37,7 +37,6 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     bubbleHiding: (...args: any[]) => void;
     bubbleHidden: (...args: any[]) => void;
 }, string, import('vue').PublicProps, Readonly<WrapperPropsType> & Readonly<{
-    onCreated?: ((...args: any[]) => any) | undefined;
     onBlur?: ((...args: any[]) => any) | undefined;
     onFocus?: ((...args: any[]) => any) | undefined;
     onKeydown?: ((...args: any[]) => any) | undefined;
@@ -48,6 +47,7 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     onDeleteComplete?: ((...args: any[]) => any) | undefined;
     onBeforeUpdateView?: ((...args: any[]) => any) | undefined;
     onAfterUpdateView?: ((...args: any[]) => any) | undefined;
+    onCreated?: ((...args: any[]) => any) | undefined;
     onBubbleShow?: ((...args: any[]) => any) | undefined;
     onBubbleShowing?: ((...args: any[]) => any) | undefined;
     onBubbleShown?: ((...args: any[]) => any) | undefined;

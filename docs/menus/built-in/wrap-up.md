@@ -32,7 +32,7 @@ import { WrapUpMenu } from '@kaitify/vue'
 
 ##### match <Badge type="danger" text="KNodeMatchOptionType" />
 
-匹配相关的节点，如果匹配上了，则会在点击菜单时向上换行，关于该属性的释义，同 [kaitify 中的 KNode 的 isMatch 方法中的入参](https://www.so-better.cn/@kaitify/core/apis/knode-function#ismatch)
+匹配相关的节点，如果匹配上了，则会在点击菜单时向上换行，关于该属性的释义，同 [kaitify 中的 Editor 的 getMatchNodeBySelection 方法中的入参](https://www.so-better.cn/kaitify-core/apis/editor-function#getMatchNodeBySelection)
 
 ##### shortcut <Badge type="danger" text="(e: KeyboardEvent) => boolean" />
 

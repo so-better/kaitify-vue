@@ -1,251 +1,251 @@
-.kaitify-icon-theme-light-dark:before {
-	content: '\e8e3';
+.kaitify-icon-unlink:before {
+  content: '\e604';
 }
 
 .kaitify-icon-wrap-down:before {
-	content: '\e672';
+  content: '\e672';
 }
 
 .kaitify-icon-wrap-up:before {
-	content: '\e673';
+  content: '\e673';
 }
 
 .kaitify-icon-list-square:before {
-	content: '\e659';
+  content: '\e659';
 }
 
 .kaitify-icon-list-circle:before {
-	content: '\e65a';
+  content: '\e65a';
 }
 
 .kaitify-icon-list-disc:before {
-	content: '\e65b';
+  content: '\e65b';
 }
 
 .kaitify-icon-list-cjk-ideographic:before {
-	content: '\e658';
+  content: '\e658';
 }
 
 .kaitify-icon-list-lower-roman:before {
-	content: '\e653';
+  content: '\e653';
 }
 
 .kaitify-icon-list-lower-greek:before {
-	content: '\e654';
+  content: '\e654';
 }
 
 .kaitify-icon-list-upper-roman:before {
-	content: '\e655';
+  content: '\e655';
 }
 
 .kaitify-icon-list-decimal:before {
-	content: '\e656';
+  content: '\e656';
 }
 
 .kaitify-icon-list-lower-alpha:before {
-	content: '\e657';
+  content: '\e657';
 }
 
 .kaitify-icon-list-upper-alpha:before {
-	content: '\e651';
+  content: '\e651';
 }
 
 .kaitify-icon-merge-cells-top:before {
-	content: '\e73e';
+  content: '\e73e';
 }
 
 .kaitify-icon-merge-cells-left:before {
-	content: '\e741';
+  content: '\e741';
 }
 
 .kaitify-icon-merge-cells-right:before {
-	content: '\e73f';
+  content: '\e73f';
 }
 
 .kaitify-icon-merge-cells-bottom:before {
-	content: '\e740';
+  content: '\e740';
 }
 
 .kaitify-icon-mathformula:before {
-	content: '\e616';
+  content: '\e616';
 }
 
 .kaitify-icon-separator:before {
-	content: '\e6e5';
+  content: '\e6e5';
 }
 
 .kaitify-icon-attachment:before {
-	content: '\e689';
+  content: '\e689';
 }
 
 .kaitify-icon-full-screen:before {
-	content: '\e62f';
+  content: '\e62f';
 }
 
 .kaitify-icon-auto-width:before {
-	content: '\e61d';
+  content: '\e61d';
 }
 
 .kaitify-icon-task:before {
-	content: '\e605';
+  content: '\e605';
 }
 
 .kaitify-icon-source-view:before {
-	content: '\e6a1';
+  content: '\e6a1';
 }
 
 .kaitify-icon-upload:before {
-	content: '\e637';
+  content: '\e637';
 }
 
 .kaitify-icon-remove:before {
-	content: '\e852';
+  content: '\e852';
 }
 
 .kaitify-icon-code:before {
-	content: '\e6a0';
+  content: '\e6a0';
 }
 
 .kaitify-icon-loop:before {
-	content: '\e621';
+  content: '\e621';
 }
 
 .kaitify-icon-muted:before {
-	content: '\ea0f';
+  content: '\ea0f';
 }
 
 .kaitify-icon-controls:before {
-	content: '\e627';
+  content: '\e627';
 }
 
 .kaitify-icon-video:before {
-	content: '\e622';
+  content: '\e622';
 }
 
 .kaitify-icon-delete:before {
-	content: '\e60f';
+  content: '\e60f';
 }
 
 .kaitify-icon-image:before {
-	content: '\e6ed';
+  content: '\e6ed';
 }
 
 .kaitify-icon-brush:before {
-	content: '\e71c';
+  content: '\e71c';
 }
 
 .kaitify-icon-check:before {
-	content: '\e6cc';
+  content: '\e6cc';
 }
 
 .kaitify-icon-italic:before {
-	content: '\e69f';
+  content: '\e69f';
 }
 
 .kaitify-icon-redo:before {
-	content: '\e6df';
+  content: '\e6df';
 }
 
 .kaitify-icon-undo:before {
-	content: '\e713';
+  content: '\e713';
 }
 
 .kaitify-icon-code-block:before {
-	content: '\e620';
+  content: '\e620';
 }
 
 .kaitify-icon-table:before {
-	content: '\e6c4';
+  content: '\e6c4';
 }
 
 .kaitify-icon-delete-table:before {
-	content: '\e7a2';
+  content: '\e7a2';
 }
 
 .kaitify-icon-align-center:before {
-	content: '\e783';
+  content: '\e783';
 }
 
 .kaitify-icon-align-justify:before {
-	content: '\e786';
+  content: '\e786';
 }
 
 .kaitify-icon-align-left:before {
-	content: '\e787';
+  content: '\e787';
 }
 
 .kaitify-icon-bold:before {
-	content: '\e78d';
+  content: '\e78d';
 }
 
 .kaitify-icon-align-right:before {
-	content: '\e78f';
+  content: '\e78f';
 }
 
 .kaitify-icon-font-color:before {
-	content: '\e792';
+  content: '\e792';
 }
 
 .kaitify-icon-format-clear:before {
-	content: '\e793';
+  content: '\e793';
 }
 
 .kaitify-icon-indent-increase:before {
-	content: '\e798';
+  content: '\e798';
 }
 
 .kaitify-icon-quote:before {
-	content: '\e79b';
+  content: '\e79b';
 }
 
 .kaitify-icon-indent-decrease:before {
-	content: '\e79c';
+  content: '\e79c';
 }
 
 .kaitify-icon-link:before {
-	content: '\e7a1';
+  content: '\e7a1';
 }
 
 .kaitify-icon-subscript:before {
-	content: '\e7a5';
+  content: '\e7a5';
 }
 
 .kaitify-icon-superscript:before {
-	content: '\e7a6';
+  content: '\e7a6';
 }
 
 .kaitify-icon-strikethrough:before {
-	content: '\e7a7';
+  content: '\e7a7';
 }
 
 .kaitify-icon-underline:before {
-	content: '\e7a8';
+  content: '\e7a8';
 }
 
 .kaitify-icon-caret-down:before {
-	content: '\e78c';
+  content: '\e78c';
 }
 
 .kaitify-icon-delete-column:before {
-	content: '\e784';
+  content: '\e784';
 }
 
 .kaitify-icon-delete-row:before {
-	content: '\e785';
+  content: '\e785';
 }
 
 .kaitify-icon-insert-column-left:before {
-	content: '\e788';
+  content: '\e788';
 }
 
 .kaitify-icon-insert-column-right:before {
-	content: '\e789';
+  content: '\e789';
 }
 
 .kaitify-icon-insert-row-bottom:before {
-	content: '\e78a';
+  content: '\e78a';
 }
 
 .kaitify-icon-insert-row-top:before {
-	content: '\e78b';
+  content: '\e78b';
 }

@@ -12,7 +12,6 @@
 import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from "vue"
 import { createPopper, Instance } from '@popperjs/core';
 import { event as DapEvent } from "dap-util"
-import { KNode } from "@kaitify/core";
 import { BubblePropsType } from "./props";
 import { StateType } from "../wrapper";
 defineOptions({
@@ -39,19 +38,12 @@ const getVirtualDomRect = () => {
     return null
   }
   if (state.value.editor.selection.focused()) {
-    let matchNode: KNode | null = null
-    if (props.matches && props.matches.length) {
-      for (let i = 0; i < props.matches.length; i++) {
-        const node = state.value.editor.getMatchNodeBySelection(props.matches[i])
-        if (node) {
-          matchNode = node
-          break
-        }
+    if (props.match) {
+      const node = state.value.editor.getMatchNodeBySelection(props.match)
+      if (node) {
+        const dom = state.value.editor.findDom(node)
+        return dom.getBoundingClientRect()
       }
-    }
-    if (matchNode) {
-      const matchDom = state.value.editor.findDom(matchNode)
-      return matchDom.getBoundingClientRect()
     }
     const selection = window.getSelection();
     if (!selection || !selection.rangeCount) return state.value.editor.$el!.getBoundingClientRect();

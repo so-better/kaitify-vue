@@ -28,8 +28,8 @@ declare const __VLS_component: import('vue').DefineComponent<BubblePropsType, {
     onHiding?: ((...args: any[]) => any) | undefined;
     onHidden?: ((...args: any[]) => any) | undefined;
 }>, {
-    zIndex: number;
     visible: boolean;
+    zIndex: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

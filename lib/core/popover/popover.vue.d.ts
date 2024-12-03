@@ -35,12 +35,12 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
     onHiding?: ((...args: any[]) => any) | undefined;
     onHidden?: ((...args: any[]) => any) | undefined;
 }>, {
+    zIndex: number;
     disabled: boolean;
+    animation: "fade" | "translate" | (string & {});
     placement: PopoverPlacementType;
     arrow: boolean;
     trigger: "hover" | "click" | "custom";
-    animation: "fade" | "translate" | (string & {});
-    zIndex: number;
     delay: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
