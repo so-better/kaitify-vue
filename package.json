@@ -16,7 +16,7 @@
 		"docs:build": "vitepress build docs"
 	},
 	"dependencies": {
-		"@kaitify/core": "^0.0.1-beta.8",
+		"@kaitify/core": "^0.0.1-beta.10",
 		"@popperjs/core": "^2.11.8",
 		"dap-util": "^1.5.9",
 		"vue": "^3.3.13"

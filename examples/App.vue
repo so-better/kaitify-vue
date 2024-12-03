@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px;">
     <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn"
-      :disabled="disabled" :dark="isDark" :style="{ width: '80%', height: '500px' }" allow-paste-html
+      :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
       placeholder="输入正文内容..." v-model="content" @created="onCreated">
       <template #before>
         <UndoMenu />
@@ -76,6 +76,9 @@
           <FontFamilyMenu />
           <FontSizeMenu />
         </div>
+        <div v-else-if="!!state.editor?.commands.getLink?.()" style="padding: 5px;">
+          <LinkUnsetMenu />
+        </div>
         <div v-else-if="state.editor?.commands.getTable?.()" style="padding: 5px;">
           <WrapUpMenu :match="{ tag: 'table' }" />
           <Divider />
@@ -101,7 +104,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu } from "../src/index"
 const content = ref<string>('')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
@@ -121,6 +124,10 @@ const shouldVisible = computed<boolean>(() => {
   }
   if (!!wrapper.value.state.editor?.getFocusNodesBySelection('text').length) {
     bubbleMatch.value = undefined
+    return true
+  }
+  if (!!wrapper.value.state.editor?.commands.getLink()) {
+    bubbleMatch.value = { tag: 'a' }
     return true
   }
   if (!!wrapper.value.state.editor?.commands.getTable()) {

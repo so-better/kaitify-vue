@@ -1,0 +1,10 @@
+.kaitify-border {
+  border: 1px solid var(--kaitify-border-color);
+  border-radius: var(--kaitify-border-radius);
+  transition: border-color 500ms, box-shadow 500ms;
+
+  &:focus {
+    border-color: var(--kaitify-theme);
+    box-shadow: 0 0 0 4px var(--kaitify-lightest-theme);
+  }
+}

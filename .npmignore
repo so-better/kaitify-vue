@@ -4,7 +4,6 @@ public/
 docs/
 src/
 index.html
-LICENSE
 
 # 忽略指定文件
 vite.config.ts

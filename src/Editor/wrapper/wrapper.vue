@@ -233,12 +233,13 @@ const EditorWrapper = defineComponent(() => {
   return () => {
     return h('div', {
       ref: elRef,
+      class: 'kaitify-border',
       onMousedown: () => {
         isMouseDown.value = true
       },
       onMouseup: () => {
         isMouseDown.value = false
-      },
+      }
     }, {
       default: () => [...vnodes.value]
     })
@@ -254,3 +255,4 @@ defineExpose({
   state
 })
 </script>
+<style src="./style.less" scoped></style>

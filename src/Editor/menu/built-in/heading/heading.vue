@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
     :item-active="item => isActive(item)" :shortcut="shortcut"
     :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 120, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
-    {{ selectedData?.label || '' }}
+    {{ selectedData?.label ?? '' }}
     <template #label="{ option }">
       <span :style="{ fontSize: fontSizeMap[option.value as number] }">{{ option.label }}</span>
     </template>

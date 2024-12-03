@@ -70,6 +70,9 @@ title: 演示
           <FontFamilyMenu />
           <FontSizeMenu />
         </div>
+        <div v-else-if="state.editor?.commands.getLink?.()" :class="$style.bubble">
+          <LinkUnsetMenu />
+        </div>
         <div v-else-if="state.editor?.commands.getTable?.()" :class="$style.bubble">
           <WrapUpMenu :match="{ tag: 'table' }" />
           <WrapDownMenu :match="{ tag: 'table' }" />
@@ -93,7 +96,7 @@ title: 演示
 <script setup lang="ts">
   import { ref, computed } from "vue"
   import { useData } from 'vitepress'
-  import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType } from "../lib/kaitify-vue.es.js"
+  import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, LinkUnsetMenu } from "../lib/kaitify-vue.es.js"
   const content = ref<string>('')
   const { isDark } = useData()
   const wrapper = ref<(typeof EditorWrapper) | undefined>()
@@ -104,19 +107,23 @@ title: 演示
       return false
     }
     if (!!wrapper.value.state.editor?.commands.getVideo()) {
-      bubbleMatch.value = {tag:'video'}
+      bubbleMatch.value = { tag:'video' }
       return true
     }
     if (!!wrapper.value.state.editor?.commands.getCodeBlock()) {
-       bubbleMatch.value = {tag:'pre'}
+       bubbleMatch.value = { tag:'pre' }
       return true
     }
     if(!!wrapper.value.state.editor?.getFocusNodesBySelection('text').length){
        bubbleMatch.value = undefined
       return true
     }
+    if (!!wrapper.value.state.editor?.commands.getLink()) {
+       bubbleMatch.value = { tag:'a' }
+      return true
+    }
     if (!!wrapper.value.state.editor?.commands.getTable()) {
-       bubbleMatch.value = {tag:'table'}
+       bubbleMatch.value = { tag:'table' }
       return true
     }
     return false
