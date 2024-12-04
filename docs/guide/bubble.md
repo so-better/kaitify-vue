@@ -20,7 +20,7 @@ title: Bubble 气泡栏
 
 指定气泡栏出现的位置条件，每次更新气泡位置时会光标是否在符合条件的节点下，如果符合则根据该节点的真实 `dom` 进行定位，否则只根据光标位置进行定位
 
-关于该属性的释义，同 [kaitify 中的 Editor 的 getMatchNodeBySelection 方法中的入参](https://www.so-better.cn/kaitify-core/apis/editor-function#getMatchNodeBySelection)
+关于该属性的释义，同 [kaitify 中的 Editor 的 getMatchNodeBySelection 方法中的入参](https://www.so-better.cn/docs/kaitify-core/apis/editor-function.html#getmatchnodebyselection)
 
 ## Events 事件
 
@@ -32,7 +32,7 @@ title: Bubble 气泡栏
 
 ```vue
 <template>
-  <Wrapper v-model="content" @bubbleShow="bubbleShow"></Wrapper>
+	<Wrapper v-model="content" @bubbleShow="bubbleShow"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -40,7 +40,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleShow = (el: Element) => {
-  console.log('气泡栏显示前触发', el)
+	console.log('气泡栏显示前触发', el)
 }
 </script>
 ```
@@ -53,7 +53,7 @@ const bubbleShow = (el: Element) => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @bubbleShowing="bubbleShowing"></Wrapper>
+	<Wrapper v-model="content" @bubbleShowing="bubbleShowing"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -61,7 +61,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleShowing = (el: Element) => {
-  console.log('气泡栏显示时触发', el)
+	console.log('气泡栏显示时触发', el)
 }
 </script>
 ```
@@ -74,7 +74,7 @@ const bubbleShowing = (el: Element) => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @bubbleShown="bubbleShown"></Wrapper>
+	<Wrapper v-model="content" @bubbleShown="bubbleShown"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -82,7 +82,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleShown = (el: Element) => {
-  console.log('气泡栏显示后触发', el)
+	console.log('气泡栏显示后触发', el)
 }
 </script>
 ```
@@ -95,7 +95,7 @@ const bubbleShown = (el: Element) => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @bubbleHide="bubbleHide"></Wrapper>
+	<Wrapper v-model="content" @bubbleHide="bubbleHide"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -103,7 +103,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleHide = (el: Element) => {
-  console.log('气泡栏隐藏前触发', el)
+	console.log('气泡栏隐藏前触发', el)
 }
 </script>
 ```
@@ -116,7 +116,7 @@ const bubbleHide = (el: Element) => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @bubbleHiding="bubbleHiding"></Wrapper>
+	<Wrapper v-model="content" @bubbleHiding="bubbleHiding"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -124,7 +124,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleHiding = (el: Element) => {
-  console.log('气泡栏隐藏时触发', el)
+	console.log('气泡栏隐藏时触发', el)
 }
 </script>
 ```
@@ -137,7 +137,7 @@ const bubbleHiding = (el: Element) => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @bubbleHidden="bubbleHidden"></Wrapper>
+	<Wrapper v-model="content" @bubbleHidden="bubbleHidden"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -145,7 +145,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleHidden = (el: Element) => {
-  console.log('气泡栏隐藏后触发', el)
+	console.log('气泡栏隐藏后触发', el)
 }
 </script>
 ```
@@ -160,9 +160,9 @@ const bubbleHidden = (el: Element) => {
 
 ```vue
 <template>
-  <Wrapper v-model="content">
-    <template #bubble="{ state }">气泡栏</template>
-  </Wrapper>
+	<Wrapper v-model="content">
+		<template #bubble="{ state }">气泡栏</template>
+	</Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
