@@ -37,7 +37,10 @@ export default defineConfig({
   description: '一个基于@kaitify/core开发的vue富文本编辑器核心库',
   lastUpdated: true,
   cleanUrls: true,
-  head: [['link', { rel: 'icon', type: 'image/png', href: 'https://www.so-better.cn/docs/kaitify-core/logo.png' }]],
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: 'https://www.so-better.cn/docs/kaitify-core/logo.png' }],
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no' }]
+  ],
   outDir: 'kaitify-vue',
   themeConfig: {
     logo: {
