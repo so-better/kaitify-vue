@@ -3,12 +3,13 @@ examples/
 public/
 docs/
 src/
-index.html
+
 
 # 忽略指定文件
+LICENSE
+index.html
 vite.config.ts
 tsconfig.json
 tsconfig.node.json
-LICENSE
 package-lock.json
 vite-env.d.ts
