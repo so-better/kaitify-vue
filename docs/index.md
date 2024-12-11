@@ -2,7 +2,7 @@
 lastUpdated: false
 aside: false
 layout: home
-title: Vue富文本编辑器
+title: 主页
 
 hero:
   name: kaitify for vue
