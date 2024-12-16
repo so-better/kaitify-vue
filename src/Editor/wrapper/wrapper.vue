@@ -104,8 +104,10 @@ const onBubbleHidden = (el: Element) => {
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(() => props.modelValue, async (newVal) => {
-  if (editor.value && newVal && !internalModification.value) {
+  if (editor.value && !internalModification.value) {
     await editor.value.review(newVal)
+    editor.value.setSelectionAfter()
+    editor.value.updateRealSelection()
     updateKey.value++
   }
 })
@@ -185,6 +187,8 @@ onMounted(async () => {
     beforePatchNodeToFormat: props.beforePatchNodeToFormat,
     onSelectionUpdate(selection) {
       updateKey.value++
+      console.log(222);
+
       emits('selectionUpdate', selection)
     },
     onInsertParagraph(node) {
