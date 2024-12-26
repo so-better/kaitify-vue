@@ -187,8 +187,6 @@ onMounted(async () => {
     beforePatchNodeToFormat: props.beforePatchNodeToFormat,
     onSelectionUpdate(selection) {
       updateKey.value++
-      console.log(222);
-
       emits('selectionUpdate', selection)
     },
     onInsertParagraph(node) {
