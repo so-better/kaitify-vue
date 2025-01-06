@@ -105,7 +105,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu } from "../src/index"
-const content = ref<string>('')
+const content = ref<string>('<ul><li>hello<ul><li>hello<ul><li>444</li></ul></li><li>4444</li></ul></li></ul><ol><li>hello<ol><li>hello<ol><li>444</li></ol></li><li>4444</li></ol></li></ol>')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
 const wrapper = ref<(typeof EditorWrapper) | undefined>()

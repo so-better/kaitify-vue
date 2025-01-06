@@ -157,9 +157,12 @@
 .kaitify-popover-fade-leave-to {
   opacity: 0;
 }
-.kaitify-popover-fade-enter-active,
-.kaitify-popover-fade-leave-active {
+.kaitify-popover-fade-enter-active {
   transition: opacity 300ms linear;
+}
+
+.kaitify-popover-fade-leave-active {
+  transition: opacity 50ms linear;
 }
 
 .kaitify-popover-translate-enter-from,
@@ -168,7 +171,10 @@
   transform: translateY(20px);
 }
 
-.kaitify-popover-translate-enter-active,
-.kaitify-popover-translate-leave-active {
+.kaitify-popover-translate-enter-active {
   transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.kaitify-popover-translate-leave-active {
+  transition: opacity 50ms ease-in-out, transform 50ms ease-in-out;
 }
