@@ -69,7 +69,10 @@ const onSelect = (item: UnorderListType) => {
     return
   }
   if (itemActive.value(item)) {
-    state.value.editor.updateRealSelection()
+    state.value.editor.commands.unsetList?.({
+      ordered: false,
+      listType: item
+    })
   } else {
     state.value.editor.commands.setList?.({
       ordered: false,

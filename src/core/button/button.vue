@@ -1,7 +1,7 @@
 <template>
   <button class="kaitify-button"
     :class="{ 'kaitify-button-active': active, 'kaitify-button-block': block, 'kaitify-button-large': large }"
-    :disabled="disabled || undefined">
+    :disabled="disabled || undefined" type="button" role="button">
     <slot></slot>
   </button>
 </template>
