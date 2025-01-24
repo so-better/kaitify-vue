@@ -28,6 +28,9 @@ const isDisabled = computed<boolean>(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }
+  if (!!state.value.editor.commands.getCodeBlock?.()) {
+    return true
+  }
   return props.disabled
 })
 //方法

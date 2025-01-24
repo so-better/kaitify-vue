@@ -1,6 +1,6 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
-    :item-active="item => isActive(item)" :shortcut="shortcut"
+    :item-active="item => isActive(item.value as HeadingLevelType)" :shortcut="shortcut"
     :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 120, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     {{ selectedData?.label ?? '' }}
     <template #label="{ option }">
@@ -84,14 +84,21 @@ const isDisabled = computed<boolean>(() => {
   return props.disabled
 })
 //选项是否激活
-const isActive = computed<(item: MenuDataType) => boolean>(() => {
-  return item => {
-    return state.value.editor?.commands.allHeading?.(item.value as HeadingLevelType) ?? false
+const isActive = computed<(value: HeadingLevelType) => boolean>(() => {
+  return value => {
+    //正文处理
+    if (value === 0) {
+      if (isActive.value(1) || isActive.value(2) || isActive.value(3) || isActive.value(4) || isActive.value(5) || isActive.value(6)) {
+        return false
+      }
+      return true
+    }
+    return state.value.editor?.commands.allHeading?.(value) ?? false
   }
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  return props.data.find(item => isActive.value(item)) ?? options.value[options.value.length - 1]
+  return props.data.find(item => isActive.value(item.value as HeadingLevelType)) ?? options.value[options.value.length - 1]
 })
 
 //选择选项
@@ -99,8 +106,8 @@ const onSelect = (item: MenuDataType) => {
   if (!state.value.editor) {
     return
   }
-  if (isActive.value(item)) {
-    state.value.editor.updateRealSelection()
+  if (isActive.value(item.value as HeadingLevelType)) {
+    state.value.editor.commands.unsetHeading?.(item.value as HeadingLevelType)
   } else {
     state.value.editor.commands.setHeading?.(item.value as HeadingLevelType)
   }

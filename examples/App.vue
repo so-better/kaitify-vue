@@ -58,7 +58,7 @@
           <div v-else-if="state.editor?.commands.getCodeBlock?.()" style="padding: 5px;">
             <WrapUpMenu :match="{ tag: 'pre' }" />
             <Divider />
-            <CodeBlockLanguagesMenu :languages="['java', 'javascript']" />
+            <CodeBlockLanguagesMenu />
             <Divider />
             <WrapDownMenu :match="{ tag: 'pre' }" />
           </div>
@@ -107,7 +107,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu } from "../src/index"
-const content = ref<string>('<ol><li>一级分类1<ol><li>二级分类1<ol><li>三级分类1</li><li>三级分类2</li><li>三级分类3</li></ol></li><li>二级分类2</li></ol></li><li>一级分类2</li></ol>')
+const content = ref<string>('<h1><p>3333</p></h1>')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
 const wrapper = ref<(typeof EditorWrapper) | undefined>()
