@@ -138,6 +138,7 @@ const shouldVisible = computed<boolean>(() => {
   }
   return false
 })
+
 const onCreated = async (editor) => {
   console.log(editor.value.selection);
 
