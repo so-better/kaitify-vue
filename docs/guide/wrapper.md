@@ -12,7 +12,7 @@ title: Wrapper 包裹器
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -26,7 +26,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" disabled v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" disabled v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -40,7 +40,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" autofocus v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" autofocus v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -54,7 +54,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" dark v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" dark v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -68,7 +68,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" style="width:500px;height:300px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" style="width:500px;height:300px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -210,7 +210,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper v-model="content" @selectionUpdate="onSelectionUpdate"></Wrapper>
+  <Wrapper v-model="content" @selectionUpdate="onSelectionUpdate"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper, Selection } from '@kaitify/vue'
@@ -218,7 +218,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onSelectionUpdate = (sel: Selection) => {
-	console.log('光标发生变化', sel)
+  console.log('光标发生变化', sel)
 }
 </script>
 ```
@@ -229,7 +229,7 @@ const onSelectionUpdate = (sel: Selection) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @insertParagraph="onInsertParagraph"></Wrapper>
+  <Wrapper v-model="content" @insertParagraph="onInsertParagraph"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper, KNode } from '@kaitify/vue'
@@ -237,7 +237,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onInsertParagraph = (node: KNode) => {
-	console.log('换行', node)
+  console.log('换行', node)
 }
 </script>
 ```
@@ -248,7 +248,7 @@ const onInsertParagraph = (node: KNode) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @deleteComplete="onDeleteComplete"></Wrapper>
+  <Wrapper v-model="content" @deleteComplete="onDeleteComplete"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -256,7 +256,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onDeleteComplete = () => {
-	console.log('删除完成')
+  console.log('删除完成')
 }
 </script>
 ```
@@ -267,7 +267,7 @@ const onDeleteComplete = () => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @keydown="onKeydown"></Wrapper>
+  <Wrapper v-model="content" @keydown="onKeydown"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -275,7 +275,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onKeydown = (event: KeyboardEvent) => {
-	console.log('键盘按下', event)
+  console.log('键盘按下', event)
 }
 </script>
 ```
@@ -286,7 +286,7 @@ const onKeydown = (event: KeyboardEvent) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @keyup="onKeyup"></Wrapper>
+  <Wrapper v-model="content" @keyup="onKeyup"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -294,7 +294,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onKeyup = (event: KeyboardEvent) => {
-	console.log('键盘松开', event)
+  console.log('键盘松开', event)
 }
 </script>
 ```
@@ -305,7 +305,7 @@ const onKeyup = (event: KeyboardEvent) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @focus="onFocus"></Wrapper>
+  <Wrapper v-model="content" @focus="onFocus"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -313,7 +313,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onFocus = (event: FocusEvent) => {
-	console.log('编辑器获取光标', event)
+  console.log('编辑器获取光标', event)
 }
 </script>
 ```
@@ -324,7 +324,7 @@ const onFocus = (event: FocusEvent) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @blur="onBlur"></Wrapper>
+  <Wrapper v-model="content" @blur="onBlur"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -332,7 +332,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onBlur = (event: FocusEvent) => {
-	console.log('编辑器失去光标', event)
+  console.log('编辑器失去光标', event)
 }
 </script>
 ```
@@ -343,7 +343,7 @@ const onBlur = (event: FocusEvent) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @beforeUpdateView="beforeUpdateView"></Wrapper>
+  <Wrapper v-model="content" @beforeUpdateView="beforeUpdateView"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -351,7 +351,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const beforeUpdateView = () => {
-	console.log('编辑器视图更新之前')
+  console.log('编辑器视图更新之前')
 }
 </script>
 ```
@@ -362,7 +362,7 @@ const beforeUpdateView = () => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @afterUpdateView="afterUpdateView"></Wrapper>
+  <Wrapper v-model="content" @afterUpdateView="afterUpdateView"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -370,26 +370,26 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const afterUpdateView = () => {
-	console.log('编辑器视图更新之后')
+  console.log('编辑器视图更新之后')
 }
 </script>
 ```
 
 ##### created
 
-编辑器创建完成后触发
+编辑器创建完成后触发，回调参数为 `kaitify` 的编辑器实例对象
 
 ```vue
 <template>
-	<Wrapper v-model="content" @created="onCreated"></Wrapper>
+  <Wrapper v-model="content" @created="onCreated"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const onCreated = () => {
-	console.log('编辑器创建完成后')
+const onCreated = editor => {
+  console.log('编辑器创建完成后', editor.value) //是响应式对象，需要通过.value来使用
 }
 </script>
 ```
@@ -400,7 +400,7 @@ const onCreated = () => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @bubbleShow="bubbleShow"></Wrapper>
+  <Wrapper v-model="content" @bubbleShow="bubbleShow"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -408,7 +408,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleShow = (el: Element) => {
-	console.log('气泡栏显示前触发', el)
+  console.log('气泡栏显示前触发', el)
 }
 </script>
 ```
@@ -419,7 +419,7 @@ const bubbleShow = (el: Element) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @bubbleShowing="bubbleShowing"></Wrapper>
+  <Wrapper v-model="content" @bubbleShowing="bubbleShowing"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -427,7 +427,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleShowing = (el: Element) => {
-	console.log('气泡栏显示时触发', el)
+  console.log('气泡栏显示时触发', el)
 }
 </script>
 ```
@@ -438,7 +438,7 @@ const bubbleShowing = (el: Element) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @bubbleShown="bubbleShown"></Wrapper>
+  <Wrapper v-model="content" @bubbleShown="bubbleShown"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -446,7 +446,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleShown = (el: Element) => {
-	console.log('气泡栏显示后触发', el)
+  console.log('气泡栏显示后触发', el)
 }
 </script>
 ```
@@ -457,7 +457,7 @@ const bubbleShown = (el: Element) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @bubbleHide="bubbleHide"></Wrapper>
+  <Wrapper v-model="content" @bubbleHide="bubbleHide"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -465,7 +465,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleHide = (el: Element) => {
-	console.log('气泡栏隐藏前触发', el)
+  console.log('气泡栏隐藏前触发', el)
 }
 </script>
 ```
@@ -476,7 +476,7 @@ const bubbleHide = (el: Element) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @bubbleHiding="bubbleHiding"></Wrapper>
+  <Wrapper v-model="content" @bubbleHiding="bubbleHiding"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -484,7 +484,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleHiding = (el: Element) => {
-	console.log('气泡栏隐藏时触发', el)
+  console.log('气泡栏隐藏时触发', el)
 }
 </script>
 ```
@@ -495,7 +495,7 @@ const bubbleHiding = (el: Element) => {
 
 ```vue
 <template>
-	<Wrapper v-model="content" @bubbleHidden="bubbleHidden"></Wrapper>
+  <Wrapper v-model="content" @bubbleHidden="bubbleHidden"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -503,7 +503,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const bubbleHidden = (el: Element) => {
-	console.log('气泡栏隐藏后触发', el)
+  console.log('气泡栏隐藏后触发', el)
 }
 </script>
 ```
@@ -518,7 +518,7 @@ const bubbleHidden = (el: Element) => {
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content" created="onCreated"></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" created="onCreated"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -527,7 +527,7 @@ const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 
 const onCreated = () => {
-	console.log('组件实例dom', wrapper.value.elRef)
+  console.log('组件实例dom', wrapper.value.elRef)
 }
 </script>
 ```
@@ -540,7 +540,7 @@ const onCreated = () => {
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content" @created="onCreated"></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" @created="onCreated"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -549,8 +549,8 @@ const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 
 const onCreated = () => {
-	const state = wrapper.value.state
-	console.log(state.editor)
+  const state = wrapper.value.state
+  console.log(state.editor)
 }
 </script>
 ```
@@ -571,11 +571,11 @@ const onCreated = () => {
 
 ```vue
 <template>
-	<Wrapper v-model="content">
-		<template #before="{ state }">before</template>
-		<template #afer="{ state }">after</template>
-		<template #bubble="{ state }">气泡栏</template>
-	</Wrapper>
+  <Wrapper v-model="content">
+    <template #before="{ state }">before</template>
+    <template #afer="{ state }">after</template>
+    <template #bubble="{ state }">气泡栏</template>
+  </Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'

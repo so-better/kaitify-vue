@@ -227,7 +227,7 @@ onMounted(async () => {
       updateKey.value++
     }
   })
-  emits('created')
+  emits('created', editor)
 })
 
 //编辑区域组件

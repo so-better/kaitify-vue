@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.9 <Badge type="tip" text='2025.01.26' />
+
+- Wrapper 组件的 `created` 事件增加回调参数 `editor`
+
 ## v0.0.1-beta.8 <Badge type="tip" text='2025.01.24' />
 
 - 当光标在代码块内时，禁用增加缩进和减少缩进的菜单
