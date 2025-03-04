@@ -25,7 +25,7 @@ const content = ref('<p>hello</p>')
 
 ## 英文环境
 
-`Wrapper` 组件的 `locale` 属性设置为 `en-us` 或者不设置
+`Wrapper` 组件的 `locale` 属性设置为 `en-us`
 
 ```vue
 <template>
