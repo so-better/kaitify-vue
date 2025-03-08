@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.11 <Badge type="tip" text='2025.03.08' />
+
+- 更新`@kaitify/core` 依赖版本，解决了部分问题并进行了性能优化
+
 ## v0.0.1-beta.10 <Badge type="tip" text='2025.03.04' />
 
 - 更新`@kaitify/core` 依赖版本，新增 `getHTML` 函数
