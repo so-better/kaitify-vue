@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.12 <Badge type="tip" text='2025.03.10' />
+
+- 更新`@kaitify/core` 依赖版本，解决了部分问题并对拓展进行了优化和新增了语法
+
 ## v0.0.1-beta.11 <Badge type="tip" text='2025.03.08' />
 
 - 更新`@kaitify/core` 依赖版本，解决了部分问题并进行了性能优化

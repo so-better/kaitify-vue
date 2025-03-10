@@ -28,7 +28,7 @@ const isDisabled = computed<boolean>(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (!!state.value.editor.commands.getCodeBlock?.()) {
+  if (!state.value.editor.commands.canUseIndent?.()) {
     return true
   }
   return props.disabled
