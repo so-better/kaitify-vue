@@ -1,3 +1,7 @@
+.kaitify-icon-full-screen:before {
+  content: '\e62a';
+}
+
 .kaitify-icon-unlink:before {
   content: '\e604';
 }
@@ -78,20 +82,8 @@
   content: '\e689';
 }
 
-.kaitify-icon-full-screen:before {
-  content: '\e62f';
-}
-
-.kaitify-icon-auto-width:before {
-  content: '\e61d';
-}
-
 .kaitify-icon-task:before {
   content: '\e605';
-}
-
-.kaitify-icon-source-view:before {
-  content: '\e6a1';
 }
 
 .kaitify-icon-upload:before {

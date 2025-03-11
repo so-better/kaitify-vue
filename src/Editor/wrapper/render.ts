@@ -8,6 +8,7 @@ export const createVNode = (options: KNodeRenderOptionType) => {
   return h(
     options.tag,
     {
+      key: options.key,
       ...options.attrs,
       style: options.styles
     },

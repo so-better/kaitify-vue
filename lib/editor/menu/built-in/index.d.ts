@@ -34,3 +34,4 @@ export * from './task';
 export * from './wrap-up';
 export * from './wrap-down';
 export * from './clear-format';
+export * from './full-screen';

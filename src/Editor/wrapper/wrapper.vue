@@ -214,8 +214,9 @@ onMounted(async () => {
       emits('afterUpdateView')
     },
     //使用vue作视图渲染
-    onUpdateView() {
+    async onUpdateView() {
       vnodes.value = createVNodes(this)
+      await nextTick()
       return false
     },
     //监听编辑器内部修改值

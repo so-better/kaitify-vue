@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.13 <Badge type="tip" text='2025.03.11' />
+
+- 更新`@kaitify/core` 依赖版本，解决了中文输入的一个 bug，并且新增了 `isEmpty` 方法
+- 新增 `FullScreenMenu` 菜单，用以设置编辑器全屏功能
+
 ## v0.0.1-beta.12 <Badge type="tip" text='2025.03.10' />
 
 - 更新`@kaitify/core` 依赖版本，解决了部分问题并对拓展进行了优化和新增了语法

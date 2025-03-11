@@ -1,9 +1,8 @@
 <template>
-  <div style="padding: 10px;">
-    <form action="#">
-      <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn"
-        :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
-        placeholder="输入正文内容..." v-model="content" @created="onCreated">
+  <div style="padding: 10px">
+    div333
+    <div id="area" style="background: #fff">
+      <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html placeholder="输入正文内容..." v-model="content" @created="onCreated">
         <template #before>
           <UndoMenu />
           <RedoMenu />
@@ -45,24 +44,23 @@
           <VideoMenu :popover-props="{ zIndex: 100, arrow: true }" />
           <MathMenu />
           <TableMenu />
+          <FullScreenMenu target="#area" />
         </template>
-        <template #after="{ state: { editor } }">
-          总字数：{{ editor?.getContent().length ?? 0 }}
-        </template>
+        <template #after="{ state: { editor } }"> 总字数：{{ editor?.getContent().length ?? 0 }} </template>
         <template #bubble="{ state }">
-          <div v-if="state.editor?.commands.getVideo?.()" style="padding: 5px;">
+          <div v-if="state.editor?.commands.getVideo?.()" style="padding: 5px">
             <VideoControlsMenu />
             <VideoMutedMenu />
             <VideoLoopMenu />
           </div>
-          <div v-else-if="state.editor?.commands.getCodeBlock?.()" style="padding: 5px;">
+          <div v-else-if="state.editor?.commands.getCodeBlock?.()" style="padding: 5px">
             <WrapUpMenu :match="{ tag: 'pre' }" />
             <Divider />
             <CodeBlockLanguagesMenu />
             <Divider />
             <WrapDownMenu :match="{ tag: 'pre' }" />
           </div>
-          <div v-else-if="!!state.editor?.getFocusNodesBySelection('text').length" style="padding: 5px;">
+          <div v-else-if="!!state.editor?.getFocusNodesBySelection('text').length" style="padding: 5px">
             <ClearFormatMenu />
             <BoldMenu />
             <ItalicMenu />
@@ -77,10 +75,10 @@
             <FontFamilyMenu />
             <FontSizeMenu />
           </div>
-          <div v-else-if="!!state.editor?.commands.getLink?.()" style="padding: 5px;">
+          <div v-else-if="!!state.editor?.commands.getLink?.()" style="padding: 5px">
             <LinkUnsetMenu />
           </div>
-          <div v-else-if="state.editor?.commands.getTable?.()" style="padding: 5px;">
+          <div v-else-if="state.editor?.commands.getTable?.()" style="padding: 5px">
             <WrapUpMenu :match="{ tag: 'table' }" />
             <Divider />
             <TableAddRowMenu type="top" />
@@ -101,16 +99,16 @@
           </div>
         </template>
       </EditorWrapper>
-    </form>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu, Editor } from "../src/index"
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu, FullScreenMenu, Editor } from '../src/index'
 const content = ref<string>('<h1><p>3333</p></h1>')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
-const wrapper = ref<(typeof EditorWrapper) | undefined>()
+const wrapper = ref<typeof EditorWrapper | undefined>()
 const bubbleMatch = ref<KNodeMatchOptionType | undefined>()
 const shouldVisible = computed<boolean>(() => {
   if (!wrapper.value) {
@@ -139,9 +137,8 @@ const shouldVisible = computed<boolean>(() => {
   return false
 })
 
-const onCreated = async (editor) => {
-  console.log(editor.value.selection);
-
+const onCreated = async editor => {
+  console.log(editor.value.selection)
 }
 </script>
 <style lang="less">
@@ -152,7 +149,7 @@ html {
 body {
   height: 100%;
   margin: 0;
-  overflow: hidden
+  overflow: hidden;
 }
 
 *,
