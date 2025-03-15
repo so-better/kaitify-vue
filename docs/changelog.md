@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.14 <Badge type="tip" text='2025.03.15' />
+
+- 更新`@kaitify/core` 依赖版本，部分拓展进行了优化，同时针对不可编辑节点的相关逻辑进行了优化
+
 ## v0.0.1-beta.13 <Badge type="tip" text='2025.03.11' />
 
 - 更新`@kaitify/core` 依赖版本，解决了中文输入的一个 bug，并且新增了 `isEmpty` 方法
