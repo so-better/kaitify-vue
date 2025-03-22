@@ -3,9 +3,9 @@
     :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="video" />
     <template #popover>
-      <Tabs :names="[state.t('本地上传'), state.t('远程地址')]">
-        <template #default="{ index }">
-          <div v-if="index == 0" class="kaitify-video-upload">
+      <Tabs :default-value="tabs.default" :data="tabData">
+        <template #default="{ current }">
+          <div v-if="current == 'upload'" class="kaitify-video-upload">
             <div class="kaitify-video-upload-wrapper">
               <input type="file" accept="video/*" @change="fileChange" />
               <Icon name="upload" />
@@ -14,7 +14,7 @@
               <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
             </div>
           </div>
-          <div v-else class="kaitify-video-remote">
+          <div v-else-if="current == 'remote'" class="kaitify-video-remote">
             <input v-model.trim="remoteData.src" :placeholder="state.t('视频地址')" type="url" />
             <div class="kaitify-video-remote-footer">
               <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
@@ -31,7 +31,7 @@ import { computed, ComputedRef, inject, reactive, ref } from 'vue';
 import { file as DapFile } from "dap-util"
 import { SetVideoOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
-import { Tabs } from "@/core/tabs"
+import { Tabs, TabsPropsType } from "@/core/tabs"
 import { Button } from "@/core/button"
 import { Checkbox } from '@/core/checkbox';
 import { StateType } from '@/editor/wrapper';
@@ -43,7 +43,11 @@ defineOptions({
 })
 //属性
 const props = withDefaults(defineProps<VideoMenuPropsType>(), {
-  disabled: false
+  disabled: false,
+  tabs: () => ({
+    data: ['upload', 'remote'],
+    default: 'upload'
+  })
 })
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')
@@ -57,6 +61,18 @@ const menuRef = ref<(typeof Menu) | undefined>()
 const remoteData = reactive<SetVideoOptionType>({
   src: '',
   autoplay: false
+})
+//选项卡数据
+const tabData = computed<TabsPropsType['data']>(() => {
+  return props.tabs.data.map(item => {
+    return [{
+      label: state.value.t('本地上传'),
+      value: 'upload'
+    }, {
+      label: state.value.t('远程地址'),
+      value: 'remote'
+    }].find(v => v.value == item)!
+  })
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {

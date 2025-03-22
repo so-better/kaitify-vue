@@ -3,7 +3,11 @@
  */
 export type TabsPropsType = {
   /**
-   * 选项卡头部名称列表
+   * 选项卡分栏数据
    */
-  names: string[]
+  data: { label: string; value: string | number }[]
+  /**
+   * 选项卡默认选项
+   */
+  defaultValue: string | number
 }

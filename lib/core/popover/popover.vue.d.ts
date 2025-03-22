@@ -21,22 +21,22 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
     update: () => Promise<void>;
     realPlacement: import('vue').Ref<PopoverPlacementType, PopoverPlacementType>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    hidden: (...args: any[]) => void;
     show: (...args: any[]) => void;
     showing: (...args: any[]) => void;
     shown: (...args: any[]) => void;
     hide: (...args: any[]) => void;
     hiding: (...args: any[]) => void;
-    hidden: (...args: any[]) => void;
 }, string, import('vue').PublicProps, Readonly<PopoverPropsType> & Readonly<{
+    onHidden?: ((...args: any[]) => any) | undefined;
     onShow?: ((...args: any[]) => any) | undefined;
     onShowing?: ((...args: any[]) => any) | undefined;
     onShown?: ((...args: any[]) => any) | undefined;
     onHide?: ((...args: any[]) => any) | undefined;
     onHiding?: ((...args: any[]) => any) | undefined;
-    onHidden?: ((...args: any[]) => any) | undefined;
 }>, {
-    zIndex: number;
     disabled: boolean;
+    zIndex: number;
     animation: "fade" | "translate" | (string & {});
     placement: PopoverPlacementType;
     arrow: boolean;

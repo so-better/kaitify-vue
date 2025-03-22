@@ -1,11 +1,14 @@
 <template>
   <div class="kaitify-tabs">
     <div class="kaitify-tabs-header">
-      <div v-for="(item, index) in names" class="kaitify-tabs-header-item"
-        :class="{ 'kaitify-tabs-header-item-active': currentIndex == index }" @click="onSelect(index)">{{ item }}</div>
+      <div v-for="item in data" class="kaitify-tabs-header-item"
+        :class="{ 'kaitify-tabs-header-item-active': current == item.value }" @click="onSelect(item.value)">{{
+          item.label
+        }}
+      </div>
     </div>
     <div class="kaitify-tabs-content">
-      <slot :index="currentIndex"></slot>
+      <slot :current="current"></slot>
     </div>
   </div>
 </template>
@@ -16,13 +19,17 @@ import { TabsPropsType } from './props';
 defineOptions({
   name: 'Tabs'
 })
-withDefaults(defineProps<TabsPropsType>(), {
-  names: () => []
-})
-const currentIndex = ref<number>(0)
 
-const onSelect = (index: number) => {
-  currentIndex.value = index
+const props = withDefaults(defineProps<TabsPropsType>(), {
+  data: () => []
+})
+
+//当前选项
+const current = ref<string | number>(props.defaultValue)
+
+//选择
+const onSelect = (val: string | number) => {
+  current.value = val
 }
 </script>
 <style src="./style.less" scoped></style>

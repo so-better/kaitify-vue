@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.17 <Badge type="tip" text='2025.03.22' />
+
+- 内置菜单 `ImageMenu` `VideoMenu` `AttachmentMenu` 新增 `tabs` 参数配置，支持对浮层内的选项卡进行设置
+- 新提供了原本内部使用的 `Tabs` `Checkbox` 组件，方便开发自定义的 `Menu`
+
 ## v0.0.1-beta.15 <Badge type="tip" text='2025.03.15' />
 
 - 更新`@kaitify/core` 依赖版本，部分拓展进行了优化，同时针对不可编辑节点的相关逻辑进行了优化
@@ -35,12 +40,12 @@ title: 更新日志
 - 当光标在代码块内时，禁用增加缩进和减少缩进的菜单
 - 标题菜单的选项激活时点击可以取消标题设置
 - 代码优化
-- 更新 `@kaiftiy/core` 依赖版本到 `0.0.1-beta.17`
+- 更新 `@kaiftiy/core` 依赖版本
 
 ## v0.0.1-beta.7 <Badge type="tip" text='2025.01.23' />
 
 - 修复编辑器在 `form` 标签下点击菜单按钮导致页面刷新的问题
-- 更新 `@kaiftiy/core` 依赖版本到 `0.0.1-beta.16`，优化和修复了列表相关问题
+- 更新 `@kaiftiy/core` 依赖版本，优化和修复了列表相关问题
 
 ## v0.0.1-beta.6 <Badge type="tip" text='2025.01.06' />
 

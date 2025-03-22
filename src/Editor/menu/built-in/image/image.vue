@@ -11,13 +11,13 @@
           <Button @click="update" :disabled="!updateData.src">{{ state.t('更新') }}</Button>
         </div>
       </div>
-      <Tabs v-else :names="[state.t('本地上传'), state.t('远程地址')]">
-        <template #default="{ index }">
-          <div v-if="index == 0" class="kaitify-image-upload">
+      <Tabs v-else :default-value="tabs.default" :data="tabData">
+        <template #default="{ current }">
+          <div v-if="current == 'upload'" class="kaitify-image-upload">
             <input type="file" accept="image/*" @change="fileChange" />
             <Icon name="upload" />
           </div>
-          <div v-else class="kaitify-image-remote">
+          <div v-else-if="current == 'remote'" class="kaitify-image-remote">
             <input v-model.trim="remoteData.alt" :placeholder="state.t('图片名称')" type="text" />
             <input v-model.trim="remoteData.src" :placeholder="state.t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
@@ -34,7 +34,7 @@ import { computed, ComputedRef, inject, reactive, ref } from 'vue';
 import { file as DapFile } from "dap-util"
 import { SetImageOptionType, UpdateImageOptionType } from '@kaitify/core';
 import { Icon } from '@/core/icon';
-import { Tabs } from "@/core/tabs"
+import { Tabs, TabsPropsType } from "@/core/tabs"
 import { Button } from "@/core/button"
 import { StateType } from '@/editor/wrapper';
 import Menu from "@/editor/menu/menu.vue"
@@ -45,7 +45,11 @@ defineOptions({
 })
 //属性
 const props = withDefaults(defineProps<ImageMenuPropsType>(), {
-  disabled: false
+  disabled: false,
+  tabs: () => ({
+    data: ['upload', 'remote'],
+    default: 'upload'
+  })
 })
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')
@@ -64,6 +68,18 @@ const remoteData = reactive<Omit<SetImageOptionType, 'width'>>({
 const updateData = reactive<UpdateImageOptionType>({
   src: '',
   alt: ''
+})
+//选项卡数据
+const tabData = computed<TabsPropsType['data']>(() => {
+  return props.tabs.data.map(item => {
+    return [{
+      label: state.value.t('本地上传'),
+      value: 'upload'
+    }, {
+      label: state.value.t('远程地址'),
+      value: 'remote'
+    }].find(v => v.value == item)!
+  })
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {

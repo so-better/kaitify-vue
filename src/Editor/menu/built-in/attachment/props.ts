@@ -6,6 +6,13 @@ export type AttachmentMenuPropsType = {
    */
   disabled?: boolean
   /**
+   * tabs配置
+   */
+  tabs?: {
+    data: ('upload' | 'remote')[]
+    default: 'upload' | 'remote'
+  }
+  /**
    * 浮层属性
    */
   popoverProps?: MenuPropsType['popoverProps']

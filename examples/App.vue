@@ -2,8 +2,20 @@
   <div style="padding: 10px">
     div333
     <div id="area" style="background: #fff">
-      <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html placeholder="输入正文内容..." v-model="content" @created="onCreated">
+      <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn"
+        :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
+        placeholder="输入正文内容..." v-model="content" @created="onCreated">
         <template #before>
+          <Menu popover :popover-props="{ width: '300px' }">
+            菜单
+            <template #popover>
+              <Tabs :defaultValue="0" :data="[{ label: 'aaaa', value: 0 }, { label: 'vvvv', value: 1 }]">
+                <template #default="{ current }">{{ current }}
+                  <Checkbox :model-value="true" disabled />
+                </template>
+              </Tabs>
+            </template>
+          </Menu>
           <UndoMenu />
           <RedoMenu />
           <Divider />
@@ -39,9 +51,11 @@
           <CodeBlockMenu />
           <HorizontalMenu />
           <LinkMenu />
-          <AttachmentMenu :popover-props="{ zIndex: 100, arrow: true }" />
-          <ImageMenu />
-          <VideoMenu :popover-props="{ zIndex: 100, arrow: true }" />
+          <AttachmentMenu :tabs="{ data: ['remote', 'upload'], default: 'upload' }"
+            :popover-props="{ zIndex: 100, arrow: true }" />
+          <ImageMenu :tabs="{ data: ['remote', 'upload'], default: 'upload' }" />
+          <VideoMenu :tabs="{ data: ['remote', 'upload'], default: 'upload' }"
+            :popover-props="{ zIndex: 100, arrow: true }" />
           <MathMenu />
           <TableMenu />
           <FullScreenMenu target="#area" />
@@ -104,7 +118,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu, FullScreenMenu, Editor } from '../src/index'
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu, FullScreenMenu, Menu, Tabs, Checkbox } from '../src/index'
 const content = ref<string>('<h1><p>3333</p></h1>')
 const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)

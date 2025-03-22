@@ -9,6 +9,13 @@ export type VideoMenuPropsType = {
      */
     width?: string | number;
     /**
+     * tabs配置
+     */
+    tabs?: {
+        data: ('upload' | 'remote')[];
+        default: 'upload' | 'remote';
+    };
+    /**
      * 自定义上传方法
      */
     customUpload?: (file: File) => string | Promise<string>;

@@ -98,6 +98,14 @@ export default defineConfig({
             {
               text: 'Divider',
               link: '/guide/divider'
+            },
+            {
+              text: 'Tabs',
+              link: '/guide/tabs'
+            },
+            {
+              text: 'Checkbox',
+              link: '/guide/checkbox'
             }
           ]
         },
