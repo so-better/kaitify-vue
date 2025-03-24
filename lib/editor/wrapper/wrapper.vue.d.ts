@@ -4,6 +4,12 @@ declare function __VLS_template(): {
         before?(_: {
             state: StateType;
         }): any;
+        before?(_: {
+            state: StateType;
+        }): any;
+        after?(_: {
+            state: StateType;
+        }): any;
         after?(_: {
             state: StateType;
         }): any;

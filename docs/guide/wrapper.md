@@ -102,6 +102,14 @@ const content = ref('<p>hello</p>')
 
 编辑器气泡栏相关属性配置，具体可以查看 [Bubble 组件的文档](/guide/bubble)
 
+##### appendBeforeTo <Badge type="danger" text="string | HTMLElement" />
+
+`before` 插槽挂载的元素，如果不设置，则就放置在编辑器前面
+
+##### appendAfterTo <Badge type="danger" text="string | HTMLElement" />
+
+`after` 插槽挂载的元素，如果不设置，则就放置在编辑器后面
+
 ##### autofocus <Badge type="danger" text="boolean" />
 
 编辑器渲染后是否自动聚焦，默认为 `false`

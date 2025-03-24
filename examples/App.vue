@@ -1,10 +1,10 @@
 <template>
   <div style="padding: 10px">
-    div333
+    <div ref="menus"></div>
     <div id="area" style="background: #fff">
       <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn"
         :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
-        placeholder="输入正文内容..." v-model="content" @created="onCreated">
+        placeholder="输入正文内容..." v-model="content" @created="onCreated" :append-before-to="menus">
         <template #before>
           <Menu popover :popover-props="{ width: '300px' }">
             菜单
@@ -124,6 +124,7 @@ const isDark = ref<boolean>(false)
 const disabled = ref<boolean>(false)
 const wrapper = ref<typeof EditorWrapper | undefined>()
 const bubbleMatch = ref<KNodeMatchOptionType | undefined>()
+const menus = ref<HTMLElement | undefined>()
 const shouldVisible = computed<boolean>(() => {
   if (!wrapper.value) {
     return false

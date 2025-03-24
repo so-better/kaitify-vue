@@ -1,7 +1,13 @@
 <template>
-  <slot name="before" :state="state"></slot>
+  <Teleport v-if="appendBeforeTo" :to="appendBeforeTo">
+    <slot name="before" :state="state"></slot>
+  </Teleport>
+  <slot v-else name="before" :state="state"></slot>
   <EditorWrapper v-bind="$attrs" />
-  <slot name="after" :state="state"></slot>
+  <Teleport v-if="appendAfterTo" :to="appendAfterTo">
+    <slot name="after" :state="state"></slot>
+  </Teleport>
+  <slot v-else name="after" :state="state"></slot>
   <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="onBubbleShow"
     @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding"
     @hidden="onBubbleHidden">

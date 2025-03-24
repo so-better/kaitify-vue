@@ -26,6 +26,14 @@ export type WrapperPropsType = {
      */
     bubbleProps?: BubblePropsType;
     /**
+     * before插槽挂载的元素，如果不设置，则就放置在编辑器前面
+     */
+    appendBeforeTo?: string | HTMLElement;
+    /**
+     * after插槽挂载的元素，如果不设置，则就放置在编辑器后面
+     */
+    appendAfterTo?: string | HTMLElement;
+    /**
      * 是否自动聚焦
      */
     autofocus?: boolean;
