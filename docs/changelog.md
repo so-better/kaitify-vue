@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.18 <Badge type="tip" text='2025.03.24' />
+
+- 更新`@kaitify/core` 依赖版本，对 `unicode` 字符删除逻辑进行了优化
+
 ## v0.0.1-beta.17 <Badge type="tip" text='2025.03.22' />
 
 - 内置菜单 `ImageMenu` `VideoMenu` `AttachmentMenu` 新增 `tabs` 参数配置，支持对浮层内的选项卡进行设置
