@@ -1,6 +1,6 @@
 {
 	"name": "@kaitify/vue",
-	"version": "0.0.1-beta.18",
+	"version": "0.0.1-beta.19",
 	"private": false,
 	"type": "module",
 	"author": "so-better",
@@ -16,7 +16,7 @@
 		"docs:build": "vitepress build docs"
 	},
 	"dependencies": {
-		"@kaitify/core": "^0.0.1-beta.25",
+		"@kaitify/core": "^0.0.1-beta.26",
 		"@popperjs/core": "^2.11.8",
 		"dap-util": "^1.6.0",
 		"vue": "^3.3.13"

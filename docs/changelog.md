@@ -5,9 +5,9 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.1-beta.18 <Badge type="tip" text='2025.03.24' />
+## v0.0.1-beta.19 <Badge type="tip" text='2025.03.24' />
 
-- 更新`@kaitify/core` 依赖版本，对 `unicode` 字符删除逻辑进行了优化
+- 更新`@kaitify/core` 依赖版本，新增 `isSelectionInView` 函数，同时对 `unicode` 字符删除逻辑进行了优化，
 
 ## v0.0.1-beta.17 <Badge type="tip" text='2025.03.22' />
 
