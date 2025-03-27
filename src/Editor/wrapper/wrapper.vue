@@ -112,7 +112,7 @@ const onBubbleHidden = (el: Element) => {
 watch(() => props.modelValue, async (newVal) => {
   if (editor.value && !internalModification.value) {
     await editor.value.review(newVal)
-    if (props.autofocus) {
+    if (!props.disabled && props.autofocus) {
       editor.value.setSelectionAfter()
       editor.value.updateRealSelection()
     }
