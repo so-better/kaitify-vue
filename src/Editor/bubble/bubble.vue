@@ -12,7 +12,7 @@
 import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from "vue"
 import { createPopper, Instance } from '@popperjs/core';
 import { event as DapEvent } from "dap-util"
-import { BubblePropsType } from "./props";
+import { BubbleEmitsType, BubblePropsType } from "./props";
 import { StateType } from "../wrapper";
 defineOptions({
   name: 'Bubble'
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
   zIndex: 5
 })
 //事件
-const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hiding', 'hidden',])
+const emits = defineEmits<BubbleEmitsType>()
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 //popperjs实例

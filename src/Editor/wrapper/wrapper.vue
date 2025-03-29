@@ -17,9 +17,9 @@
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
 import { Editor } from "@kaitify/core";
-import { StateType, WrapperPropsType } from "./props"
-import { createVNodes } from "./render"
 import { translate } from "@/locale";
+import { StateType, WrapperEmitsType, WrapperPropsType } from "./props"
+import { createVNodes } from "./render"
 import { Bubble } from "../bubble";
 defineOptions({
   name: 'Wrapper',
@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   blockRenderTag: 'p'
 })
 //编辑器事件
-const emits = defineEmits(['update:modelValue', 'selectionUpdate', 'insertParagraph', 'deleteComplete', 'keydown', 'keyup', 'focus', 'blur', 'beforeUpdateView', 'afterUpdateView', 'created', 'bubbleShow', 'bubbleShowing', 'bubbleShown', 'bubbleHide', 'bubbleHiding', 'bubbleHidden'])
+const emits = defineEmits<WrapperEmitsType>()
 //编辑器dom元素
 const elRef = ref<HTMLElement | undefined>()
 //编辑器实例

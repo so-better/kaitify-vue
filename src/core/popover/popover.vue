@@ -26,7 +26,7 @@
 import { createPopper, Instance } from '@popperjs/core';
 import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { event as DapEvent } from "dap-util"
-import { PopoverPropsType, PopoverPlacementType } from './props';
+import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props';
 
 defineOptions({
   name: 'Popover'
@@ -44,7 +44,7 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
   disabled: false
 })
 //事件
-const emits = defineEmits(['show', 'showing', 'shown', 'hide', 'hiding', 'hidden'])
+const emits = defineEmits<PopoverEmitsType>()
 //是否显示
 const visible = ref<boolean>(false)
 //是否显示内容

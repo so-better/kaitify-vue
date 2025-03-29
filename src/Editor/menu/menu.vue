@@ -36,7 +36,7 @@ import { Popover } from "@/core/popover"
 import { Icon } from "@/core/icon"
 import { Button } from "@/core/button"
 import { StateType } from "../wrapper";
-import { MenuDataType, MenuPropsType } from './props';
+import { MenuDataType, MenuEmitsType, MenuPropsType } from './props';
 
 defineOptions({
   name: 'Menu'
@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
   data: () => []
 })
 //事件
-const emits = defineEmits(['operate', 'select', 'popoverShow', 'popoverShowing', 'popoverShown', 'popoverHide', 'popoverHiding', 'popoverHidden'])
+const emits = defineEmits<MenuEmitsType>()
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')
 //组件没有放在Wrapper的插槽中会报错
