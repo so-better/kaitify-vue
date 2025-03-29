@@ -5,7 +5,7 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.1-beta.22 <Badge type="tip" text='2025.03.29' />
+## v0.0.1-beta.23 <Badge type="tip" text='2025.03.29' />
 
 - 优化组件事件类型的 `TS` 定义
 
