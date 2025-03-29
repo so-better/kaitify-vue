@@ -55,3 +55,40 @@ export type MenuPropsType = {
         [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean;
     };
 };
+/**
+ * 菜单组件的事件类型
+ */
+export type MenuEmitsType = {
+    /**
+     * 非浮层类型的菜单按钮点击触发的事件
+     */
+    (e: 'operate'): void;
+    /**
+     * 浮层类型的菜单按钮点击选项触发的事件
+     */
+    (e: 'select', value: MenuDataType): void;
+    /**
+     * 浮层显示前触发的事件
+     */
+    (e: 'popoverShow', value: Element): void;
+    /**
+     * 浮层显示时触发的事件
+     */
+    (e: 'popoverShowing', value: Element): void;
+    /**
+     * 浮层显示后触发的事件
+     */
+    (e: 'popoverShown', value: Element): void;
+    /**
+     * 浮层隐藏前触发的事件
+     */
+    (e: 'popoverHide', value: Element): void;
+    /**
+     * 浮层隐藏时触发的事件
+     */
+    (e: 'popoverHiding', value: Element): void;
+    /**
+     * 浮层隐藏后触发的事件
+     */
+    (e: 'popoverHidden', value: Element): void;
+};

@@ -16,3 +16,32 @@ export type BubblePropsType = {
      */
     match?: KNodeMatchOptionType;
 };
+/**
+ * 气泡组件的事件类型
+ */
+export type BubbleEmitsType = {
+    /**
+     * 气泡显示前触发的事件
+     */
+    (e: 'show', value: Element): void;
+    /**
+     * 气泡显示时触发的事件
+     */
+    (e: 'showing', value: Element): void;
+    /**
+     * 气泡显示后触发的事件
+     */
+    (e: 'shown', value: Element): void;
+    /**
+     * 气泡隐藏前触发的事件
+     */
+    (e: 'hide', value: Element): void;
+    /**
+     * 气泡隐藏时触发的事件
+     */
+    (e: 'hiding', value: Element): void;
+    /**
+     * 气泡隐藏后触发的事件
+     */
+    (e: 'hidden', value: Element): void;
+};

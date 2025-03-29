@@ -13,20 +13,20 @@ type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<BubblePropsType, {
     elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
     popperInstance: import('vue').Ref<Instance | undefined, Instance | undefined>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    hidden: (...args: any[]) => void;
-    show: (...args: any[]) => void;
-    showing: (...args: any[]) => void;
-    shown: (...args: any[]) => void;
-    hide: (...args: any[]) => void;
-    hiding: (...args: any[]) => void;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
+    hidden: (value: Element) => any;
+    show: (value: Element) => any;
+    showing: (value: Element) => any;
+    shown: (value: Element) => any;
+    hide: (value: Element) => any;
+    hiding: (value: Element) => any;
 }, string, import('vue').PublicProps, Readonly<BubblePropsType> & Readonly<{
-    onHidden?: ((...args: any[]) => any) | undefined;
-    onShow?: ((...args: any[]) => any) | undefined;
-    onShowing?: ((...args: any[]) => any) | undefined;
-    onShown?: ((...args: any[]) => any) | undefined;
-    onHide?: ((...args: any[]) => any) | undefined;
-    onHiding?: ((...args: any[]) => any) | undefined;
+    onHidden?: ((value: Element) => any) | undefined;
+    onShow?: ((value: Element) => any) | undefined;
+    onShowing?: ((value: Element) => any) | undefined;
+    onShown?: ((value: Element) => any) | undefined;
+    onHide?: ((value: Element) => any) | undefined;
+    onHiding?: ((value: Element) => any) | undefined;
 }>, {
     visible: boolean;
     zIndex: number;

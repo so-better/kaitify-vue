@@ -1,8 +1,8 @@
 import { CheckboxPropsType } from './props';
-declare const _default: import('vue').DefineComponent<CheckboxPropsType, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    "update:modelValue": (...args: any[]) => void;
+declare const _default: import('vue').DefineComponent<CheckboxPropsType, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
+    "update:modelValue": (value: boolean) => any;
 }, string, import('vue').PublicProps, Readonly<CheckboxPropsType> & Readonly<{
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
 }>, {
     disabled: boolean;
     modelValue: boolean;

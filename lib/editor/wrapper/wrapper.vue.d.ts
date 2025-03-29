@@ -25,41 +25,11 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
     state: import('vue').ComputedRef<StateType>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    "update:modelValue": (...args: any[]) => void;
-    created: (...args: any[]) => void;
-    blur: (...args: any[]) => void;
-    focus: (...args: any[]) => void;
-    keydown: (...args: any[]) => void;
-    keyup: (...args: any[]) => void;
-    selectionUpdate: (...args: any[]) => void;
-    insertParagraph: (...args: any[]) => void;
-    deleteComplete: (...args: any[]) => void;
-    beforeUpdateView: (...args: any[]) => void;
-    afterUpdateView: (...args: any[]) => void;
-    bubbleShow: (...args: any[]) => void;
-    bubbleShowing: (...args: any[]) => void;
-    bubbleShown: (...args: any[]) => void;
-    bubbleHide: (...args: any[]) => void;
-    bubbleHiding: (...args: any[]) => void;
-    bubbleHidden: (...args: any[]) => void;
+    [x: string]: any;
+} & {
+    [x: string]: any;
 }, string, import('vue').PublicProps, Readonly<WrapperPropsType> & Readonly<{
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
-    onCreated?: ((...args: any[]) => any) | undefined;
-    onBlur?: ((...args: any[]) => any) | undefined;
-    onFocus?: ((...args: any[]) => any) | undefined;
-    onKeydown?: ((...args: any[]) => any) | undefined;
-    onKeyup?: ((...args: any[]) => any) | undefined;
-    onSelectionUpdate?: ((...args: any[]) => any) | undefined;
-    onInsertParagraph?: ((...args: any[]) => any) | undefined;
-    onDeleteComplete?: ((...args: any[]) => any) | undefined;
-    onBeforeUpdateView?: ((...args: any[]) => any) | undefined;
-    onAfterUpdateView?: ((...args: any[]) => any) | undefined;
-    onBubbleShow?: ((...args: any[]) => any) | undefined;
-    onBubbleShowing?: ((...args: any[]) => any) | undefined;
-    onBubbleShown?: ((...args: any[]) => any) | undefined;
-    onBubbleHide?: ((...args: any[]) => any) | undefined;
-    onBubbleHiding?: ((...args: any[]) => any) | undefined;
-    onBubbleHidden?: ((...args: any[]) => any) | undefined;
+    [x: `on${Capitalize<any>}`]: ((...args: any) => any) | undefined;
 }>, {
     disabled: boolean;
     modelValue: string;

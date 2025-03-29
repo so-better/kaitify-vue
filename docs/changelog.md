@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.22 <Badge type="tip" text='2025.03.29' />
+
+- 优化组件事件类型的 `TS` 定义
+
 ## v0.0.1-beta.21 <Badge type="tip" text='2025.03.24' />
 
 - 更新`@kaitify/core` 依赖版本，新增 `isSelectionInView` 函数，同时对 `unicode` 字符删除逻辑进行了优化，

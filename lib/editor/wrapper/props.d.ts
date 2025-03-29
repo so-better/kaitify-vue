@@ -1,5 +1,6 @@
 import { LocaleType } from '../../locale';
 import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType, Selection } from '@kaitify/core';
+import { Ref } from 'vue';
 import { BubblePropsType } from '../bubble';
 /**
  * 编辑器参数类型
@@ -129,6 +130,79 @@ export type WrapperPropsType = {
      * 编辑器updateView执行时，通过比对新旧节点数组获取需要格式化的节点，在这些节点被格式化前，触发此方法，回调参数即当前需要被格式化的节点，该方法返回一个节点，返回的节点将会被格式化，如果你不需要任何特殊处理，返回入参提供的节点即可
      */
     beforePatchNodeToFormat?: (this: Editor, node: KNode) => KNode;
+};
+/**
+ * 编辑器事件类型
+ */
+export type WrapperEmitsType = {
+    /**
+     * 编辑器值改变触发的事件
+     */
+    (e: 'update:modelValue', value: string): void;
+    /**
+     * 编辑器光标发生变化触发的事件
+     */
+    (e: 'selectionUpdate', value: Selection): void;
+    /**
+     * 编辑器进行换行时触发的事件
+     */
+    (e: 'insertParagraph', value: KNode): void;
+    /**
+     * 编辑器执行删除操作完成的时候触发的事件
+     */
+    (e: 'deleteComplete'): void;
+    /**
+     * 编辑器内键盘按下触发的事件
+     */
+    (e: 'keydown', value: KeyboardEvent): void;
+    /**
+     * 编辑器内键盘松开触发的事件
+     */
+    (e: 'keyup', value: KeyboardEvent): void;
+    /**
+     * 编辑器获取光标触发的事件
+     */
+    (e: 'focus', value: FocusEvent): void;
+    /**
+     * 编辑器失去光标触发的事件
+     */
+    (e: 'blur', value: FocusEvent): void;
+    /**
+     * 编辑器视图更新前触发的事件
+     */
+    (e: 'beforeUpdateView'): void;
+    /**
+     * 编辑器视图更新后触发的事件
+     */
+    (e: 'afterUpdateView'): void;
+    /**
+     * 编辑器创建完成后触发的事件
+     */
+    (e: 'created', value: Ref<Editor | undefined, Editor | undefined>): void;
+    /**
+     * 气泡栏显示前触发的事件
+     */
+    (e: 'bubbleShow', value: Element): void;
+    /**
+     * 气泡栏显示时触发的事件
+     */
+    (e: 'bubbleShowing', value: Element): void;
+    /**
+     * 气泡栏显示后触发的事件
+     */
+    (e: 'bubbleShown', value: Element): void;
+    /**
+     * 气泡栏隐藏前触发的事件
+     */
+    (e: 'bubbleHide', value: Element): void;
+    /**
+     * 气泡栏隐藏时触发的事件
+     */
+    (e: 'bubbleHiding', value: Element): void;
+    /**
+     * 气泡栏隐藏后触发的事件
+     */
+    (e: 'bubbleHidden', value: Element): void;
 };
 /**
  * 编辑器状态对象
