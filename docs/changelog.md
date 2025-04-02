@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.24 <Badge type="tip" text='2025.04.02' />
+
+- 更新`@kaitify/core` 依赖版本，优化对非法 `dom` 插入、移除、修改的处理逻辑
+
 ## v0.0.1-beta.23 <Badge type="tip" text='2025.03.29' />
 
 - 优化组件事件类型的 `TS` 定义
