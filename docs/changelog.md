@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.25 <Badge type="tip" text='2025.04.03' />
+
+- 更新`@kaitify/core` 依赖版本，修复了 Image 和 Video 拓展的拖拽问题，同时新增 `setDomObserve` 和 `removeDomObserve` 函数
+
 ## v0.0.1-beta.24 <Badge type="tip" text='2025.04.02' />
 
 - 更新`@kaitify/core` 依赖版本，优化对非法 `dom` 插入、移除、修改的处理逻辑
