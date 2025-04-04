@@ -18,9 +18,9 @@ import { ImageMenu } from '@kaitify/vue'
 
 ```html
 <Wrapper v-model="content">
-  <template #before>
-    <ImageMenu />
-  </template>
+	<template #before>
+		<ImageMenu />
+	</template>
 </Wrapper>
 ```
 
@@ -30,7 +30,7 @@ import { ImageMenu } from '@kaitify/vue'
 
 是否禁用该菜单，默认为 `false`
 
-##### tabs <Badge type="danger" text="{ data: ('upload' | 'remote')[]; default: 'upload' | 'remote'}" />
+##### tabs <Badge type="danger" text="{ data: ('remote' | 'upload')[]; default: 'remote' | 'upload'}" />
 
 配置浮层内的选项卡，目前支持 `upload`（本地上传）和 `remote`（远程图片），`data` 表示选项卡的数据，`default` 表示默认展示的选项卡
 
