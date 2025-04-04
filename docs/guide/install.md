@@ -6,7 +6,7 @@ title: 安装
 
 ## 下载 kaitify-vue 本地到使用
 
-- 下载地址：[kaitify-vue](https://registry.npmmirror.com/@kaitify/vue/download/@kaitify/vue-0.0.1-beta.25.tgz)
+- 下载地址：[kaitify-vue](https://registry.npmmirror.com/@kaitify/vue/download/@kaitify/vue-0.0.1-beta.26.tgz)
 - 下载完成后最终解压得到一个 package 文件夹，进入 package 文件夹后，将 package 目录下的整个 lib 目录拷贝到你的项目下
 - 在 html 页面中引入 js
 
@@ -18,7 +18,7 @@ title: 安装
 ```html
 <!-- 使用es模块构建版本 -->
 <script type="module">
-  import { Wrapper } from 'lib/kaitify-vue.es.js'
+	import { Wrapper } from 'lib/kaitify-vue.es.js'
 </script>
 ```
 
@@ -28,7 +28,7 @@ title: 安装
 
 ```html
 <!-- 引入固定版本的kaitify -->
-<script src="https://unpkg.com/@kaitify/vue@0.0.1-beta.25/lib/kaitify-vue.umd.js"></script>
+<script src="https://unpkg.com/@kaitify/vue@0.0.1-beta.26/lib/kaitify-vue.umd.js"></script>
 <!-- 始终引入最新的kaitify -->
 <script src="https://unpkg.com/@kaitify/vue/lib/kaitify-vue.umd.js"></script>
 ```
@@ -36,7 +36,7 @@ title: 安装
 ```html
 <!-- 使用CDN上的es模块构建版本 -->
 <script type="module">
-  import { Wrapper } from 'https://unpkg.com/@kaitify/vue/lib/kaitify-vue.es.js'
+	import { Wrapper } from 'https://unpkg.com/@kaitify/vue/lib/kaitify-vue.es.js'
 </script>
 ```
 
@@ -50,21 +50,21 @@ title: 安装
 npm install @kaitify/vue
 
 # 安装指定版本
-npm install @kaitify/vue@0.0.1-beta.25
+npm install @kaitify/vue@0.0.1-beta.26
 ```
 
 ```bash [yarn]
 yarn install @kaitify/vue
 
 # 安装指定版本
-yarn install @kaitify/vue@0.0.1-beta.25
+yarn install @kaitify/vue@0.0.1-beta.26
 ```
 
 ```bash [pnpm]
 pnpm install @kaitify/vue
 
 # 安装指定版本
-pnpm install @kaitify/vue@0.0.1-beta.25
+pnpm install @kaitify/vue@0.0.1-beta.26
 ```
 
 :::

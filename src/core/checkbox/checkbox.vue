@@ -2,14 +2,12 @@
   <label class="kaitify-checkbox" :disabled="disabled || undefined">
     <span class="kaitify-checkbox-el" :class="{ 'kaitify-checkbox-active': modelValue }">
       <input type="checkbox" @change="onChange" :disabled="disabled || undefined" />
-      <Icon v-show="modelValue" class="kaitify-checkbox-icon" name="check" />
     </span>
     <span class="kaitify-checkbox-label">{{ label }}</span>
   </label>
 </template>
 
 <script setup lang="ts">
-import { Icon } from '../icon';
 import { CheckboxEmitsType, CheckboxPropsType } from './props';
 
 defineOptions({

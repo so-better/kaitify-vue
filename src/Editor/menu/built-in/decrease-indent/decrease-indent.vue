@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="indent-decrease" />
+    <Icon name="kaitify-icon-indent-decrease" />
   </Menu>
 </template>
 <script setup lang="ts">

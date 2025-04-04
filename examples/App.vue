@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 10px">
-    <div ref="menus"></div>
+    <div style="display:flex;justify-content:flex-start;align-items: center;flex-wrap: wrap;" ref="menus"></div>
     <div id="area" style="background: #fff">
       <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-cn"
         :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
@@ -51,8 +51,7 @@
           <CodeBlockMenu />
           <HorizontalMenu />
           <LinkMenu />
-          <AttachmentMenu :tabs="{ data: ['remote', 'upload'], default: 'upload' }"
-            :popover-props="{ zIndex: 100, arrow: true }" />
+          <AttachmentMenu :popover-props="{ zIndex: 100, arrow: true }" />
           <ImageMenu :tabs="{ data: ['remote', 'upload'], default: 'upload' }" />
           <VideoMenu :tabs="{ data: ['remote', 'upload'], default: 'upload' }"
             :popover-props="{ zIndex: 100, arrow: true }" />

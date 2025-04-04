@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="code-block" />
+    <Icon name="kaitify-icon-code-block" />
   </Menu>
 </template>
 <script setup lang="ts">

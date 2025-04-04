@@ -1,24 +1,24 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
     :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
-    <Icon name="video" />
+    <Icon name="kaitify-icon-video" />
     <template #popover>
       <Tabs :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'upload'" class="kaitify-video-upload">
-            <div class="kaitify-video-upload-wrapper">
-              <input type="file" accept="video/*" @change="fileChange" />
-              <Icon name="upload" />
-            </div>
-            <div class="kaitify-video-upload-footer">
-              <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
-            </div>
-          </div>
-          <div v-else-if="current == 'remote'" class="kaitify-video-remote">
+          <div v-if="current == 'remote'" class="kaitify-video-remote">
             <input v-model.trim="remoteData.src" :placeholder="state.t('视频地址')" type="url" />
             <div class="kaitify-video-remote-footer">
               <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
               <Button @click="insert" :disabled="!remoteData.src">{{ state.t('插入') }}</Button>
+            </div>
+          </div>
+          <div v-else-if="current == 'upload'" class="kaitify-video-upload">
+            <div class="kaitify-video-upload-wrapper">
+              <input type="file" accept="video/*" @change="fileChange" />
+              <Icon name="kaitify-icon-upload" />
+            </div>
+            <div class="kaitify-video-upload-footer">
+              <Checkbox v-model="remoteData.autoplay" :label="state.t('是否自动播放')" />
             </div>
           </div>
         </template>
@@ -45,8 +45,8 @@ defineOptions({
 const props = withDefaults(defineProps<VideoMenuPropsType>(), {
   disabled: false,
   tabs: () => ({
-    data: ['upload', 'remote'],
-    default: 'upload'
+    data: ['remote', 'upload'],
+    default: 'remote'
   })
 })
 //编辑器状态数据
@@ -66,11 +66,11 @@ const remoteData = reactive<SetVideoOptionType>({
 const tabData = computed<TabsPropsType['data']>(() => {
   return props.tabs.data.map(item => {
     return [{
-      label: state.value.t('本地上传'),
-      value: 'upload'
-    }, {
       label: state.value.t('远程地址'),
       value: 'remote'
+    }, {
+      label: state.value.t('本地上传'),
+      value: 'upload'
     }].find(v => v.value == item)!
   })
 })

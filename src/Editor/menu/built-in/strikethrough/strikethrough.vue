@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="strikethrough" />
+    <Icon name="kaitify-icon-strikethrough" />
   </Menu>
 </template>
 <script setup lang="ts">

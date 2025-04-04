@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="align-center" />
+    <Icon name="kaitify-icon-align-center" />
   </Menu>
 </template>
 <script setup lang="ts">

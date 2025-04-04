@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="separator" />
+    <Icon name="kaitify-icon-separator" />
   </Menu>
 </template>
 <script setup lang="ts">

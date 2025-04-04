@@ -1,12 +1,12 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
-    :popover-props="{ width: popoverProps?.width ?? 175, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
-    <Icon name="list-decimal" />
+    :popover-props="{ width: popoverProps?.width ?? 160, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+    <Icon name="kaitify-icon-list-decimal" />
     <template #popover>
       <div class="kaitify-ordered-list">
         <div class="kaitify-ordered-list-item" v-for="item in listTypes">
-          <Button large :active="itemActive(item)" @click="onSelect(item)">
-            <Icon :name="'list-' + item" />
+          <Button :active="itemActive(item)" @click="onSelect(item)">
+            <Icon :name="'kaitify-icon-list-' + item" />
           </Button>
         </div>
       </div>

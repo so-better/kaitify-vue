@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon :name="`insert-column-${type ?? 'right'}`" />
+    <Icon :name="`kaitify-icon-insert-column-${type ?? 'right'}`" />
   </Menu>
 </template>
 <script setup lang="ts">

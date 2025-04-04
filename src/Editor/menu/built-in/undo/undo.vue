@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate">
-    <Icon name="undo" />
+    <Icon name="kaitify-icon-undo" />
   </Menu>
 </template>
 <script setup lang="ts">

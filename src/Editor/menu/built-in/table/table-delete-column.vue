@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="delete-column" />
+    <Icon name="kaitify-icon-delete-column" />
   </Menu>
 </template>
 <script setup lang="ts">

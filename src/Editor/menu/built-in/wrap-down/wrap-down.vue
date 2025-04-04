@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="wrap-down" />
+    <Icon name="kaitify-icon-wrap-down" />
   </Menu>
 </template>
 <script setup lang="ts">

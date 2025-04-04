@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate">
-    <Icon name="redo" />
+    <Icon name="kaitify-icon-redo" />
   </Menu>
 </template>
 <script setup lang="ts">

@@ -8,8 +8,8 @@ export type AttachmentMenuPropsType = {
      * tabs配置
      */
     tabs?: {
-        data: ('upload' | 'remote')[];
-        default: 'upload' | 'remote';
+        data: ('remote' | 'upload')[];
+        default: 'remote' | 'upload';
     };
     /**
      * 浮层属性

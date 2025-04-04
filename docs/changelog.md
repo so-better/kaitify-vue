@@ -5,6 +5,12 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.26 <Badge type="tip" text='2025.04.04' />
+
+- 新增 `Icon` 组件，支持 `@iconify/vue`
+- `Tabs` 组件优化
+- `Checkbox` 组件优化
+
 ## v0.0.1-beta.25 <Badge type="tip" text='2025.04.03' />
 
 - 更新`@kaitify/core` 依赖版本，修复了 Image 和 Video 拓展的拖拽问题，同时新增 `setDomObserve` 和 `removeDomObserve` 函数

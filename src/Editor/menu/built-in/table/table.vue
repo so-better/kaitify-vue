@@ -1,7 +1,7 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
     :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
-    <Icon name="table" />
+    <Icon name="kaitify-icon-table" />
     <template #popover>
       <div class="kaitify-table">
         <table>

@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon :name="`merge-cells-${direction}`" />
+    <Icon :name="`kaitify-icon-merge-cells-${direction}`" />
   </Menu>
 </template>
 <script setup lang="ts">

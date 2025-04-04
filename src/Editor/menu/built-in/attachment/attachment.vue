@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
     :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }"
     @popover-show="menuShow">
-    <Icon name="attachment" />
+    <Icon name="kaitify-icon-attachment" />
     <template #popover>
       <div v-if="isActive" class="kaitify-attachment-update">
         <input v-model.trim="updateData.text" :placeholder="state.t('附件名称')" type="text" />
@@ -13,16 +13,16 @@
       </div>
       <Tabs v-else :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'upload'" class="kaitify-attachment-upload">
-            <input type="file" accept="*" @change="fileChange" />
-            <Icon name="upload" />
-          </div>
-          <div v-else-if="current == 'remote'" class="kaitify-attachment-remote">
+          <div v-if="current == 'remote'" class="kaitify-attachment-remote">
             <input v-model.trim="remoteData.text" :placeholder="state.t('附件名称')" type="text" />
             <input v-model.trim="remoteData.url" :placeholder="state.t('附件地址')" type="url" />
             <div class="kaitify-attachment-remote-footer">
               <Button @click="insert" :disabled="!remoteData.url || !remoteData.text">{{ state.t('插入') }}</Button>
             </div>
+          </div>
+          <div v-else-if="current == 'upload'" class="kaitify-attachment-upload">
+            <input type="file" accept="*" @change="fileChange" />
+            <Icon name="kaitify-icon-upload" />
           </div>
         </template>
       </Tabs>
@@ -47,8 +47,8 @@ defineOptions({
 const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
   disabled: false,
   tabs: () => ({
-    data: ['upload', 'remote'],
-    default: 'upload'
+    data: ['remote', 'upload'],
+    default: 'remote'
   })
 })
 //编辑器状态数据
@@ -73,12 +73,12 @@ const updateData = reactive<UpdateAttachmentOptionType>({
 const tabData = computed<TabsPropsType['data']>(() => {
   return props.tabs.data.map(item => {
     return [{
-      label: state.value.t('本地上传'),
-      value: 'upload'
-    }, {
       label: state.value.t('远程地址'),
       value: 'remote'
-    }].find(v => v.value == item)!
+    }, {
+      label: state.value.t('本地上传'),
+      value: 'upload'
+    },].find(v => v.value == item)!
   })
 })
 //是否激活

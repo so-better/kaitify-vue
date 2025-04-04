@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
     :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }"
     @popover-show="menuShow">
-    <Icon name="link" />
+    <Icon name="kaitify-icon-link" />
     <template #popover>
       <div class="kaitify-link">
         <!-- 修改链接 -->

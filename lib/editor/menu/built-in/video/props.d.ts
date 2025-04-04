@@ -12,8 +12,8 @@ export type VideoMenuPropsType = {
      * tabs配置
      */
     tabs?: {
-        data: ('upload' | 'remote')[];
-        default: 'upload' | 'remote';
+        data: ('remote' | 'upload')[];
+        default: 'remote' | 'upload';
     };
     /**
      * 自定义上传方法

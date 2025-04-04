@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
     :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }"
     @popover-show="menuShow">
-    <Icon name="mathformula" />
+    <Icon name="kaitify-icon-mathformula" />
     <template #popover>
       <div class="kaitify-math">
         <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="state.t('输入Latex数学公式')" />

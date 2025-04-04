@@ -10,7 +10,7 @@
       <template #refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
-          <Icon v-if="popover" name="caret-down" class="kaitify-menu-caret"
+          <Icon v-if="popover" name="kaitify-icon-caret-down" class="kaitify-menu-caret"
             :class="{ 'kaitify-menu-caret-rotate': popoverVisible }" />
         </Button>
       </template>

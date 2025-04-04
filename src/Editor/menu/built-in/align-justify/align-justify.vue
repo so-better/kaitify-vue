@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="align-justify" />
+    <Icon name="kaitify-icon-align-justify" />
   </Menu>
 </template>
 <script setup lang="ts">

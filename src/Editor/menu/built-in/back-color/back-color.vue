@@ -1,12 +1,12 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
     :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
-    <Icon name="brush" />
+    <Icon name="kaitify-icon-brush" />
     <template #popover>
       <div class="kaitify-colors-panel">
         <div class="kaitify-colors-header">
           <Button @click="unsetBackColor" block large>
-            <Icon name="remove" />
+            <Icon name="kaitify-icon-remove" />
             <span class="kaitify-colors-header-text">{{ state.t('默认颜色') }}</span>
           </Button>
         </div>

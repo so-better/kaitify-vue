@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
     :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }"
     @popover-show="menuShow">
-    <Icon name="image" />
+    <Icon name="kaitify-icon-image" />
     <template #popover>
       <div v-if="isActive" class="kaitify-image-update">
         <input v-model.trim="updateData.alt" :placeholder="state.t('图片名称')" type="text" />
@@ -13,16 +13,16 @@
       </div>
       <Tabs v-else :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'upload'" class="kaitify-image-upload">
-            <input type="file" accept="image/*" @change="fileChange" />
-            <Icon name="upload" />
-          </div>
-          <div v-else-if="current == 'remote'" class="kaitify-image-remote">
+          <div v-if="current == 'remote'" class="kaitify-image-remote">
             <input v-model.trim="remoteData.alt" :placeholder="state.t('图片名称')" type="text" />
             <input v-model.trim="remoteData.src" :placeholder="state.t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
               <Button @click="insert" :disabled="!remoteData.src">{{ state.t('插入') }}</Button>
             </div>
+          </div>
+          <div v-else-if="current == 'upload'" class="kaitify-image-upload">
+            <input type="file" accept="image/*" @change="fileChange" />
+            <Icon name="kaitify-icon-upload" />
           </div>
         </template>
       </Tabs>
@@ -47,8 +47,8 @@ defineOptions({
 const props = withDefaults(defineProps<ImageMenuPropsType>(), {
   disabled: false,
   tabs: () => ({
-    data: ['upload', 'remote'],
-    default: 'upload'
+    data: ['remote', 'upload'],
+    default: 'remote'
   })
 })
 //编辑器状态数据
@@ -73,11 +73,11 @@ const updateData = reactive<UpdateImageOptionType>({
 const tabData = computed<TabsPropsType['data']>(() => {
   return props.tabs.data.map(item => {
     return [{
-      label: state.value.t('本地上传'),
-      value: 'upload'
-    }, {
       label: state.value.t('远程地址'),
       value: 'remote'
+    }, {
+      label: state.value.t('本地上传'),
+      value: 'upload'
     }].find(v => v.value == item)!
   })
 })

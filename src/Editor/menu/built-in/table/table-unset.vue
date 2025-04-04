@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="false" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="delete-table" />
+    <Icon name="kaitify-icon-delete-table" />
   </Menu>
 </template>
 <script setup lang="ts">

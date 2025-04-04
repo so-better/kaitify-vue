@@ -8,6 +8,8 @@ export * from './core/divider'
 export * from './core/tabs'
 //复选框
 export * from './core/checkbox'
+//图标
+export * from './core/icon'
 //编辑器
 export * from './editor/wrapper'
 //菜单

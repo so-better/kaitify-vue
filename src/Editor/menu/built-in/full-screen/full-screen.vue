@@ -1,6 +1,6 @@
 <template>
   <Menu :disabled="isDisabled" :active="isActive" @operate="onOperate" :shortcut="shortcut">
-    <Icon name="full-screen" />
+    <Icon name="kaitify-icon-full-screen" />
   </Menu>
 </template>
 <script setup lang="ts">
