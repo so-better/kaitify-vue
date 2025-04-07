@@ -37,7 +37,6 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     hideBubbleOnMousedown: boolean;
     autofocus: boolean;
     placeholder: string;
-    externalUnPushHistory: boolean;
     dark: boolean;
     allowCopy: boolean;
     allowPaste: boolean;

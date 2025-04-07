@@ -44,10 +44,6 @@ export type WrapperPropsType = {
 	 */
 	placeholder?: string
 	/**
-	 * 外部直接更改modeValue的值触发编辑器重新渲染时是否不加入到历史记录中
-	 */
-	externalUnPushHistory?: boolean
-	/**
 	 * 是否深色模式
 	 */
 	dark?: boolean

@@ -5,10 +5,9 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.1-beta.27 <Badge type="tip" text='2025.04.07' />
+## v0.0.1-beta.28 <Badge type="tip" text='2025.04.07' />
 
-- 更新`@kaitify/core` 依赖版本，`review` 方法进行了优化
-- `Wrapper` 组件新增 `externalUnPushHistory` 属性
+- 更新`@kaitify/core` 依赖版本
 
 ## v0.0.1-beta.26 <Badge type="tip" text='2025.04.04' />
 

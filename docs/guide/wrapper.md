@@ -118,10 +118,6 @@ const content = ref('<p>hello</p>')
 
 编辑器内容仅有一个默认的段落时，用来占位的内容
 
-##### externalUnPushHistory <Badge type="danger" text="boolean" />
-
-外部直接更改 `modeValue` 的值触发编辑器重新渲染时是否不加入到历史记录中，默认为 `false`，即外部更改值也会被记录到历史中
-
 ##### dark <Badge type="danger" text="boolean" />
 
 编辑器是否呈现深色风格，默认为 `false`，此属性对编辑器相关的所有组件都有影响

@@ -33,7 +33,6 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   hideBubbleOnMousedown: false,
   autofocus: false,
   placeholder: '',
-  externalUnPushHistory: false,
   dark: false,
   allowCopy: true,
   allowCut: true,
@@ -112,7 +111,7 @@ const onBubbleHidden = (el: Element) => {
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(() => props.modelValue, async (newVal) => {
   if (editor.value && !internalModification.value) {
-    await editor.value.review(newVal, props.externalUnPushHistory)
+    await editor.value.review(newVal)
     if (!props.disabled && props.autofocus) {
       editor.value.setSelectionAfter()
       editor.value.updateRealSelection()
