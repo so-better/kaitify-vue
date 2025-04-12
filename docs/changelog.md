@@ -5,9 +5,9 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.1-beta.29 <Badge type="tip" text='2025.04.12' />
+## v0.0.1-beta.30 <Badge type="tip" text='2025.04.12' />
 
-- 更新 `@kaitify/core`，优化 `getHTML` 方法、优化行内代码样式，修复了中文输入不加入历史记录的 bug
+- 更新 `@kaitify/core`，进行了优化和 bug 修复
 
 ## v0.0.1-beta.28 <Badge type="tip" text='2025.04.07' />
 
@@ -21,7 +21,7 @@ title: 更新日志
 
 ## v0.0.1-beta.25 <Badge type="tip" text='2025.04.03' />
 
-- 更新`@kaitify/core` 依赖版本，修复了 Image 和 Video 拓展的拖拽问题，同时新增 `setDomObserve` 和 `removeDomObserve` 函数
+- 更新`@kaitify/core` 依赖版本，修复了 `Image` 和 `Video` 拓展的拖拽问题，同时新增 `setDomObserve` 和 `removeDomObserve` 函数
 
 ## v0.0.1-beta.24 <Badge type="tip" text='2025.04.02' />
 
