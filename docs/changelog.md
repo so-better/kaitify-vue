@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.29 <Badge type="tip" text='2025.04.12' />
+
+- 更新 `@kaitify/core`，优化 `getHTML` 方法、优化行内代码样式，修复了中文输入不加入历史记录的 bug
+
 ## v0.0.1-beta.28 <Badge type="tip" text='2025.04.07' />
 
 - 更新`@kaitify/core` 依赖版本
