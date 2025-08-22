@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px">
     <div style="display:flex;justify-content:flex-start;align-items: center;flex-wrap: wrap;" ref="menus"></div>
-    <div id="area" style="background: #fff">
+    <div id="area">
       <EditorWrapper ref="wrapper" :bubble-props="{ match: bubbleMatch, visible: shouldVisible }" locale="zh-CN"
         :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html
         placeholder="输入正文内容..." v-model="content" @created="onCreated" :append-before-to="menus">
