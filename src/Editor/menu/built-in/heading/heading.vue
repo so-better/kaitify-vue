@@ -22,32 +22,6 @@ defineOptions({
 //属性
 const props = withDefaults(defineProps<HeadingMenuPropsType>(), {
   disabled: false,
-  data: () => [
-    {
-      label: '一级标题',
-      value: 1
-    },
-    {
-      label: '二级标题',
-      value: 2
-    },
-    {
-      label: '三级标题',
-      value: 3
-    },
-    {
-      label: '四级标题',
-      value: 4
-    },
-    {
-      label: '五级标题',
-      value: 5
-    },
-    {
-      label: '六级标题',
-      value: 6
-    }
-  ]
 })
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')
@@ -55,11 +29,38 @@ const state = inject<ComputedRef<StateType>>('state')
 if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
+
 //菜单组件实例
 const menuRef = ref<(typeof Menu) | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
-  return [...(props.data || []), {
+  const baseOptions = [
+    {
+      label: state.value.t('一级标题'),
+      value: 1
+    },
+    {
+      label: state.value.t('二级标题'),
+      value: 2
+    },
+    {
+      label: state.value.t('三级标题'),
+      value: 3
+    },
+    {
+      label: state.value.t('四级标题'),
+      value: 4
+    },
+    {
+      label: state.value.t('五级标题'),
+      value: 5
+    },
+    {
+      label: state.value.t('六级标题'),
+      value: 6
+    }
+  ]
+  return [...(props.data || baseOptions), {
     label: state.value.t('正文'),
     value: 0
   }]
@@ -98,7 +99,7 @@ const isActive = computed<(value: HeadingLevelType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  return props.data.find(item => isActive.value(item.value as HeadingLevelType)) ?? options.value[options.value.length - 1]
+  return options.value.find(item => isActive.value(item.value as HeadingLevelType)) ?? options.value[options.value.length - 1]
 })
 
 //选择选项

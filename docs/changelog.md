@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.32 <Badge type="tip" text='2025.08.22' />
+
+- 国际化多语言新增日语和韩语支持，并且针对原先没有翻译的部分文案进行了翻译
+
 ## v0.0.1-beta.31 <Badge type="tip" text='2025.05.23' />
 
 - 更新 `@kaitify/core`，进行了优化和 bug 修复

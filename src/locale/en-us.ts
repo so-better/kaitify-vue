@@ -19,5 +19,11 @@ export default {
   链接文字: 'Link Text',
   是否自动播放: 'AutoPlay',
   视频地址: 'Video Address',
-  输入Latex数学公式: 'Enter Latex Mathematical Formulas'
+  输入Latex数学公式: 'Enter Latex Mathematical Formulas',
+  一级标题: 'Heading 1',
+  二级标题: 'Heading 2',
+  三级标题: 'Heading 3',
+  四级标题: 'Heading 4',
+  五级标题: 'Heading 5',
+  六级标题: 'Heading 6'
 }

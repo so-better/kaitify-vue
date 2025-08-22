@@ -17,8 +17,19 @@ defineOptions({
 })
 //属性
 const props = withDefaults(defineProps<FontFamilyMenuPropsType>(), {
-  disabled: false,
-  data: () => [
+  disabled: false
+})
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')
+//组件没有放在Wrapper的插槽中会报错
+if (!state) {
+  throw new Error(`The component must be placed in the slot of the Wrapper.`)
+}
+//菜单组件实例
+const menuRef = ref<(typeof Menu) | undefined>()
+//选项
+const options = computed<MenuDataType[]>(() => {
+  const baseOptions = [
     {
       label: '黑体',
       value: '黑体,黑体-简'
@@ -46,22 +57,12 @@ const props = withDefaults(defineProps<FontFamilyMenuPropsType>(), {
     {
       label: 'Consolas',
       value: 'Consolas,monospace'
-    }]
-})
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
-//菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
-//选项
-const options = computed<MenuDataType[]>(() => {
+    }
+  ]
   return [{
     label: state.value.t('默认字体'),
     value: ''
-  }, ...(props.data || [])]
+  }, ...(props.data || baseOptions)]
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {
@@ -87,7 +88,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
 })
 //选择的值
 const selectedData = computed<MenuDataType | undefined>(() => {
-  return props.data.find(item => isActive.value(item)) ?? options.value[0]
+  return options.value.find(item => isActive.value(item)) ?? options.value[0]
 })
 
 //选择选项

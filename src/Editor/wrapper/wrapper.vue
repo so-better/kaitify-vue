@@ -29,7 +29,7 @@ defineOptions({
 const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   disabled: false,
-  locale: 'zh-cn',
+  locale: 'zh-CN',
   hideBubbleOnMousedown: false,
   autofocus: false,
   placeholder: '',

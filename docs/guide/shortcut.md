@@ -64,15 +64,13 @@ import { Wrapper, Menu } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const shortcut = (e: KeyboardEvent) => {
-  return {
-    //按下 ctrl + b 选择第一项，触发select事件
-    0: e => e.key == 'b' && e.ctrlKey
-    //按下 ctrl + w 选择第二项，触发select事件
-    1: e => e.key == 'w' && e.ctrlKey
-    //按下 ctrl + e 选择第三项，触发select事件
-    2: e => e.key == 'e' && e.ctrlKey
-  }
+const shortcut = {
+  //按下 ctrl + b 选择第一项，触发select事件
+  0: e => e.key == 'b' && e.ctrlKey
+  //按下 ctrl + w 选择第二项，触发select事件
+  1: e => e.key == 'w' && e.ctrlKey
+  //按下 ctrl + e 选择第三项，触发select事件
+  2: e => e.key == 'e' && e.ctrlKey
 }
 
 const onSelect = (item) => {
