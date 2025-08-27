@@ -563,6 +563,38 @@ const onCreated = () => {
 </script>
 ```
 
+`Wrapper` 组件的所有子孙组件，还可以通过 `inject` 语法来获取 `state`
+
+::: code-group
+
+```vue [SubComponent.vue]
+<template>
+  <div>I'm SubComponent</div>
+</template>
+<script setup lang="ts">
+import { ComputedRef } from 'vue'
+import { StateType } from '@kaitify/vue'
+const state = inject<ComputedRef<StateType>>('state')
+</script>
+```
+
+```vue [Index.vue]
+<template>
+  <Wrapper v-model="content">
+    <template #before>
+      <SubComponent />
+    </template>
+  </Wrapper>
+</template>
+<script setup lang="ts">
+import { Wrapper } from '@kaitify/vue'
+import SubComponent from './SubComponent.vue'
+const content = ref('<p>hello</p>')
+</script>
+```
+
+:::
+
 ## Slots 插槽
 
 ##### before

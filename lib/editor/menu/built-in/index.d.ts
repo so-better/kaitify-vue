@@ -35,3 +35,4 @@ export * from './wrap-up';
 export * from './wrap-down';
 export * from './clear-format';
 export * from './full-screen';
+export * from './emoji';
