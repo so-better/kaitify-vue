@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1-beta.35 <Badge type="tip" text='2025.09.03' />
+
+- 更新 `@kaitify/core` 的依赖版本，优化了许多扩展的样式
+
 ## v0.0.1-beta.34 <Badge type="tip" text='2025.08.27' />
 
 - 更新`@kaitify/core` 依赖版本，对 `Attachment` `Math` 和 `Horizontal` 扩展进行了优化
