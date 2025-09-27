@@ -1,25 +1,17 @@
 <template>
   <div class="kaitify-menu">
-    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="popoverProps.zIndex ?? 10"
-      :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow"
-      :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'"
-      :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth"
-      @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)"
-      @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)"
-      @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
+    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="popoverProps.zIndex ?? 10" :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow" :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'" :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth" @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)" @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)" @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
       <template #refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
-          <Icon v-if="popover" name="kaitify-icon-caret-down" class="kaitify-menu-caret"
-            :class="{ 'kaitify-menu-caret-rotate': popoverVisible }" />
+          <Icon v-if="popover" name="kaitify-icon-caret-down" class="kaitify-menu-caret" :class="{ 'kaitify-menu-caret-rotate': popoverVisible }" />
         </Button>
       </template>
       <!-- 自定义浮层内容 -->
       <slot v-if="$slots.popover" name="popover"></slot>
       <!-- 可选浮层内容 -->
       <div v-else-if="data.length" class="kaitify-menu-options">
-        <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) ?? undefined"
-          class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item) || false }">
+        <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) ?? undefined" class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item) || false }">
           <slot v-if="$slots.icon" name="icon" :option="item"></slot>
           <Icon v-else-if="item.icon" :name="item.icon" class="kaitify-menu-option-icon" />
           <slot v-if="$slots.label" name="label" :option="item"></slot>
@@ -30,13 +22,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, getCurrentInstance, inject, onBeforeUnmount, ref, watch } from "vue";
-import { event as DapEvent, common as DapCommon } from "dap-util"
-import { Popover } from "@/core/popover"
-import { Icon } from "@/core/icon"
-import { Button } from "@/core/button"
-import { StateType } from "../wrapper";
-import { MenuDataType, MenuEmitsType, MenuPropsType } from './props';
+import { computed, ComputedRef, getCurrentInstance, inject, onBeforeUnmount, ref, watch } from 'vue'
+import { event as DapEvent, common as DapCommon } from 'dap-util'
+import { Popover } from '@/core/popover'
+import { Icon } from '@/core/icon'
+import { Button } from '@/core/button'
+import { StateType } from '../wrapper'
+import { MenuDataType, MenuEmitsType, MenuPropsType } from './props'
 
 defineOptions({
   name: 'Menu'
@@ -67,7 +59,7 @@ if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //popover组件实例
-const popoverRef = ref<(typeof Popover) | undefined>()
+const popoverRef = ref<typeof Popover | undefined>()
 //popover浮层是否显示
 const popoverVisible = computed<boolean>(() => {
   if (popoverRef.value) {
@@ -101,30 +93,34 @@ const onOperate = () => {
 }
 
 //设置快捷键
-watch(() => state.value.editor, newVal => {
-  if (newVal && props.shortcut) {
-    DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)
-    DapEvent.on(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`, e => {
-      //popover的菜单
-      if (props.popover && DapCommon.isObject(props.shortcut)) {
-        const shortcut = props.shortcut as { [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean }
-        props.data.forEach(item => {
-          if (typeof shortcut[item.value] == 'function') {
-            if (shortcut[item.value](e as KeyboardEvent)) {
-              onSelect(item)
+watch(
+  () => state.value.editor,
+  newVal => {
+    if (newVal && props.shortcut) {
+      DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)
+      DapEvent.on(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`, e => {
+        //popover的菜单
+        if (props.popover && DapCommon.isObject(props.shortcut)) {
+          const shortcut = props.shortcut as { [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean }
+          props.data.forEach(item => {
+            if (typeof shortcut[item.value] == 'function') {
+              if (shortcut[item.value](e as KeyboardEvent)) {
+                onSelect(item)
+              }
             }
+          })
+        } else if (typeof props.shortcut == 'function') {
+          if (props.shortcut(e as KeyboardEvent)) {
+            onOperate()
           }
-        })
-      } else if (typeof props.shortcut == 'function') {
-        if (props.shortcut(e as KeyboardEvent)) {
-          onOperate()
         }
-      }
-    })
+      })
+    }
+  },
+  {
+    immediate: true
   }
-}, {
-  immediate: true
-})
+)
 
 onBeforeUnmount(() => {
   if (state.value.editor) {

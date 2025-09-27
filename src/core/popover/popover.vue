@@ -1,18 +1,14 @@
 <template>
-  <div ref="referRef" class="kaitify-popover-refer" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave"
-    @click="handleClick">
+  <div ref="referRef" class="kaitify-popover-refer" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
     <slot name="refer"></slot>
   </div>
   <Teleport to="body">
-    <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown"
-      @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave"
-        :data-placement="realPlacement" :style="{ zIndex: zIndex }">
+    <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
+      <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
         <div class="kaitify-popover-wrapper">
           <!-- 内容区域 -->
-          <div v-if="contentVisible" class="kaitify-popover-content"
-            :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
+          <div v-if="contentVisible" class="kaitify-popover-content" :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
             <slot></slot>
           </div>
           <!-- arrow -->
@@ -23,10 +19,10 @@
   </Teleport>
 </template>
 <script lang="ts" setup>
-import { createPopper, Instance } from '@popperjs/core';
-import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { event as DapEvent } from "dap-util"
-import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props';
+import { createPopper, Instance } from '@popperjs/core'
+import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { event as DapEvent } from 'dap-util'
+import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props'
 
 defineOptions({
   name: 'Popover'
@@ -110,7 +106,7 @@ const showPopover = () => {
   if (props.delay > 0) {
     setTimeout(() => {
       visible.value = true
-    }, props.delay);
+    }, props.delay)
     return
   }
   //正常显示
@@ -182,15 +178,18 @@ const handleClick = () => {
   else showPopover()
 }
 //监听外部改变placement，更新poperjs对象
-watch(() => props.placement, (newVal) => {
-  //更新realPlacement的值
-  realPlacement.value = newVal
-  if (popperInstance.value && visible.value) {
-    popperInstance.value.state.options.placement = realPlacement.value
-    popperInstance.value.state.options.modifiers.find(mod => mod.name === 'flip').options.fallbackPlacements = popoverRemainingPlacements.value
-    update()
+watch(
+  () => props.placement,
+  newVal => {
+    //更新realPlacement的值
+    realPlacement.value = newVal
+    if (popperInstance.value && visible.value) {
+      popperInstance.value.state.options.placement = realPlacement.value
+      popperInstance.value.state.options.modifiers.find(mod => mod.name === 'flip').options.fallbackPlacements = popoverRemainingPlacements.value
+      update()
+    }
   }
-})
+)
 onMounted(() => {
   if (referRef.value && popoverRef.value) {
     popperInstance.value = createPopper(referRef.value!, popoverRef.value!, {
@@ -200,8 +199,8 @@ onMounted(() => {
         {
           name: 'computeStyles',
           options: {
-            adaptive: true,//启用自适应
-            gpuAcceleration: false//关闭GPU加速
+            adaptive: true, //启用自适应
+            gpuAcceleration: false //关闭GPU加速
           }
         },
         //如果弹出框在预设的位置被页面边界或其他限制遮挡，popperjs会自动尝试翻转到其他位置。它会检查可用的视窗空间并自动调整位置，确保内容不会超出视窗或被遮挡。
@@ -223,7 +222,7 @@ onMounted(() => {
         {
           name: 'arrow',
           options: {
-            element: arrowRef.value!,
+            element: arrowRef.value!
           }
         },
         //确保浮层不会超出指定的边界区域，通常用于当浮层过大或目标位置变化时自动修正浮层位置
@@ -235,7 +234,7 @@ onMounted(() => {
             padding: 5
           }
         }
-      ],
+      ]
     })
   }
   //点击其他地方关闭浮层

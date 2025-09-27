@@ -1,7 +1,6 @@
 <template>
   <Teleport to="body">
-    <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown"
-      @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
+    <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
       <div v-if="visible" ref="elRef" class="kaitify-bubble" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
@@ -9,11 +8,11 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from "vue"
-import { createPopper, Instance } from '@popperjs/core';
-import { event as DapEvent } from "dap-util"
-import { BubbleEmitsType, BubblePropsType } from "./props";
-import { StateType } from "../wrapper";
+import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from 'vue'
+import { createPopper, Instance } from '@popperjs/core'
+import { event as DapEvent } from 'dap-util'
+import { BubbleEmitsType, BubblePropsType } from './props'
+import { StateType } from '../wrapper'
 defineOptions({
   name: 'Bubble'
 })
@@ -45,10 +44,10 @@ const getVirtualDomRect = () => {
         return dom.getBoundingClientRect()
       }
     }
-    const selection = window.getSelection();
-    if (!selection || !selection.rangeCount) return state.value.editor.$el!.getBoundingClientRect();
-    const range = selection.getRangeAt(0);
-    const rects = range.getClientRects();
+    const selection = window.getSelection()
+    if (!selection || !selection.rangeCount) return state.value.editor.$el!.getBoundingClientRect()
+    const range = selection.getRangeAt(0)
+    const rects = range.getClientRects()
     if (rects.length) {
       const rect = rects[rects.length - 1]
       return {
@@ -60,11 +59,11 @@ const getVirtualDomRect = () => {
         height: rect.height,
         x: rect.left,
         y: rect.top,
-        toJSON: () => { }
+        toJSON: () => {}
       } as DOMRect
     }
   }
-  return state.value.editor!.$el!.getBoundingClientRect();
+  return state.value.editor!.$el!.getBoundingClientRect()
 }
 //更新气泡位置
 const updatePosition = () => {
@@ -78,45 +77,49 @@ const updatePosition = () => {
     popperInstance.value = undefined
   }
   //重新创建popperjs实例
-  popperInstance.value = createPopper({
-    getBoundingClientRect: () => domRect
-  }, elRef.value, {
-    placement: 'bottom-start',
-    modifiers: [
-      //控制浮层的位置计算方式，包括使用 GPU 加速、是否启用自适应等
-      {
-        name: 'computeStyles',
-        options: {
-          adaptive: true,//启用自适应
-          gpuAcceleration: false//关闭GPU加速
+  popperInstance.value = createPopper(
+    {
+      getBoundingClientRect: () => domRect
+    },
+    elRef.value,
+    {
+      placement: 'bottom-start',
+      modifiers: [
+        //控制浮层的位置计算方式，包括使用 GPU 加速、是否启用自适应等
+        {
+          name: 'computeStyles',
+          options: {
+            adaptive: true, //启用自适应
+            gpuAcceleration: false //关闭GPU加速
+          }
+        },
+        //如果弹出框在预设的位置被页面边界或其他限制遮挡，popperjs会自动尝试翻转到其他位置。它会检查可用的视窗空间并自动调整位置，确保内容不会超出视窗或被遮挡。
+        {
+          name: 'flip',
+          options: {
+            enabled: true,
+            fallbackPlacements: ['bottom', 'bottom-end', 'top-start', 'top', 'top-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']
+          }
+        },
+        //控制offset为0
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 5]
+          }
+        },
+        //确保浮层不会超出指定的边界区域，通常用于当浮层过大或目标位置变化时自动修正浮层位置
+        {
+          name: 'preventOverflow',
+          options: {
+            enabled: true,
+            boundary: 'viewport',
+            padding: 5
+          }
         }
-      },
-      //如果弹出框在预设的位置被页面边界或其他限制遮挡，popperjs会自动尝试翻转到其他位置。它会检查可用的视窗空间并自动调整位置，确保内容不会超出视窗或被遮挡。
-      {
-        name: 'flip',
-        options: {
-          enabled: true,
-          fallbackPlacements: ['bottom', 'bottom-end', 'top-start', 'top', 'top-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']
-        }
-      },
-      //控制offset为0
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 5]
-        }
-      },
-      //确保浮层不会超出指定的边界区域，通常用于当浮层过大或目标位置变化时自动修正浮层位置
-      {
-        name: 'preventOverflow',
-        options: {
-          enabled: true,
-          boundary: 'viewport',
-          padding: 5
-        }
-      }
-    ],
-  })
+      ]
+    }
+  )
 }
 //滚动监听
 const onScroll = (el: HTMLElement) => {
@@ -163,23 +166,31 @@ const onHidden = (el: Element) => {
 }
 
 //监听光标变化
-watch(() => state.value.selection, () => {
-  //更新气泡位置
-  updatePosition()
-}, {
-  deep: true
-})
-//监听编辑器实例传入
-watch(() => state.value.editor, newVal => {
-  if (newVal) {
+watch(
+  () => state.value.selection,
+  () => {
     //更新气泡位置
     updatePosition()
-    //设置滚动监听
-    onScroll(newVal.$el!)
+  },
+  {
+    deep: true
   }
-}, {
-  immediate: true
-})
+)
+//监听编辑器实例传入
+watch(
+  () => state.value.editor,
+  newVal => {
+    if (newVal) {
+      //更新气泡位置
+      updatePosition()
+      //设置滚动监听
+      onScroll(newVal.$el!)
+    }
+  },
+  {
+    immediate: true
+  }
+)
 
 onBeforeUnmount(() => {
   if (state.value.editor?.$el) {
@@ -194,6 +205,5 @@ defineExpose({
   elRef,
   popperInstance
 })
-
 </script>
 <style src="./style.less" scoped></style>

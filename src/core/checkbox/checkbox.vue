@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckboxEmitsType, CheckboxPropsType } from './props';
+import { CheckboxEmitsType, CheckboxPropsType } from './props'
 
 defineOptions({
   name: 'Checkbox'
@@ -29,7 +29,6 @@ const onChange = (e: Event) => {
   const isCheck = (e.target as HTMLInputElement).checked
   emits('update:modelValue', isCheck)
 }
-
 </script>
 
 <style scoped src="./style.less"></style>

@@ -8,19 +8,17 @@
     <slot name="after" :state="state"></slot>
   </Teleport>
   <slot v-else name="after" :state="state"></slot>
-  <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="onBubbleShow"
-    @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding"
-    @hidden="onBubbleHidden">
+  <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="onBubbleShow" @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding" @hidden="onBubbleHidden">
     <slot name="bubble" :state="state"></slot>
   </Bubble>
 </template>
 <script lang="ts" setup>
-import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from "vue";
-import { Editor } from "@kaitify/core";
-import { translate } from "@/locale";
-import { StateType, WrapperEmitsType, WrapperPropsType } from "./props"
-import { createVNodes } from "./render"
-import { Bubble } from "../bubble";
+import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from 'vue'
+import { Editor } from '@kaitify/core'
+import { translate } from '@/locale'
+import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
+import { createVNodes } from './render'
+import { Bubble } from '../bubble'
 defineOptions({
   name: 'Wrapper',
   inheritAttrs: false
@@ -109,59 +107,83 @@ const onBubbleHidden = (el: Element) => {
 }
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
-watch(() => props.modelValue, async (newVal) => {
-  if (editor.value && !internalModification.value) {
-    await editor.value.review(newVal)
-    if (!props.disabled && props.autofocus) {
-      editor.value.setSelectionAfter()
-      editor.value.updateRealSelection()
+watch(
+  () => props.modelValue,
+  async newVal => {
+    if (editor.value && !internalModification.value) {
+      await editor.value.review(newVal)
+      if (!props.disabled && props.autofocus) {
+        editor.value.setSelectionAfter()
+        editor.value.updateRealSelection()
+      }
+      updateKey.value++
     }
-    updateKey.value++
   }
-})
+)
 //监听以下属性变化，对编辑器进行更新
-watch(() => props.disabled, newVal => {
-  if (editor.value) {
-    editor.value.setEditable(!newVal)
-    updateKey.value++
+watch(
+  () => props.disabled,
+  newVal => {
+    if (editor.value) {
+      editor.value.setEditable(!newVal)
+      updateKey.value++
+    }
   }
-})
-watch(() => props.dark, newVal => {
-  if (editor.value) {
-    editor.value.setDark(newVal)
-    updateKey.value++
+)
+watch(
+  () => props.dark,
+  newVal => {
+    if (editor.value) {
+      editor.value.setDark(newVal)
+      updateKey.value++
+    }
   }
-})
-watch(() => props.allowCopy, newVal => {
-  if (editor.value) {
-    editor.value.allowCopy = newVal
-    updateKey.value++
+)
+watch(
+  () => props.allowCopy,
+  newVal => {
+    if (editor.value) {
+      editor.value.allowCopy = newVal
+      updateKey.value++
+    }
   }
-})
-watch(() => props.allowCut, newVal => {
-  if (editor.value) {
-    editor.value.allowCut = newVal
-    updateKey.value++
+)
+watch(
+  () => props.allowCut,
+  newVal => {
+    if (editor.value) {
+      editor.value.allowCut = newVal
+      updateKey.value++
+    }
   }
-})
-watch(() => props.allowPaste, newVal => {
-  if (editor.value) {
-    editor.value.allowPaste = newVal
-    updateKey.value++
+)
+watch(
+  () => props.allowPaste,
+  newVal => {
+    if (editor.value) {
+      editor.value.allowPaste = newVal
+      updateKey.value++
+    }
   }
-})
-watch(() => props.allowPasteHtml, newVal => {
-  if (editor.value) {
-    editor.value.allowPasteHtml = newVal
-    updateKey.value++
+)
+watch(
+  () => props.allowPasteHtml,
+  newVal => {
+    if (editor.value) {
+      editor.value.allowPasteHtml = newVal
+      updateKey.value++
+    }
   }
-})
-watch(() => props.priorityPasteFiles, newVal => {
-  if (editor.value) {
-    editor.value.priorityPasteFiles = newVal
-    updateKey.value++
+)
+watch(
+  () => props.priorityPasteFiles,
+  newVal => {
+    if (editor.value) {
+      editor.value.priorityPasteFiles = newVal
+      updateKey.value++
+    }
   }
-})
+)
 
 //初始化渲染编辑器
 onMounted(async () => {
@@ -181,7 +203,7 @@ onMounted(async () => {
     blockRenderTag: props.blockRenderTag,
     emptyRenderTags: props.emptyRenderTags,
     extraKeepTags: props.extraKeepTags,
-    extensions: [...props.extensions ?? []],
+    extensions: [...(props.extensions ?? [])],
     formatRules: props.formatRules,
     domParseNodeCallback: props.domParseNodeCallback,
     pasteKeepMarks: props.pasteKeepMarks,
@@ -242,18 +264,22 @@ onMounted(async () => {
 //编辑区域组件
 const EditorWrapper = defineComponent(() => {
   return () => {
-    return h('div', {
-      ref: elRef,
-      class: 'kaitify-border',
-      onMousedown: () => {
-        isMouseDown.value = true
+    return h(
+      'div',
+      {
+        ref: elRef,
+        class: 'kaitify-border',
+        onMousedown: () => {
+          isMouseDown.value = true
+        },
+        onMouseup: () => {
+          isMouseDown.value = false
+        }
       },
-      onMouseup: () => {
-        isMouseDown.value = false
+      {
+        default: () => [...vnodes.value]
       }
-    }, {
-      default: () => [...vnodes.value]
-    })
+    )
   }
 })
 

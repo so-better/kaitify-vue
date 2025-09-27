@@ -20,7 +20,7 @@
 		"@kaitify/core": "0.0.1-beta.37",
 		"@popperjs/core": "^2.11.8",
 		"dap-util": "^1.6.0",
-		"vue": "^3.3.13"
+		"vue": "^3.5.21"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.24",
