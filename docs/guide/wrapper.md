@@ -166,15 +166,15 @@ const content = ref('<p>hello</p>')
 
 自定义节点数组格式化规则
 
-##### domParseNodeCallback <Badge type="danger" text="(this: Editor, node: KNode) => KNode" />
+##### onDomParseNode <Badge type="danger" text="(this: Editor, node: KNode) => KNode" />
 
 自定义 `dom` 转为非文本节点的后续处理
 
-##### pasteKeepMarks <Badge type="danger" text="(this: Editor, node: KNode) => KNodeMarksType" />
+##### onPasteKeepMarks <Badge type="danger" text="(this: Editor, node: KNode) => KNodeMarksType" />
 
 节点粘贴保留标记的自定义方法
 
-##### pasteKeepStyles <Badge type="danger" text="(this: Editor, node: KNode) => KNodeStylesType" />
+##### onPasteKeepStyles <Badge type="danger" text="(this: Editor, node: KNode) => KNodeStylesType" />
 
 节点粘贴保留样式的自定义方法
 
@@ -198,11 +198,11 @@ const content = ref('<p>hello</p>')
 
 编辑器粘贴除了图片和视频以外的文件时触发，需要自定义处理
 
-##### onDetachMentBlockFromParentCallback <Badge type="danger" text="(this: Editor, node: KNode) => boolean" />
+##### onDetachMentBlockFromParent <Badge type="danger" text="(this: Editor, node: KNode) => boolean" />
 
 在删除和换行操作中块节点节点从其父节点中抽离出去成为与父节点同级的节点后触发，如果返回 `true` 则表示继续使用默认逻辑，会将该节点转为段落，返回 `false` 则不走默认逻辑，需要自定义处理
 
-##### beforePatchNodeToFormat <Badge type="danger" text="(this: Editor, node: KNode) => KNode" />
+##### onBeforePatchNodeToFormat <Badge type="danger" text="(this: Editor, node: KNode) => KNode" />
 
 编辑器 `updateView` 执行时，通过比对新旧节点数组获取需要格式化的节点，在这些节点被格式化前，触发此方法，回调参数即当前需要被格式化的节点，该方法返回一个节点，返回的节点将会被格式化，如果你不需要任何特殊处理，返回入参提供的节点即可
 

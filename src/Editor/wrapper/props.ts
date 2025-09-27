@@ -94,15 +94,15 @@ export type WrapperPropsType = {
   /**
    * 自定义dom转为非文本节点的后续处理
    */
-  domParseNodeCallback?: (this: Editor, node: KNode) => KNode
+  onDomParseNode?: (this: Editor, node: KNode) => KNode
   /**
    * 节点粘贴保留标记的自定义方法
    */
-  pasteKeepMarks?: (this: Editor, node: KNode) => KNodeMarksType
+  onPasteKeepMarks?: (this: Editor, node: KNode) => KNodeMarksType
   /**
    * 节点粘贴保留样式的自定义方法
    */
-  pasteKeepStyles?: (this: Editor, node: KNode) => KNodeStylesType
+  onPasteKeepStyles?: (this: Editor, node: KNode) => KNodeStylesType
   /**
    * 编辑器粘贴纯文本时触发，如果返回true则表示继续使用默认逻辑，返回false则不走默认逻辑，需要进行自定义处理
    */
@@ -126,11 +126,11 @@ export type WrapperPropsType = {
   /**
    * 在删除和换行操作中块节点节点从其父节点中抽离出去成为与父节点同级的节点后触发，如果返回true则表示继续使用默认逻辑，会将该节点转为段落，返回false则不走默认逻辑，需要自定义处理
    */
-  onDetachMentBlockFromParentCallback?: (this: Editor, node: KNode) => boolean
+  onDetachMentBlockFromParent?: (this: Editor, node: KNode) => boolean
   /**
    * 编辑器updateView执行时，通过比对新旧节点数组获取需要格式化的节点，在这些节点被格式化前，触发此方法，回调参数即当前需要被格式化的节点，该方法返回一个节点，返回的节点将会被格式化，如果你不需要任何特殊处理，返回入参提供的节点即可
    */
-  beforePatchNodeToFormat?: (this: Editor, node: KNode) => KNode
+  onBeforePatchNodeToFormat?: (this: Editor, node: KNode) => KNode
 }
 
 /**

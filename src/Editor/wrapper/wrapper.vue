@@ -8,7 +8,7 @@
     <slot name="after" :state="state"></slot>
   </Teleport>
   <slot v-else name="after" :state="state"></slot>
-  <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="onBubbleShow" @showing="onBubbleShowing" @shown="onBubbleShown" @hide="onBubbleHide" @hiding="onBubbleHiding" @hidden="onBubbleHidden">
+  <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="e => emits('bubbleShow', e)" @showing="e => emits('bubbleShowing', e)" @shown="e => emits('bubbleShown', e)" @hide="e => emits('bubbleHide', e)" @hiding="e => emits('bubbleHiding', e)" @hidden="e => emits('bubbleHidden', e)">
     <slot name="bubble" :state="state"></slot>
   </Bubble>
 </template>
@@ -80,31 +80,6 @@ const state = computed<StateType>(() => {
   }
   return data
 })
-
-//气泡栏显示前
-const onBubbleShow = (el: Element) => {
-  emits('bubbleShow', el)
-}
-//气泡栏显示时
-const onBubbleShowing = (el: Element) => {
-  emits('bubbleShowing', el)
-}
-//气泡栏显示后
-const onBubbleShown = (el: Element) => {
-  emits('bubbleShown', el)
-}
-//气泡栏隐藏前
-const onBubbleHide = (el: Element) => {
-  emits('bubbleHide', el)
-}
-//气泡栏隐藏时
-const onBubbleHiding = (el: Element) => {
-  emits('bubbleHiding', el)
-}
-//气泡栏隐藏后
-const onBubbleHidden = (el: Element) => {
-  emits('bubbleHidden', el)
-}
 
 //监听外部修改编辑器的值，进行编辑器视图的更新
 watch(
@@ -205,43 +180,27 @@ onMounted(async () => {
     extraKeepTags: props.extraKeepTags,
     extensions: [...(props.extensions ?? [])],
     formatRules: props.formatRules,
-    domParseNodeCallback: props.domParseNodeCallback,
-    pasteKeepMarks: props.pasteKeepMarks,
-    pasteKeepStyles: props.pasteKeepStyles,
+    onDomParseNode: props.onDomParseNode,
+    onPasteKeepMarks: props.onPasteKeepMarks,
+    onPasteKeepStyles: props.onPasteKeepStyles,
     onPasteText: props.onPasteText,
     onPasteHtml: props.onPasteHtml,
     onPasteImage: props.onPasteImage,
     onPasteVideo: props.onPasteVideo,
     onPasteFile: props.onPasteFile,
-    onDetachMentBlockFromParentCallback: props.onDetachMentBlockFromParentCallback,
-    beforePatchNodeToFormat: props.beforePatchNodeToFormat,
+    onDetachMentBlockFromParent: props.onDetachMentBlockFromParent,
+    onBeforePatchNodeToFormat: props.onBeforePatchNodeToFormat,
+    onInsertParagraph: node => emits('insertParagraph', node),
+    onDeleteComplete: () => emits('deleteComplete'),
+    onKeydown: event => emits('keydown', event),
+    onKeyup: event => emits('keyup', event),
+    onFocus: event => emits('focus', event),
+    onBlur: event => emits('blur', event),
+    onBeforeUpdateView: () => emits('beforeUpdateView'),
+    onAfterUpdateView: () => emits('afterUpdateView'),
     onSelectionUpdate(selection) {
       updateKey.value++
       emits('selectionUpdate', selection)
-    },
-    onInsertParagraph(node) {
-      emits('insertParagraph', node)
-    },
-    onDeleteComplete() {
-      emits('deleteComplete')
-    },
-    onKeydown(event) {
-      emits('keydown', event)
-    },
-    onKeyup(event) {
-      emits('keyup', event)
-    },
-    onFocus(event) {
-      emits('focus', event)
-    },
-    onBlur(event) {
-      emits('blur', event)
-    },
-    beforeUpdateView() {
-      emits('beforeUpdateView')
-    },
-    afterUpdateView() {
-      emits('afterUpdateView')
     },
     //使用vue作视图渲染
     async onUpdateView() {

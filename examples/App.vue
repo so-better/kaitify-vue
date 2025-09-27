@@ -42,7 +42,7 @@
           <FontFamilyMenu />
           <FontSizeMenu />
           <Divider />
-          <HeadingMenu :shortcut="{ 1: e => e.key == '1' && e.metaKey }" />
+          <HeadingMenu :shortcut="{ 1: (e:KeyboardEvent) => e.key == '1' && e.metaKey }" />
           <LineHeightMenu />
           <OrderedListMenu />
           <UnorderedListMenu />
@@ -122,8 +122,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu, FullScreenMenu, Menu, Tabs, Checkbox, EmojiMenu } from '../src/index'
+import { computed, Ref, ref } from 'vue'
+import { Wrapper as EditorWrapper, BoldMenu, AlignLeftMenu, AlignCenterMenu, AlignRightMenu, AlignJustifyMenu, AttachmentMenu, BackColorMenu, BlockquoteMenu, CodeMenu, CodeBlockMenu, ColorMenu, FontFamilyMenu, FontSizeMenu, HeadingMenu, RedoMenu, UndoMenu, HorizontalMenu, ImageMenu, IncreaseIndentMenu, DecreaseIndentMenu, ItalicMenu, LineHeightMenu, LinkMenu, OrderedListMenu, UnorderedListMenu, MathMenu, StrikethroughMenu, SubscriptMenu, SuperscriptMenu, TableMenu, UnderlineMenu, VideoMenu, TaskMenu, WrapUpMenu, WrapDownMenu, CodeBlockLanguagesMenu, TableUnsetMenu, TableDeleteRowMenu, TableDeleteColumnMenu, TableAddRowMenu, TableAddColumnMenu, TableMergeCellMenu, VideoControlsMenu, VideoMutedMenu, VideoLoopMenu, ClearFormatMenu, KNodeMatchOptionType, Divider, LinkUnsetMenu, FullScreenMenu, Menu, Tabs, Checkbox, EmojiMenu, Editor } from '../src/index'
+import { KeyboardEvent } from 'react'
 const content = ref<string>(
   '<p kaitify-node="91"><span kaitify-node="92" style="font-weight: bold; font-size: 18px;">Publications</span></p ><p kaitify-node="93" style="line-height: 2.5;"><span kaitify-node="94" style="font-size: 14px; font-weight: bold;">Lastest metaRLK article</span><span kaitify-node="95"> </span></p ><p kaitify-node="96" style="line-height: 2;"><span kaitify-node="98">Curation,&nbsp;nomenclature,&nbsp;and&nbsp;topological&nbsp;classification&nbsp;of&nbsp;receptor&nbsp;like&nbsp;kinases&nbsp;from&nbsp;528&nbsp;plant&nbsp;species&nbsp;for&nbsp;novel&nbsp;domain&nbsp;discovery&nbsp;and&nbsp;functional&nbsp;inference[J].&nbsp;Molecular&nbsp;Plant,&nbsp;2024,&nbsp;17(4):&nbsp;658-671.&nbsp;&nbsp; </span></p><p kaitify-node="91"><span kaitify-node="92" style="font-weight: bold; font-size: 18px;">Publications</span></p ><p kaitify-node="93" style="line-height: 2.5;"><span kaitify-node="94" style="font-size: 14px; font-weight: bold;">Lastest metaRLK article</span><span kaitify-node="95"> </span></p ><p kaitify-node="96" style="line-height: 2;"><span kaitify-node="98">Curation, nomenclature, and topological classification of receptor like kinases from 528 plant species for novel domain discovery and functional inference[J]. Molecular Plant, 2024, 17(4): 658-671. </span></p>'
 )
@@ -159,8 +160,8 @@ const shouldVisible = computed<boolean>(() => {
   return false
 })
 
-const onCreated = async editor => {
-  console.log(editor.value.selection)
+const onCreated = async (editor: Ref<Editor | undefined>) => {
+  console.log(editor.value?.selection)
 }
 </script>
 <style lang="less">
