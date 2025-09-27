@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.1 <Badge type="tip" text='2025.09.27' />
+
+- 更新 `@kaitify/core` 的依赖版本
+- 部分属性名称重新定义
+
 ## v0.0.1-beta.36 <Badge type="tip" text='2025.09.03' />
 
 - 更新 `@kaitify/core` 的依赖版本，修复了部分 bug
