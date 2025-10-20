@@ -8,7 +8,6 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop":true,
 		"types": ["node"],
-		"ignoreDeprecations": "6.0",
 		"baseUrl": "./",
 		"paths": {
 			"@/*": ["src/*"]
