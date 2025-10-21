@@ -1,26 +1,24 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
-    :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }"
-    @popover-show="menuShow">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-show="menuShow">
     <Icon name="kaitify-icon-mathformula" />
     <template #popover>
       <div class="kaitify-math">
-        <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="state.t('输入Latex数学公式')" />
+        <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="t('输入Latex数学公式')" />
         <div class="kaitify-math-footer">
-          <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ state.t('更新') }}</Button>
-          <Button key="insert" v-else :disabled="!mathText" @click="insert">{{ state.t('插入') }}</Button>
+          <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ t('更新') }}</Button>
+          <Button key="insert" v-else :disabled="!mathText" @click="insert">{{ t('插入') }}</Button>
         </div>
       </div>
     </template>
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue';
-import { Icon } from '@/core/icon';
-import { Button } from "@/core/button"
-import { StateType } from '@/editor/wrapper';
-import Menu from "@/editor/menu/menu.vue"
-import { MathMenuPropsType } from './props';
+import { computed, ComputedRef, inject, ref } from 'vue'
+import { Icon } from '@/core/icon'
+import { Button } from '@/core/button'
+import { StateType } from '@/editor/wrapper'
+import Menu from '@/editor/menu/menu.vue'
+import { MathMenuPropsType } from './props'
 //  \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
 
 defineOptions({
@@ -31,13 +29,12 @@ const props = withDefaults(defineProps<MathMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
+const state = inject<ComputedRef<StateType>>('state')!
+//翻译函数
+const t = inject<(key: string) => string>('t')!
+
 //菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
+const menuRef = ref<typeof Menu | undefined>()
 //数学公式内容
 const mathText = ref<string>('')
 //是否激活

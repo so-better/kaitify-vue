@@ -1,29 +1,23 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
-    :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }"
-    @popover-show="menuShow">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-show="menuShow">
     <Icon name="kaitify-icon-link" />
     <template #popover>
       <div class="kaitify-link">
         <!-- 修改链接 -->
         <template v-if="isActive">
-          <input v-model.trim="updateData.href" :placeholder="state.t('链接地址')" type="url" />
+          <input v-model.trim="updateData.href" :placeholder="t('链接地址')" type="url" />
           <div class="kaitify-link-footer">
-            <Checkbox v-model="updateData.newOpen" :label="state.t('新窗口打开')" />
-            <Button @click="update" :disabled="!updateData.href">{{
-              state.t('更新') }}</Button>
+            <Checkbox v-model="updateData.newOpen" :label="t('新窗口打开')" />
+            <Button @click="update" :disabled="!updateData.href">{{ t('更新') }}</Button>
           </div>
         </template>
         <!-- 插入链接 -->
         <template v-else>
-          <input v-if="state.editor?.selection.collapsed()" v-model.trim="formData.text" :placeholder="state.t('链接文字')"
-            type="text" />
-          <input v-model.trim="formData.href" :placeholder="state.t('链接地址')" type="url" />
+          <input v-if="state.editor?.selection.collapsed()" v-model.trim="formData.text" :placeholder="t('链接文字')" type="text" />
+          <input v-model.trim="formData.href" :placeholder="t('链接地址')" type="url" />
           <div class="kaitify-link-footer">
-            <Checkbox v-model="formData.newOpen" :label="state.t('新窗口打开')" />
-            <Button @click="insert"
-              :disabled="!formData.href || (state.editor?.selection.collapsed() && !formData.text)">{{
-                state.t('插入') }}</Button>
+            <Checkbox v-model="formData.newOpen" :label="t('新窗口打开')" />
+            <Button @click="insert" :disabled="!formData.href || (state.editor?.selection.collapsed() && !formData.text)">{{ t('插入') }}</Button>
           </div>
         </template>
       </div>
@@ -31,14 +25,14 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, reactive, ref } from 'vue';
-import { SetLinkOptionType, UpdateLinkOptionType } from '@kaitify/core';
-import { Icon } from '@/core/icon';
-import { Button } from "@/core/button"
-import { StateType } from '@/editor/wrapper';
-import Menu from "@/editor/menu/menu.vue"
-import { LinkMenuPropsType } from './props';
-import { Checkbox } from '@/core/checkbox';
+import { computed, ComputedRef, inject, reactive, ref } from 'vue'
+import { SetLinkOptionType, UpdateLinkOptionType } from '@kaitify/core'
+import { Icon } from '@/core/icon'
+import { Button } from '@/core/button'
+import { StateType } from '@/editor/wrapper'
+import Menu from '@/editor/menu/menu.vue'
+import { LinkMenuPropsType } from './props'
+import { Checkbox } from '@/core/checkbox'
 
 defineOptions({
   name: 'LinkMenu'
@@ -48,13 +42,12 @@ const props = withDefaults(defineProps<LinkMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
+const state = inject<ComputedRef<StateType>>('state')!
+//翻译函数
+const t = inject<(key: string) => string>('t')!
+
 //菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
+const menuRef = ref<typeof Menu | undefined>()
 //链接数据
 const formData = reactive<SetLinkOptionType>({
   href: '',

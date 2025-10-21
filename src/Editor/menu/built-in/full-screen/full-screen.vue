@@ -19,11 +19,7 @@ const props = withDefaults(defineProps<FullScreenMenuPropsType>(), {
   zIndex: 100
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
+const state = inject<ComputedRef<StateType>>('state')!
 
 //绑定的全屏dom
 const targetDom = ref<HTMLElement | null>(null)

@@ -1,16 +1,14 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect"
-    :item-active="item => isActive(item)" :shortcut="shortcut"
-    :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 80, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect" :item-active="item => isActive(item)" :shortcut="shortcut" :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 80, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     {{ selectedData?.label ?? '' }}
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue';
-import { StateType } from '@/editor/wrapper';
-import Menu from "@/editor/menu/menu.vue"
-import { LineHeightMenuPropsType } from './props';
-import { MenuDataType } from '@/editor/menu/props';
+import { computed, ComputedRef, inject, ref } from 'vue'
+import { StateType } from '@/editor/wrapper'
+import Menu from '@/editor/menu/menu.vue'
+import { LineHeightMenuPropsType } from './props'
+import { MenuDataType } from '@/editor/menu/props'
 
 defineOptions({
   name: 'LineHeightMenu'
@@ -21,13 +19,12 @@ const props = withDefaults(defineProps<LineHeightMenuPropsType>(), {
   defaultValue: 1.5
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
+const state = inject<ComputedRef<StateType>>('state')!
+//翻译函数
+const t = inject<(key: string) => string>('t')!
+
 //菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
+const menuRef = ref<typeof Menu | undefined>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   const baseOptions = [
@@ -52,10 +49,13 @@ const options = computed<MenuDataType[]>(() => {
       value: 3
     }
   ]
-  return [{
-    label: state.value.t('默认行高'),
-    value: props.defaultValue
-  }, ...(props.data || baseOptions)]
+  return [
+    {
+      label: t('默认行高'),
+      value: props.defaultValue
+    },
+    ...(props.data || baseOptions)
+  ]
 })
 //是否禁用
 const isDisabled = computed<boolean>(() => {

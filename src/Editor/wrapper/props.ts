@@ -207,11 +207,6 @@ export type WrapperEmitsType = {
  * 编辑器状态对象
  */
 export type StateType = {
-  el?: HTMLElement
   editor?: Editor
   selection?: Selection
-  locale: LocaleType
-  t: (key: string) => string
-  disabled: boolean
-  isMouseDown: boolean
 }

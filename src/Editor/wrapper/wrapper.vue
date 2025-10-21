@@ -57,15 +57,7 @@ const isMouseDown = ref<boolean>(false)
 //编辑器状态数据
 const state = computed<StateType>(() => {
   const data: StateType = {
-    el: elRef.value,
-    editor: editor.value,
-    selection: undefined,
-    locale: props.locale,
-    t: (key: string) => {
-      return translate(props.locale, key)
-    },
-    disabled: props.disabled,
-    isMouseDown: isMouseDown.value
+    editor: editor.value
   }
   if (!!updateKey.value) {
     data.editor = editor.value
@@ -237,10 +229,17 @@ const EditorWrapper = defineComponent(() => {
 
 //对子孙组件提供的属性
 provide('state', state)
+provide('elRef', elRef)
+provide('disabled', props.disabled)
+provide('isMouseDown', isMouseDown)
+provide('t', (key: string) => {
+  return translate(props.locale, key)
+})
 
 //对外导出的属性
 defineExpose({
-  state
+  state,
+  elRef
 })
 </script>
 <style src="./style.less" scoped></style>

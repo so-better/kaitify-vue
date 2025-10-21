@@ -8,7 +8,7 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef, computed, onMounted } from 'vue'
+import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef, computed, onMounted, Ref } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { BubbleEmitsType, BubblePropsType } from './props'
@@ -26,6 +26,9 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
 const emits = defineEmits<BubbleEmitsType>()
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
+const disabled = inject<boolean>('disbaled')!
+const isMouseDown = inject<Ref<boolean>>('isMouseDown')!
+const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
 //popperjs实例
 const popperInstance = ref<Instance | undefined>()
 //气泡元素
@@ -33,10 +36,10 @@ const elRef = ref<HTMLElement | undefined>()
 
 //是否显示气泡栏
 const shouldVisible = computed<boolean>(() => {
-  if (state.value.disabled) {
+  if (disabled) {
     return false
   }
-  if (state.value.isMouseDown && props.hideOnMousedown) {
+  if (isMouseDown.value && props.hideOnMousedown) {
     return false
   }
   return props.visible ?? false
@@ -44,7 +47,7 @@ const shouldVisible = computed<boolean>(() => {
 
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
-  if (!state.value.editor || !state.value.el) {
+  if (!state.value.editor || !wrapperRef.value) {
     return null
   }
   if (state.value.editor.selection.focused()) {
@@ -56,7 +59,7 @@ const getVirtualDomRect = () => {
       }
     }
     const selection = window.getSelection()
-    if (!selection || !selection.rangeCount) return state.value.el.getBoundingClientRect()
+    if (!selection || !selection.rangeCount) return wrapperRef.value.getBoundingClientRect()
     const range = selection.getRangeAt(0)
     const rects = range.getClientRects()
     if (rects.length) {
@@ -74,7 +77,7 @@ const getVirtualDomRect = () => {
       } as DOMRect
     }
   }
-  return state.value.el.getBoundingClientRect()
+  return wrapperRef.value.getBoundingClientRect()
 }
 //更新气泡位置
 const updatePosition = () => {
@@ -191,14 +194,14 @@ watch(
 
 onMounted(() => {
   //设置滚动监听
-  if (state.value.el) {
-    onScroll(state.value.el)
+  if (wrapperRef.value) {
+    onScroll(wrapperRef.value)
   }
 })
 
 onBeforeUnmount(() => {
-  if (state.value.el) {
-    removeScroll(state.value.el)
+  if (wrapperRef.value) {
+    removeScroll(wrapperRef.value)
   }
   if (popperInstance.value) {
     popperInstance.value.destroy()

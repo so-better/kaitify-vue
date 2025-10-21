@@ -1,6 +1,5 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover
-    :popover-props="{ width: popoverProps?.width ?? 160, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 160, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-list-disc" />
     <template #popover>
       <div class="kaitify-unordered-list">
@@ -14,13 +13,13 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue';
-import { UnorderListType } from '@kaitify/core';
-import { Icon } from "@/core/icon"
-import { Button } from '@/core/button';
-import { StateType } from '@/editor/wrapper';
-import Menu from "@/editor/menu/menu.vue"
-import { UnorderedListMenuPropsType } from './props';
+import { computed, ComputedRef, inject, ref } from 'vue'
+import { UnorderListType } from '@kaitify/core'
+import { Icon } from '@/core/icon'
+import { Button } from '@/core/button'
+import { StateType } from '@/editor/wrapper'
+import Menu from '@/editor/menu/menu.vue'
+import { UnorderedListMenuPropsType } from './props'
 
 defineOptions({
   name: 'UnorderedListMenu'
@@ -30,14 +29,10 @@ const props = withDefaults(defineProps<UnorderedListMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
+const state = inject<ComputedRef<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
+const menuRef = ref<typeof Menu | undefined>()
 //有序列表序标列表
 const listTypes = ref<UnorderListType[]>(['disc', 'square', 'circle'])
 //是否禁用
@@ -50,17 +45,21 @@ const isDisabled = computed<boolean>(() => {
 //选项是否激活
 const itemActive = computed<(item: UnorderListType) => boolean>(() => {
   return item => {
-    return state.value.editor?.commands.allList?.({
-      ordered: false,
-      listType: item
-    }) ?? false
+    return (
+      state.value.editor?.commands.allList?.({
+        ordered: false,
+        listType: item
+      }) ?? false
+    )
   }
 })
 //菜单是否激活
 const isActive = computed<boolean>(() => {
-  return state.value.editor?.commands.allList?.({
-    ordered: false
-  }) ?? false
+  return (
+    state.value.editor?.commands.allList?.({
+      ordered: false
+    }) ?? false
+  )
 })
 
 //选择选项

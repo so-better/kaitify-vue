@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.1 <Badge type="tip" text='2025.10.21' />
+
+- `state` 移除其他多余属性，只保留 `editor` 和 `selection`
+- `Menu` 以及内置菜单组件优化
+
 ## v0.0.3 <Badge type="tip" text='2025.10.21' />
 
 - 移除 `Wrapper` 的 `hideBubbleOnMouseDown`，`bubbleProps` 新增 `hideOnMouseDown` 属性

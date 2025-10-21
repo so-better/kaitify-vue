@@ -1,30 +1,26 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover
-    :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-table" />
     <template #popover>
       <div class="kaitify-table">
         <table>
           <tr v-for="row in tableGrids">
-            <td :class="{ 'kaitify-table-inside': column.inside }" v-for="column in row"
-              @mouseenter="changeTableSize(column)" @click="insert(column)">
+            <td :class="{ 'kaitify-table-inside': column.inside }" v-for="column in row" @mouseenter="changeTableSize(column)" @click="insert(column)">
               <span></span>
             </td>
           </tr>
         </table>
-        <div class="kaitify-table-footer" v-if="specification">
-          {{ specification.x }} x {{ specification.y }}
-        </div>
+        <div class="kaitify-table-footer" v-if="specification">{{ specification.x }} x {{ specification.y }}</div>
       </div>
     </template>
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue';
-import { Icon } from '@/core/icon';
-import { StateType } from '@/editor/wrapper';
-import Menu from "@/editor/menu/menu.vue"
-import { TableGridType, TableMenuPropsType } from './props';
+import { computed, ComputedRef, inject, ref } from 'vue'
+import { Icon } from '@/core/icon'
+import { StateType } from '@/editor/wrapper'
+import Menu from '@/editor/menu/menu.vue'
+import { TableGridType, TableMenuPropsType } from './props'
 
 defineOptions({
   name: 'TableMenu'
@@ -36,14 +32,10 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
   maxColumns: 10
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
+const state = inject<ComputedRef<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<(typeof Menu) | undefined>()
+const menuRef = ref<typeof Menu | undefined>()
 //获取表格尺寸数据
 const getTableGrids = () => {
   const grids: TableGridType[][] = []
