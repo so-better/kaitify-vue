@@ -8,7 +8,7 @@
     <slot name="after" :state="state"></slot>
   </Teleport>
   <slot v-else name="after" :state="state"></slot>
-  <Bubble :visible="bubbleVisible" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" @show="e => emits('bubbleShow', e)" @showing="e => emits('bubbleShowing', e)" @shown="e => emits('bubbleShown', e)" @hide="e => emits('bubbleHide', e)" @hiding="e => emits('bubbleHiding', e)" @hidden="e => emits('bubbleHidden', e)">
+  <Bubble :visible="props.bubbleProps?.visible ?? false" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" :hideOnMousedown="props.bubbleProps?.hideOnMousedown" @show="e => emits('bubbleShow', e)" @showing="e => emits('bubbleShowing', e)" @shown="e => emits('bubbleShown', e)" @hide="e => emits('bubbleHide', e)" @hiding="e => emits('bubbleHiding', e)" @hidden="e => emits('bubbleHidden', e)">
     <slot name="bubble" :state="state"></slot>
   </Bubble>
 </template>
@@ -28,7 +28,6 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
   disabled: false,
   locale: 'zh-CN',
-  hideBubbleOnMousedown: false,
   autofocus: false,
   placeholder: '',
   dark: false,
@@ -54,25 +53,19 @@ const internalModification = ref<boolean>(false)
 const updateKey = ref<number>(0)
 //是否鼠标按下
 const isMouseDown = ref<boolean>(false)
-//是否显示气泡栏
-const bubbleVisible = computed<boolean>(() => {
-  if (props.disabled) {
-    return false
-  }
-  if (isMouseDown.value && props.hideBubbleOnMousedown) {
-    return false
-  }
-  return props.bubbleProps?.visible ?? false
-})
+
 //编辑器状态数据
 const state = computed<StateType>(() => {
   const data: StateType = {
+    el: elRef.value,
     editor: editor.value,
     selection: undefined,
     locale: props.locale,
     t: (key: string) => {
       return translate(props.locale, key)
-    }
+    },
+    disabled: props.disabled,
+    isMouseDown: isMouseDown.value
   }
   if (!!updateKey.value) {
     data.editor = editor.value
@@ -247,7 +240,6 @@ provide('state', state)
 
 //对外导出的属性
 defineExpose({
-  elRef,
   state
 })
 </script>

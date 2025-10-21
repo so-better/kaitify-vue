@@ -94,10 +94,6 @@ const content = ref('<p>hello</p>')
 
 编辑器语言环境，取值范围是 `zh-CN` `en-US` `ko-KR` `ja-JP`，分别表示中文简体和英文语言、韩语、日语环境，默认为 `zh-CN`
 
-##### hideBubbleOnMousedown <Badge type="danger" text="boolean" />
-
-鼠标在编辑器内按下时是否不显示气泡栏，默认为 `false`，如果该值为 `true`，在鼠标按下时即使 `bubbleProps` 的 `visible` 属性是 `true`，也无法显示气泡栏
-
 ##### bubbleProps <Badge type="danger" text="BubblePropsType" />
 
 编辑器气泡栏相关属性配置，具体可以查看 [Bubble 组件的文档](/guide/bubble)
@@ -520,29 +516,9 @@ const bubbleHidden = (el: Element) => {
 
 `Wrapper` 提供了部分属性/方法可以通过组件实例来调用
 
-##### elRef <Badge type="danger" text="HTMLElement" />
-
-获取组件实例即编辑器的 `dom` 元素
-
-```vue
-<template>
-  <Wrapper ref="wrapper" v-model="content" created="onCreated"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const wrapper = ref<typeof Wrapper | undefined>()
-const content = ref('<p>hello</p>')
-
-const onCreated = () => {
-  console.log('组件实例dom', wrapper.value.elRef)
-}
-</script>
-```
-
 ##### state <Badge type="danger" text="StateType" />
 
-`Wrapper` 组件内部返回的关于编辑器状态的相关数据，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+`Wrapper` 组件内部返回的关于编辑器状态的相关数据，主要包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
 
 该数据是响应式的数据，所以我们每次通过该数据的 `editor` 属性调用 `kaitify` 编辑器的方法都是响应式的效果
 
@@ -599,15 +575,15 @@ const content = ref('<p>hello</p>')
 
 ##### before
 
-该插槽的内容会在编辑器前面显示，通常可以作为菜单栏的位置，该插槽提供一个默认参数 `state`，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+该插槽的内容会在编辑器前面显示，通常可以作为菜单栏的位置，该插槽提供一个默认参数 `state`，主要包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
 
 ##### after
 
-该插槽的内容会在编辑器后面显示，该插槽提供一个默认参数 `state`，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+该插槽的内容会在编辑器后面显示，该插槽提供一个默认参数 `state`，主要包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
 
 ##### bubble
 
-该插槽的内容会在编辑器后面显示，该插槽提供一个默认参数 `state`，包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
+该插槽的内容会在编辑器后面显示，该插槽提供一个默认参数 `state`，主要包含 `editor` `selection` `locale` 三个属性，分别表示当前编辑器的 `Editor` 实例，当前编辑器的 `Selection` 实例，以及当前编辑器的语言环境
 
 ```vue
 <template>

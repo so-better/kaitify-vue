@@ -1,14 +1,14 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="visible" ref="elRef" class="kaitify-bubble" :style="{ zIndex: zIndex }">
+      <div v-if="shouldVisible" ref="elRef" class="kaitify-bubble" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
     </Transition>
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef } from 'vue'
+import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef, computed, onMounted } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { BubbleEmitsType, BubblePropsType } from './props'
@@ -31,9 +31,20 @@ const popperInstance = ref<Instance | undefined>()
 //气泡元素
 const elRef = ref<HTMLElement | undefined>()
 
+//是否显示气泡栏
+const shouldVisible = computed<boolean>(() => {
+  if (state.value.disabled) {
+    return false
+  }
+  if (state.value.isMouseDown && props.hideOnMousedown) {
+    return false
+  }
+  return props.visible ?? false
+})
+
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
-  if (!state.value.editor) {
+  if (!state.value.editor || !state.value.el) {
     return null
   }
   if (state.value.editor.selection.focused()) {
@@ -45,7 +56,7 @@ const getVirtualDomRect = () => {
       }
     }
     const selection = window.getSelection()
-    if (!selection || !selection.rangeCount) return state.value.editor.$el!.getBoundingClientRect()
+    if (!selection || !selection.rangeCount) return state.value.el.getBoundingClientRect()
     const range = selection.getRangeAt(0)
     const rects = range.getClientRects()
     if (rects.length) {
@@ -63,11 +74,11 @@ const getVirtualDomRect = () => {
       } as DOMRect
     }
   }
-  return state.value.editor!.$el!.getBoundingClientRect()
+  return state.value.el.getBoundingClientRect()
 }
 //更新气泡位置
 const updatePosition = () => {
-  if (!props.visible || !elRef.value || !state.value.editor) {
+  if (!shouldVisible.value || !elRef.value || !state.value.editor) {
     return
   }
   const domRect = getVirtualDomRect()!
@@ -124,7 +135,7 @@ const updatePosition = () => {
 //滚动监听
 const onScroll = (el: HTMLElement) => {
   DapEvent.on(el, `scroll.kaitify_bubble_${instance.uid}`, () => {
-    if (props.visible) {
+    if (shouldVisible.value) {
       updatePosition()
     }
   })
@@ -173,28 +184,21 @@ watch(
     updatePosition()
   },
   {
+    immediate: true,
     deep: true
   }
 )
-//监听编辑器实例传入
-watch(
-  () => state.value.editor,
-  newVal => {
-    if (newVal) {
-      //更新气泡位置
-      updatePosition()
-      //设置滚动监听
-      onScroll(newVal.$el!)
-    }
-  },
-  {
-    immediate: true
+
+onMounted(() => {
+  //设置滚动监听
+  if (state.value.el) {
+    onScroll(state.value.el)
   }
-)
+})
 
 onBeforeUnmount(() => {
-  if (state.value.editor?.$el) {
-    removeScroll(state.value.editor.$el)
+  if (state.value.el) {
+    removeScroll(state.value.el)
   }
   if (popperInstance.value) {
     popperInstance.value.destroy()

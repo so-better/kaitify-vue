@@ -5,6 +5,12 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.3 <Badge type="tip" text='2025.10.21' />
+
+- 移除 `Wrapper` 的 `hideBubbleOnMouseDown`，`bubbleProps` 新增 `hideOnMouseDown` 属性
+- `state` 响应式状态数据新增 `disabled`、`isMouseDown`、`el` 三个属性
+- `bubble` 气泡栏组件代码优化
+
 ## v0.0.1 <Badge type="tip" text='2025.09.27' />
 
 - 更新 `@kaitify/core` 的依赖版本

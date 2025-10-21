@@ -20,10 +20,6 @@ export type WrapperPropsType = {
    */
   locale?: LocaleType
   /**
-   * 鼠标按下时是否不显示气泡栏
-   */
-  hideBubbleOnMousedown?: boolean
-  /**
    * bubble气泡栏参数
    */
   bubbleProps?: BubblePropsType
@@ -211,8 +207,11 @@ export type WrapperEmitsType = {
  * 编辑器状态对象
  */
 export type StateType = {
+  el?: HTMLElement
   editor?: Editor
   selection?: Selection
   locale: LocaleType
   t: (key: string) => string
+  disabled: boolean
+  isMouseDown: boolean
 }

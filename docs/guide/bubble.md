@@ -12,7 +12,7 @@ title: Bubble 气泡栏
 
 是否显示气泡栏，默认为 `false`
 
-##### z-index <Badge type="danger" text="number" />
+##### zIndex <Badge type="danger" text="number" />
 
 气泡栏的 `z-index` 层级，默认为 5
 
@@ -21,6 +21,10 @@ title: Bubble 气泡栏
 指定气泡栏出现的位置条件，每次更新气泡位置时会判断光标是否在符合条件的节点下，如果符合则根据该节点的真实 `dom` 进行定位，否则只根据光标位置进行定位
 
 关于该属性的释义，同 [kaitify 中的 Editor 的 getMatchNodeBySelection 方法中的入参](https://www.so-better.cn/docs/kaitify-core/apis/editor-function#getmatchnodebyselection)
+
+##### hideOnMousedown <Badge type="danger" text="boolean" />
+
+鼠标在编辑器内按下时是否隐藏气泡栏，默认为 `false`，如果该值为 `true`，在鼠标按下时即使 `visible` 属性是 `true`，也无法显示气泡栏
 
 ## Events 事件
 
