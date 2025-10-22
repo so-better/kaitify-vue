@@ -95,11 +95,11 @@ const onOperate = () => {
 
 //设置快捷键
 watch(
-  () => state.value.editor,
+  () => wrapperRef.value,
   newVal => {
     if (newVal && props.shortcut) {
-      DapEvent.off(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`)
-      DapEvent.on(newVal.$el!, `keydown.kaitify_menu_${instance.uid}`, e => {
+      DapEvent.off(newVal, `keydown.kaitify_menu_${instance.uid}`)
+      DapEvent.on(newVal, `keydown.kaitify_menu_${instance.uid}`, e => {
         //popover的菜单
         if (props.popover && DapCommon.isObject(props.shortcut)) {
           const shortcut = props.shortcut as { [key: MenuDataType['value']]: (e: KeyboardEvent) => boolean }
