@@ -1,5 +1,5 @@
 <template>
-  <i v-if="name.startsWith('kaitify-icon-')" class="kaitify-icon" :class="name" :style="{ fontSize: size }"></i>
+  <i v-if="name.startsWith('kaitify-icon-')" class="kaitify-icon" :class="name" :style="{ fontSize: typeof size === 'number' ? `${size}px` : size }"></i>
   <Icon v-else mode="svg" :icon="name" class="kaitify-icon" :style="{ fontSize: typeof size === 'number' ? `${size}px` : size }"></Icon>
 </template>
 <script setup lang="ts">
