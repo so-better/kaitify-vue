@@ -42,7 +42,7 @@
           <FontFamilyMenu />
           <FontSizeMenu />
           <Divider />
-          <HeadingMenu :shortcut="{ 1: (e:KeyboardEvent) => e.key == '1' && e.metaKey }" />
+          <HeadingMenu :popover-props="{ trigger: 'hover' }" :shortcut="{ 1: (e:KeyboardEvent) => e.key == '1' && e.metaKey }" />
           <LineHeightMenu />
           <OrderedListMenu />
           <UnorderedListMenu />

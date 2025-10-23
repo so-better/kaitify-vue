@@ -5,6 +5,12 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.2 <Badge type="tip" text='2025.10.23' />
+
+- `Bubble` 和 `Popover` 组件的封装优化
+- `icon` 组件 `size` 修复默认图标大小不支持数字的问题
+- 代码优化
+
 ## v0.0.4-beta.1 <Badge type="tip" text='2025.10.21' />
 
 - `state` 移除其他多余属性，只保留 `editor` 和 `selection`

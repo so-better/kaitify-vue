@@ -45,6 +45,13 @@ const shouldVisible = computed<boolean>(() => {
   return props.visible ?? false
 })
 
+//销毁popperjs实例
+const destroyPopperjs = () => {
+  if (popperInstance.value) {
+    popperInstance.value.destroy()
+    popperInstance.value = undefined
+  }
+}
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
   if (!state.value.editor || !wrapperRef.value) {
@@ -86,10 +93,7 @@ const updatePosition = () => {
   }
   const domRect = getVirtualDomRect()!
   //销毁当前popperjs实例
-  if (popperInstance.value) {
-    popperInstance.value.destroy()
-    popperInstance.value = undefined
-  }
+  destroyPopperjs()
   //重新创建popperjs实例
   popperInstance.value = createPopper(
     {
@@ -135,6 +139,7 @@ const updatePosition = () => {
     }
   )
 }
+
 //滚动监听
 const onScroll = (el: HTMLElement) => {
   DapEvent.on(el, `scroll.kaitify_bubble_${instance.uid}`, () => {
@@ -176,6 +181,7 @@ const onHiding = (el: Element) => {
 }
 //气泡栏隐藏后
 const onHidden = (el: Element) => {
+  destroyPopperjs()
   emits('hidden', el)
 }
 
@@ -200,11 +206,9 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  destroyPopperjs()
   if (wrapperRef.value) {
     removeScroll(wrapperRef.value)
-  }
-  if (popperInstance.value) {
-    popperInstance.value.destroy()
   }
 })
 

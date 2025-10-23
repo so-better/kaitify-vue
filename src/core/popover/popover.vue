@@ -4,11 +4,11 @@
   </div>
   <Teleport to="body">
     <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" v-show="visible" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
+      <div v-if="visible" ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
         <div class="kaitify-popover-wrapper">
           <!-- 内容区域 -->
-          <div v-if="contentVisible" class="kaitify-popover-content" :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
+          <div class="kaitify-popover-content" :style="{ width: popoverWidth, maxHeight: popoverMaxHeight, minWidth: popoverMinWidth }">
             <slot></slot>
           </div>
           <!-- arrow -->
@@ -43,8 +43,6 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
 const emits = defineEmits<PopoverEmitsType>()
 //是否显示
 const visible = ref<boolean>(false)
-//是否显示内容
-const contentVisible = ref<boolean>(false)
 //目标元素
 const referRef = ref<HTMLElement | undefined>()
 //三角形元素
@@ -53,6 +51,7 @@ const arrowRef = ref<HTMLElement | undefined>()
 const popoverRef = ref<HTMLElement | undefined>()
 //popperjs实例
 const popperInstance = ref<Instance | undefined>()
+
 //浮层宽度
 const popoverWidth = computed<string>(() => {
   if (props.width) {
@@ -97,6 +96,61 @@ const update = async () => {
     realPlacement.value = popperInstance.value.state.placement
   }
 }
+//创建popperjs实例
+const createPopperjs = () => {
+  popperInstance.value = createPopper(referRef.value as HTMLElement, popoverRef.value as HTMLElement, {
+    placement: props.placement,
+    modifiers: [
+      //控制浮层的位置计算方式，包括使用 GPU 加速、是否启用自适应等
+      {
+        name: 'computeStyles',
+        options: {
+          adaptive: true, //启用自适应
+          gpuAcceleration: false //关闭GPU加速
+        }
+      },
+      //如果弹出框在预设的位置被页面边界或其他限制遮挡，popperjs会自动尝试翻转到其他位置。它会检查可用的视窗空间并自动调整位置，确保内容不会超出视窗或被遮挡。
+      {
+        name: 'flip',
+        options: {
+          enabled: true,
+          fallbackPlacements: popoverRemainingPlacements.value
+        }
+      },
+      //控制offset为0
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 0]
+        }
+      },
+      //设置箭头元素的位置，使其始终指向目标元素
+      {
+        name: 'arrow',
+        options: {
+          element: arrowRef.value!
+        }
+      },
+      //确保浮层不会超出指定的边界区域，通常用于当浮层过大或目标位置变化时自动修正浮层位置
+      {
+        name: 'preventOverflow',
+        options: {
+          enabled: true,
+          boundary: 'viewport',
+          padding: 5
+        }
+      }
+    ]
+  })
+}
+//销毁popperjs实例
+const destroyPopperjs = () => {
+  if (popperInstance.value) {
+    popperInstance.value.destroy()
+    popperInstance.value = undefined
+  }
+}
+
 //显示浮层
 const showPopover = () => {
   if (props.disabled) {
@@ -122,12 +176,11 @@ const hidePopover = () => {
 
 //浮层显示前
 const onShow = (el: Element) => {
-  contentVisible.value = true
   emits('show', el)
 }
 //浮层显示时
 const onShowing = (el: Element) => {
-  update()
+  createPopperjs()
   emits('showing', el)
 }
 //浮层显示后
@@ -144,9 +197,10 @@ const onHiding = (el: Element) => {
 }
 //浮层隐藏后
 const onHidden = (el: Element) => {
-  contentVisible.value = false
+  destroyPopperjs()
   emits('hidden', el)
 }
+
 //鼠标移入
 const handleMouseEnter = () => {
   if (props.trigger != 'hover') {
@@ -177,6 +231,7 @@ const handleClick = () => {
   if (visible.value) hidePopover()
   else showPopover()
 }
+
 //监听外部改变placement，更新poperjs对象
 watch(
   () => props.placement,
@@ -184,59 +239,14 @@ watch(
     //更新realPlacement的值
     realPlacement.value = newVal
     if (popperInstance.value && visible.value) {
-      popperInstance.value.state.options.placement = realPlacement.value
+      popperInstance.value.state.options.placement = newVal
       popperInstance.value.state.options.modifiers.find(mod => mod.name === 'flip').options.fallbackPlacements = popoverRemainingPlacements.value
       update()
     }
   }
 )
+
 onMounted(() => {
-  if (referRef.value && popoverRef.value) {
-    popperInstance.value = createPopper(referRef.value!, popoverRef.value!, {
-      placement: props.placement,
-      modifiers: [
-        //控制浮层的位置计算方式，包括使用 GPU 加速、是否启用自适应等
-        {
-          name: 'computeStyles',
-          options: {
-            adaptive: true, //启用自适应
-            gpuAcceleration: false //关闭GPU加速
-          }
-        },
-        //如果弹出框在预设的位置被页面边界或其他限制遮挡，popperjs会自动尝试翻转到其他位置。它会检查可用的视窗空间并自动调整位置，确保内容不会超出视窗或被遮挡。
-        {
-          name: 'flip',
-          options: {
-            enabled: true,
-            fallbackPlacements: popoverRemainingPlacements.value
-          }
-        },
-        //控制offset为0
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 0]
-          }
-        },
-        //设置箭头元素的位置，使其始终指向目标元素
-        {
-          name: 'arrow',
-          options: {
-            element: arrowRef.value!
-          }
-        },
-        //确保浮层不会超出指定的边界区域，通常用于当浮层过大或目标位置变化时自动修正浮层位置
-        {
-          name: 'preventOverflow',
-          options: {
-            enabled: true,
-            boundary: 'viewport',
-            padding: 5
-          }
-        }
-      ]
-    })
-  }
   //点击其他地方关闭浮层
   DapEvent.on(document.documentElement, `click.kaitify-popover-${instance.uid}`, e => {
     //点击目标元素
@@ -251,10 +261,9 @@ onMounted(() => {
     hidePopover()
   })
 })
+
 onBeforeUnmount(() => {
-  if (popperInstance.value) {
-    popperInstance.value.destroy()
-  }
+  destroyPopperjs()
   DapEvent.off(document.documentElement, `click.kaitify-popover-${instance.uid}`)
 })
 
