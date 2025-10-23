@@ -1,6 +1,6 @@
 <template>
   <div class="kaitify-menu">
-    <Popover ref="popoverRef" :delay="100" :disabled="!popover" :zIndex="popoverProps.zIndex ?? 10" :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow" :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'" :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth" @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)" @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)" @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
+    <Popover ref="popoverRef" :delay="100" :disabled="disabled || !popover" :zIndex="popoverProps.zIndex ?? 10" :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow" :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'" :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth" @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)" @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)" @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
       <template #refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
