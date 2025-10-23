@@ -69,7 +69,7 @@ const setBackColor = (val: string) => {
   if (!state.value.editor || state.value.editor.commands.isBackColor?.(val)) {
     return
   }
-  state.value.editor?.commands.setBackColor?.(val)
+  state.value.editor.commands.setBackColor?.(val)
   menuRef.value?.hidePopover()
 }
 //移除颜色
