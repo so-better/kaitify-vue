@@ -16,18 +16,8 @@ defineOptions({
 //属性
 const props = withDefaults(defineProps<LineHeightMenuPropsType>(), {
   disabled: false,
-  defaultValue: 1.5
-})
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译函数
-const t = inject<(key: string) => string>('t')!
-
-//菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
-//选项
-const options = computed<MenuDataType[]>(() => {
-  const baseOptions = [
+  defaultValue: 1.5,
+  data: () => [
     {
       label: '1',
       value: 1
@@ -49,12 +39,22 @@ const options = computed<MenuDataType[]>(() => {
       value: 3
     }
   ]
+})
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
+//翻译函数
+const t = inject<(key: string) => string>('t')!
+
+//菜单组件实例
+const menuRef = ref<typeof Menu | null>(null)
+//选项
+const options = computed<MenuDataType[]>(() => {
   return [
     {
       label: t('默认行高'),
       value: props.defaultValue
     },
-    ...(props.data || baseOptions)
+    ...props.data
   ]
 })
 //是否禁用

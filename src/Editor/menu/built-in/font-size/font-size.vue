@@ -15,18 +15,8 @@ defineOptions({
 })
 //属性
 const props = withDefaults(defineProps<FontSizeMenuPropsType>(), {
-  disabled: false
-})
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
-//翻译函数
-const t = inject<(key: string) => string>('t')!
-
-//菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
-//选项
-const options = computed<MenuDataType[]>(() => {
-  const baseOptions = [
+  disabled: false,
+  data: () => [
     {
       label: '12px',
       value: '12px'
@@ -68,12 +58,22 @@ const options = computed<MenuDataType[]>(() => {
       value: '40px'
     }
   ]
+})
+//编辑器状态数据
+const state = inject<ComputedRef<StateType>>('state')!
+//翻译函数
+const t = inject<(key: string) => string>('t')!
+
+//菜单组件实例
+const menuRef = ref<typeof Menu | null>(null)
+//选项
+const options = computed<MenuDataType[]>(() => {
   return [
     {
       label: t('默认字号'),
       value: ''
     },
-    ...(props.data || baseOptions)
+    ...props.data
   ]
 })
 //是否禁用
