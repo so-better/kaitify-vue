@@ -12,6 +12,7 @@ title: 更新日志
 - `Wrapper` 组件的 `created` 事件回调参数改为 `Editor` 类型
 - `Bubble` 和 `Menu` 组件的钩子函数回调参数类型由 `Element` 改成 `HTMLDivElement`
 - 其他代码优化
+- 更新 `@kaitify/core` 的依赖版本
 
 ## v0.0.4-beta.1 <Badge type="tip" text='2025.10.21' />
 

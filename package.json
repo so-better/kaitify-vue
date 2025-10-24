@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@iconify/vue": "^4.3.0",
-		"@kaitify/core": "^0.0.1",
+		"@kaitify/core": "0.0.2-beta.1",
 		"@popperjs/core": "^2.11.8",
 		"dap-util": "^1.6.0",
 		"vue": "^3.5.21"
