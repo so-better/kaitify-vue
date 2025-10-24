@@ -116,14 +116,14 @@ const menuShow = () => {
 //选择本地图片
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !state.value.editor) {
+  if (!file) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  state.value.editor.commands.setImage?.({
+  state.value.editor?.commands.setImage?.({
     src: url,
     alt: file.name || t('图片'),
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
