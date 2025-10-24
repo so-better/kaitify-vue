@@ -41,10 +41,6 @@ import { LineHeightMenu } from '@kaitify/vue'
 ]
 ```
 
-##### defaultValue <Badge type="danger" text="string | number" />
-
-默认的行高数值，在选择“默认行高”时，会设置此数值，默认值为 `1.5`
-
 ##### popoverProps <Badge type="danger" text="MenuPropsType['popoverProps']" />
 
 浮层属性配置，同 `Menu` 的 `popoverProps` 属性

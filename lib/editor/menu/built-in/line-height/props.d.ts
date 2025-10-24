@@ -9,10 +9,6 @@ export type LineHeightMenuPropsType = {
      */
     data?: MenuDataType[];
     /**
-     * 默认行高数值
-     */
-    defaultValue?: string | number;
-    /**
      * 浮层属性
      */
     popoverProps?: MenuPropsType['popoverProps'];

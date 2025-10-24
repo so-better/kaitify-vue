@@ -16,7 +16,6 @@ defineOptions({
 //属性
 const props = withDefaults(defineProps<LineHeightMenuPropsType>(), {
   disabled: false,
-  defaultValue: 1.5,
   data: () => [
     {
       label: '1',
@@ -52,7 +51,7 @@ const options = computed<MenuDataType[]>(() => {
   return [
     {
       label: t('默认行高'),
-      value: props.defaultValue
+      value: ''
     },
     ...props.data
   ]

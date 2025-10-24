@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.3 <Badge type="tip" text='2025.10.24' />
+
+- `LineHeightMenu` 行高菜单优化，默认行高设置为空字符串
+
 ## v0.0.4-beta.2 <Badge type="tip" text='2025.10.24' />
 
 - `Bubble` 和 `Popover` 组件的封装优化
