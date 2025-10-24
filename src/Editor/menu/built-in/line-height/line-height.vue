@@ -1,14 +1,14 @@
 <template>
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect" :item-active="item => isActive(item)" :shortcut="shortcut" :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 80, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
-    {{ selectedData?.label ?? '' }}
+    {{ selectedData.label ?? '' }}
   </Menu>
 </template>
 <script setup lang="ts">
 import { computed, ComputedRef, inject, ref } from 'vue'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
-import { LineHeightMenuPropsType } from './props'
 import { MenuDataType } from '@/editor/menu/props'
+import { LineHeightMenuPropsType } from './props'
 
 defineOptions({
   name: 'LineHeightMenu'
@@ -24,7 +24,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //选项
 const options = computed<MenuDataType[]>(() => {
   const baseOptions = [
@@ -71,19 +71,16 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
   }
 })
 //选择的值
-const selectedData = computed<MenuDataType | undefined>(() => {
+const selectedData = computed<MenuDataType>(() => {
   return options.value.find(item => isActive.value(item)) || options.value[0]
 })
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!state.value.editor) {
-    return
-  }
   if (isActive.value(item)) {
-    state.value.editor.updateRealSelection()
+    state.value.editor?.updateRealSelection()
   } else {
-    state.value.editor.commands.setLineHeight?.(item.value)
+    state.value.editor?.commands.setLineHeight?.(item.value)
   }
 }
 </script>

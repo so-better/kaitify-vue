@@ -393,7 +393,7 @@ import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
 const onCreated = editor => {
-  console.log('编辑器创建完成后', editor.value) //是响应式对象，需要通过.value来使用
+  console.log('编辑器创建完成后', editor)
 }
 </script>
 ```
@@ -411,7 +411,7 @@ import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const bubbleShow = (el: Element) => {
+const bubbleShow = (el: HTMLDivElement) => {
   console.log('气泡栏显示前触发', el)
 }
 </script>
@@ -430,7 +430,7 @@ import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const bubbleShowing = (el: Element) => {
+const bubbleShowing = (el: HTMLDivElement) => {
   console.log('气泡栏显示时触发', el)
 }
 </script>
@@ -449,7 +449,7 @@ import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const bubbleShown = (el: Element) => {
+const bubbleShown = (el: HTMLDivElement) => {
   console.log('气泡栏显示后触发', el)
 }
 </script>
@@ -468,7 +468,7 @@ import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const bubbleHide = (el: Element) => {
+const bubbleHide = (el: HTMLDivElement) => {
   console.log('气泡栏隐藏前触发', el)
 }
 </script>
@@ -487,7 +487,7 @@ import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const bubbleHiding = (el: Element) => {
+const bubbleHiding = (el: HTMLDivElement) => {
   console.log('气泡栏隐藏时触发', el)
 }
 </script>
@@ -506,7 +506,7 @@ import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const bubbleHidden = (el: Element) => {
+const bubbleHidden = (el: HTMLDivElement) => {
   console.log('气泡栏隐藏后触发', el)
 }
 </script>

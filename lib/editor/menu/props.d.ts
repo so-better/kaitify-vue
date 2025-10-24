@@ -70,25 +70,25 @@ export type MenuEmitsType = {
     /**
      * 浮层显示前触发的事件
      */
-    (e: 'popoverShow', value: Element): void;
+    (e: 'popoverShow', value: HTMLDivElement): void;
     /**
      * 浮层显示时触发的事件
      */
-    (e: 'popoverShowing', value: Element): void;
+    (e: 'popoverShowing', value: HTMLDivElement): void;
     /**
      * 浮层显示后触发的事件
      */
-    (e: 'popoverShown', value: Element): void;
+    (e: 'popoverShown', value: HTMLDivElement): void;
     /**
      * 浮层隐藏前触发的事件
      */
-    (e: 'popoverHide', value: Element): void;
+    (e: 'popoverHide', value: HTMLDivElement): void;
     /**
      * 浮层隐藏时触发的事件
      */
-    (e: 'popoverHiding', value: Element): void;
+    (e: 'popoverHiding', value: HTMLDivElement): void;
     /**
      * 浮层隐藏后触发的事件
      */
-    (e: 'popoverHidden', value: Element): void;
+    (e: 'popoverHidden', value: HTMLDivElement): void;
 };

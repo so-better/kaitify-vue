@@ -34,7 +34,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //数学公式内容
 const mathText = ref<string>('')
 //是否激活
@@ -72,18 +72,18 @@ const menuShow = () => {
 }
 //插入数学公式
 const insert = () => {
-  if (!mathText.value || !state.value.editor) {
+  if (!mathText.value) {
     return
   }
-  state.value.editor.commands.setMath?.(mathText.value)
+  state.value.editor?.commands.setMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 //更新数学公式
 const update = async () => {
-  if (!mathText.value || !state.value.editor) {
+  if (!mathText.value) {
     return
   }
-  state.value.editor.commands.updateMath?.(mathText.value)
+  state.value.editor?.commands.updateMath?.(mathText.value)
   menuRef.value?.hidePopover()
 }
 </script>

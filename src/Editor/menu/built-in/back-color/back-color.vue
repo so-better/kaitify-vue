@@ -40,7 +40,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //颜色是否激活
 const isActive = computed<(item: string) => boolean>(() => {
   return item => {
@@ -66,18 +66,15 @@ const isDisabled = computed<boolean>(() => {
 
 //设置颜色
 const setBackColor = (val: string) => {
-  if (!state.value.editor || state.value.editor.commands.isBackColor?.(val)) {
+  if (state.value.editor?.commands.isBackColor?.(val)) {
     return
   }
-  state.value.editor.commands.setBackColor?.(val)
+  state.value.editor?.commands.setBackColor?.(val)
   menuRef.value?.hidePopover()
 }
 //移除颜色
 const unsetBackColor = () => {
-  if (!state.value.editor) {
-    return
-  }
-  state.value.editor.commands.removeTextStyle?.(['backgroundColor', 'background'])
+  state.value.editor?.commands.removeTextStyle?.(['backgroundColor', 'background'])
   menuRef.value?.hidePopover()
 }
 </script>

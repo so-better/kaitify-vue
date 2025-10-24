@@ -25,7 +25,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //选项
 const options = computed<MenuDataType[]>(() => {
   return [
@@ -68,7 +68,7 @@ const isActive = computed<(item: MenuDataType) => boolean>(() => {
   }
 })
 //选择的值
-const selectedData = computed<MenuDataType | undefined>(() => {
+const selectedData = computed<MenuDataType>(() => {
   if (!state.value.editor?.selection.focused()) {
     return options.value[0]
   }
@@ -77,9 +77,6 @@ const selectedData = computed<MenuDataType | undefined>(() => {
 
 //选择选项
 const onSelect = (item: MenuDataType) => {
-  if (!state.value.editor) {
-    return
-  }
-  state.value.editor.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
+  state.value.editor?.commands.updateCodeBlockLanguage?.(item.value as HljsLanguageType)
 }
 </script>

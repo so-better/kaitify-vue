@@ -129,7 +129,7 @@ const props = withDefaults(defineProps<EmojiMenuPropsType>(), {
 const state = inject<ComputedRef<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //是否禁用
 const isDisabled = computed<boolean>(() => {
   if (!state.value.editor?.selection.focused()) {

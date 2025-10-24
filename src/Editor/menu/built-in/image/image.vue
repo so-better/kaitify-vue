@@ -55,7 +55,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //远程图片数据
 const remoteData = reactive<Omit<SetImageOptionType, 'width'>>({
   src: '',
@@ -132,10 +132,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程图片
 const insert = async () => {
-  if (!remoteData.src || !state.value.editor) {
+  if (!remoteData.src) {
     return
   }
-  state.value.editor.commands.setImage?.({
+  state.value.editor?.commands.setImage?.({
     src: remoteData.src,
     alt: remoteData.alt,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width
@@ -144,10 +144,10 @@ const insert = async () => {
 }
 //更新图片
 const update = async () => {
-  if (!updateData.src || !state.value.editor) {
+  if (!updateData.src) {
     return
   }
-  state.value.editor.commands.updateImage?.({
+  state.value.editor?.commands.updateImage?.({
     src: updateData.src,
     alt: updateData.alt
   })

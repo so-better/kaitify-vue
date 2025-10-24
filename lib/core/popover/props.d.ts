@@ -54,25 +54,25 @@ export type PopoverEmitsType = {
     /**
      * 浮层显示前触发的事件
      */
-    (e: 'show', value: Element): void;
+    (e: 'show', value: HTMLDivElement): void;
     /**
      * 浮层显示时触发的事件
      */
-    (e: 'showing', value: Element): void;
+    (e: 'showing', value: HTMLDivElement): void;
     /**
      * 浮层显示后触发的事件
      */
-    (e: 'shown', value: Element): void;
+    (e: 'shown', value: HTMLDivElement): void;
     /**
      * 浮层隐藏前触发的事件
      */
-    (e: 'hide', value: Element): void;
+    (e: 'hide', value: HTMLDivElement): void;
     /**
      * 浮层隐藏时触发的事件
      */
-    (e: 'hiding', value: Element): void;
+    (e: 'hiding', value: HTMLDivElement): void;
     /**
      * 浮层隐藏后触发的事件
      */
-    (e: 'hidden', value: Element): void;
+    (e: 'hidden', value: HTMLDivElement): void;
 };

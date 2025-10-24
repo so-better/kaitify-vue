@@ -11,8 +11,9 @@
 import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef, computed, onMounted, Ref } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
-import { BubbleEmitsType, BubblePropsType } from './props'
 import { StateType } from '../wrapper'
+import { BubbleEmitsType, BubblePropsType } from './props'
+
 defineOptions({
   name: 'Bubble'
 })
@@ -28,11 +29,11 @@ const emits = defineEmits<BubbleEmitsType>()
 const state = inject<ComputedRef<StateType>>('state')!
 const disabled = inject<boolean>('disbaled')!
 const isMouseDown = inject<Ref<boolean>>('isMouseDown')!
-const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
+const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
 //popperjs实例
-const popperInstance = ref<Instance | undefined>()
+const popperInstance = ref<Instance | null>(null)
 //气泡元素
-const elRef = ref<HTMLElement | undefined>()
+const elRef = ref<HTMLElement | null>(null)
 
 //是否显示气泡栏
 const shouldVisible = computed<boolean>(() => {
@@ -49,7 +50,7 @@ const shouldVisible = computed<boolean>(() => {
 const destroyPopperjs = () => {
   if (popperInstance.value) {
     popperInstance.value.destroy()
-    popperInstance.value = undefined
+    popperInstance.value = null
   }
 }
 //获取编辑器内的光标位置
@@ -160,29 +161,29 @@ const removeScroll = (el: HTMLElement) => {
 }
 //气泡栏显示前
 const onShow = (el: Element) => {
-  emits('show', el)
+  emits('show', el as HTMLDivElement)
 }
 //气泡栏显示时
 const onShowing = (el: Element) => {
   updatePosition()
-  emits('showing', el)
+  emits('showing', el as HTMLDivElement)
 }
 //气泡栏显示后
 const onShown = (el: Element) => {
-  emits('shown', el)
+  emits('shown', el as HTMLDivElement)
 }
 //气泡栏隐藏前
 const onHide = (el: Element) => {
-  emits('hide', el)
+  emits('hide', el as HTMLDivElement)
 }
 //气泡栏隐藏时
 const onHiding = (el: Element) => {
-  emits('hiding', el)
+  emits('hiding', el as HTMLDivElement)
 }
 //气泡栏隐藏后
 const onHidden = (el: Element) => {
   destroyPopperjs()
-  emits('hidden', el)
+  emits('hidden', el as HTMLDivElement)
 }
 
 //监听光标变化

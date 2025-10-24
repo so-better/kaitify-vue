@@ -1,6 +1,5 @@
 import { LocaleType } from '@/locale'
 import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType, Selection } from '@kaitify/core'
-import { Ref } from 'vue'
 import { BubblePropsType } from '../bubble'
 
 /**
@@ -176,37 +175,37 @@ export type WrapperEmitsType = {
   /**
    * 编辑器创建完成后触发的事件
    */
-  (e: 'created', value: Ref<Editor | undefined, Editor | undefined>): void
+  (e: 'created', value: Editor): void
   /**
    * 气泡栏显示前触发的事件
    */
-  (e: 'bubbleShow', value: Element): void
+  (e: 'bubbleShow', value: HTMLDivElement): void
   /**
    * 气泡栏显示时触发的事件
    */
-  (e: 'bubbleShowing', value: Element): void
+  (e: 'bubbleShowing', value: HTMLDivElement): void
   /**
    * 气泡栏显示后触发的事件
    */
-  (e: 'bubbleShown', value: Element): void
+  (e: 'bubbleShown', value: HTMLDivElement): void
   /**
    * 气泡栏隐藏前触发的事件
    */
-  (e: 'bubbleHide', value: Element): void
+  (e: 'bubbleHide', value: HTMLDivElement): void
   /**
    * 气泡栏隐藏时触发的事件
    */
-  (e: 'bubbleHiding', value: Element): void
+  (e: 'bubbleHiding', value: HTMLDivElement): void
   /**
    * 气泡栏隐藏后触发的事件
    */
-  (e: 'bubbleHidden', value: Element): void
+  (e: 'bubbleHidden', value: HTMLDivElement): void
 }
 
 /**
  * 编辑器状态对象
  */
 export type StateType = {
-  editor?: Editor
-  selection?: Selection
+  editor: Editor | null
+  selection: Selection | null
 }

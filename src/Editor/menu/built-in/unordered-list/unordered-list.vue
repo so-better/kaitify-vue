@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<UnorderedListMenuPropsType>(), {
 const state = inject<ComputedRef<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //有序列表序标列表
 const listTypes = ref<UnorderListType[]>(['disc', 'square', 'circle'])
 //是否禁用
@@ -64,16 +64,13 @@ const isActive = computed<boolean>(() => {
 
 //选择选项
 const onSelect = (item: UnorderListType) => {
-  if (!state.value.editor) {
-    return
-  }
   if (itemActive.value(item)) {
-    state.value.editor.commands.unsetList?.({
+    state.value.editor?.commands.unsetList?.({
       ordered: false,
       listType: item
     })
   } else {
-    state.value.editor.commands.setList?.({
+    state.value.editor?.commands.setList?.({
       ordered: false,
       listType: item
     })

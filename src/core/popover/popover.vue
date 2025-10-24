@@ -19,8 +19,8 @@
   </Teleport>
 </template>
 <script lang="ts" setup>
-import { createPopper, Instance } from '@popperjs/core'
 import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props'
 
@@ -44,13 +44,13 @@ const emits = defineEmits<PopoverEmitsType>()
 //是否显示
 const visible = ref<boolean>(false)
 //目标元素
-const referRef = ref<HTMLElement | undefined>()
+const referRef = ref<HTMLElement | null>(null)
 //三角形元素
-const arrowRef = ref<HTMLElement | undefined>()
+const arrowRef = ref<HTMLElement | null>(null)
 //浮层元素
-const popoverRef = ref<HTMLElement | undefined>()
+const popoverRef = ref<HTMLElement | null>(null)
 //popperjs实例
-const popperInstance = ref<Instance | undefined>()
+const popperInstance = ref<Instance | null>(null)
 
 //浮层宽度
 const popoverWidth = computed<string>(() => {
@@ -147,7 +147,7 @@ const createPopperjs = () => {
 const destroyPopperjs = () => {
   if (popperInstance.value) {
     popperInstance.value.destroy()
-    popperInstance.value = undefined
+    popperInstance.value = null
   }
 }
 
@@ -176,29 +176,29 @@ const hidePopover = () => {
 
 //浮层显示前
 const onShow = (el: Element) => {
-  emits('show', el)
+  emits('show', el as HTMLDivElement)
 }
 //浮层显示时
 const onShowing = (el: Element) => {
   createPopperjs()
-  emits('showing', el)
+  emits('showing', el as HTMLDivElement)
 }
 //浮层显示后
 const onShown = (el: Element) => {
-  emits('shown', el)
+  emits('shown', el as HTMLDivElement)
 }
 //浮层隐藏前
 const onHide = (el: Element) => {
-  emits('hide', el)
+  emits('hide', el as HTMLDivElement)
 }
 //浮层隐藏时
 const onHiding = (el: Element) => {
-  emits('hiding', el)
+  emits('hiding', el as HTMLDivElement)
 }
 //浮层隐藏后
 const onHidden = (el: Element) => {
   destroyPopperjs()
-  emits('hidden', el)
+  emits('hidden', el as HTMLDivElement)
 }
 
 //鼠标移入

@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<OrderedListMenuPropsType>(), {
 const state = inject<ComputedRef<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //有序列表序标列表
 const listTypes = ref<OrderedListType[]>(['decimal', 'lower-alpha', 'upper-alpha', 'lower-roman', 'upper-roman', 'lower-greek', 'cjk-ideographic'])
 //是否禁用
@@ -64,16 +64,13 @@ const isActive = computed<boolean>(() => {
 
 //选择选项
 const onSelect = (item: OrderedListType) => {
-  if (!state.value.editor) {
-    return
-  }
   if (itemActive.value(item)) {
-    state.value.editor.commands.unsetList?.({
+    state.value.editor?.commands.unsetList?.({
       ordered: true,
       listType: item
     })
   } else {
-    state.value.editor.commands.setList?.({
+    state.value.editor?.commands.setList?.({
       ordered: true,
       listType: item
     })

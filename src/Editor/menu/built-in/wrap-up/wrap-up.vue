@@ -34,16 +34,16 @@ const isDisabled = computed<boolean>(() => {
 })
 //方法
 const onOperate = () => {
-  if (!state.value.editor || !props.match) {
+  if (!props.match) {
     return
   }
-  const matchNode = state.value.editor.getMatchNodeBySelection(props.match)
+  const matchNode = state.value.editor?.getMatchNodeBySelection(props.match)
   if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
     return
   }
   const paragraph = KNode.create({
     type: 'block',
-    tag: state.value.editor.blockRenderTag,
+    tag: state.value.editor?.blockRenderTag,
     children: [
       {
         type: 'closed',
@@ -51,8 +51,8 @@ const onOperate = () => {
       }
     ]
   })
-  state.value.editor.addNodeBefore(paragraph, matchNode)
-  state.value.editor.setSelectionBefore(paragraph, 'all')
-  state.value.editor.updateView()
+  state.value.editor?.addNodeBefore(paragraph, matchNode)
+  state.value.editor?.setSelectionBefore(paragraph, 'all')
+  state.value.editor?.updateView()
 }
 </script>

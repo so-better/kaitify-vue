@@ -54,13 +54,13 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 const emits = defineEmits<MenuEmitsType>()
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')
-const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
+const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
 //组件没有放在Wrapper的插槽中会报错
 if (!state) {
   throw new Error(`The component must be placed in the slot of the Wrapper.`)
 }
 //popover组件实例
-const popoverRef = ref<typeof Popover | undefined>()
+const popoverRef = ref<typeof Popover | null>(null)
 //popover浮层是否显示
 const popoverVisible = computed<boolean>(() => {
   if (popoverRef.value) {

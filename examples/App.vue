@@ -160,8 +160,8 @@ const shouldVisible = computed<boolean>(() => {
   return false
 })
 
-const onCreated = async (editor: Ref<Editor | undefined>) => {
-  console.log(editor.value?.selection)
+const onCreated = async (editor: Editor) => {
+  console.log(editor.selection)
 }
 </script>
 <style lang="less">

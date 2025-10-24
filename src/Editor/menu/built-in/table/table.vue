@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
 const state = inject<ComputedRef<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //获取表格尺寸数据
 const getTableGrids = () => {
   const grids: TableGridType[][] = []
@@ -111,10 +111,10 @@ const changeTableSize = (data: TableGridType) => {
 }
 //插入表格
 const insert = async (data: TableGridType) => {
-  if (!state.value.editor || props.maxRows < 1 || props.maxColumns < 1) {
+  if (props.maxRows < 1 || props.maxColumns < 1) {
     return
   }
-  state.value.editor.commands.setTable?.({
+  state.value.editor?.commands.setTable?.({
     rows: data.x,
     columns: data.y
   })

@@ -23,7 +23,7 @@ declare function __VLS_template(): {
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
     state: import('vue').ComputedRef<StateType>;
-    elRef: import('vue').Ref<HTMLElement | undefined, HTMLElement | undefined>;
+    elRef: import('vue').Ref<HTMLElement | null, HTMLElement | null>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     [x: string]: any;
 } & {

@@ -42,9 +42,9 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
 //编辑器事件
 const emits = defineEmits<WrapperEmitsType>()
 //编辑器dom元素
-const elRef = ref<HTMLElement | undefined>()
+const elRef = ref<HTMLElement | null>(null)
 //编辑器实例
-const editor = ref<Editor | undefined>()
+const editor = ref<Editor | null>(null)
 //编辑器内容虚拟节点
 const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
@@ -57,11 +57,12 @@ const isMouseDown = ref<boolean>(false)
 //编辑器状态数据
 const state = computed<StateType>(() => {
   const data: StateType = {
-    editor: editor.value
+    editor: editor.value,
+    selection: null
   }
   if (!!updateKey.value) {
     data.editor = editor.value
-    data.selection = editor.value?.selection
+    data.selection = editor.value?.selection ?? null
   }
   return data
 })
@@ -202,7 +203,7 @@ onMounted(async () => {
       updateKey.value++
     }
   })
-  emits('created', editor)
+  emits('created', editor.value)
 })
 
 //编辑区域组件

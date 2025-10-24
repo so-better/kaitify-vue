@@ -47,7 +47,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //链接数据
 const formData = reactive<SetLinkOptionType>({
   href: '',
@@ -97,10 +97,10 @@ const menuShow = () => {
 }
 //插入链接
 const insert = async () => {
-  if (!formData.href || !state.value.editor) {
+  if (!formData.href) {
     return
   }
-  if (state.value.editor.selection.collapsed()) {
+  if (state.value.editor?.selection.collapsed()) {
     if (!formData.text) {
       return
     }
@@ -110,7 +110,7 @@ const insert = async () => {
       newOpen: formData.newOpen
     })
   } else {
-    state.value.editor.commands.setLink?.({
+    state.value.editor?.commands.setLink?.({
       href: formData.href,
       newOpen: formData.newOpen
     })
@@ -119,10 +119,10 @@ const insert = async () => {
 }
 //更新链接
 const update = async () => {
-  if (!updateData.href || !state.value.editor) {
+  if (!updateData.href) {
     return
   }
-  state.value.editor.commands.updateLink?.({
+  state.value.editor?.commands.updateLink?.({
     href: updateData.href,
     newOpen: updateData.newOpen
   })

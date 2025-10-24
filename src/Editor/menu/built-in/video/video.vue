@@ -54,7 +54,7 @@ const state = inject<ComputedRef<StateType>>('state')!
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | undefined>()
+const menuRef = ref<typeof Menu | null>(null)
 //远程视频数据
 const remoteData = reactive<SetVideoOptionType>({
   src: '',
@@ -111,10 +111,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程视频
 const insert = async () => {
-  if (!remoteData.src || !state.value.editor) {
+  if (!remoteData.src) {
     return
   }
-  state.value.editor.commands.setVideo?.({
+  state.value.editor?.commands.setVideo?.({
     src: remoteData.src,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width,
     autoplay: remoteData.autoplay
