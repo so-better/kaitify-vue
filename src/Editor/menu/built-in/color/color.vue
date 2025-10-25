@@ -74,10 +74,7 @@ const setColor = (val: string) => {
 }
 //移除颜色
 const unsetColor = () => {
-  if (!state.value.editor) {
-    return
-  }
-  state.value.editor.commands.removeTextStyle?.(['color'])
+  state.value.editor?.commands.removeTextStyle?.(['color'])
   menuRef.value?.hidePopover()
 }
 </script>

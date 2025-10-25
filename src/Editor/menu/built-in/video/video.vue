@@ -95,14 +95,14 @@ const isDisabled = computed<boolean>(() => {
 //选择本地视频
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !state.value.editor) {
+  if (!file) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  state.value.editor.commands.setVideo?.({
+  state.value.editor?.commands.setVideo?.({
     src: url,
     width: typeof props.width == 'number' ? `${props.width}px` : props.width,
     autoplay: remoteData.autoplay

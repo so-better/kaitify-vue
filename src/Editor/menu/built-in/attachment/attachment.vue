@@ -119,14 +119,14 @@ const menuShow = () => {
 //选择本地文件
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
-  if (!file || !state.value.editor) {
+  if (!file) {
     return
   }
   const url = typeof props.customUpload == 'function' ? await props.customUpload(file) : await DapFile.dataFileToBase64(file)
   if (!url) {
     return
   }
-  state.value.editor.commands.setAttachment?.({
+  state.value.editor?.commands.setAttachment?.({
     url: url,
     text: file.name || t('附件'),
     icon: props.iconUrl
@@ -135,10 +135,10 @@ const fileChange = async (e: Event) => {
 }
 //插入远程附件
 const insert = async () => {
-  if (!remoteData.url || !remoteData.text || !state.value.editor) {
+  if (!remoteData.url || !remoteData.text) {
     return
   }
-  state.value.editor.commands.setAttachment?.({
+  state.value.editor?.commands.setAttachment?.({
     url: remoteData.url,
     text: remoteData.text,
     icon: props.iconUrl
@@ -147,10 +147,10 @@ const insert = async () => {
 }
 //更新远程附件
 const update = async () => {
-  if (!updateData.url || !updateData.text || !state.value.editor) {
+  if (!updateData.url || !updateData.text) {
     return
   }
-  state.value.editor.commands.updateAttachment?.({
+  state.value.editor?.commands.updateAttachment?.({
     url: updateData.url,
     text: updateData.text
   })
