@@ -10,7 +10,7 @@ title: 快速上手
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" style="width:500px;height:500px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" style="width:500px;height:500px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -32,7 +32,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content"></Wrapper>
+  <Wrapper ref="wrapper" v-model="content"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -44,20 +44,19 @@ const content = ref('<p>hello</p>')
 
 ##### Bubble
 
-`Bubble` 气泡栏组件是编辑器内置的组件，无需我们在外部使用，它会跟随编辑器光标进行浮动显示，我们可以通过 `Wrapper` 组件的 `bubble` 插槽来使用
+`Bubble` 气泡栏组件是编辑器内置的组件，它会跟随编辑器光标进行浮动显示，我们可以通过直接引入 `Bubble` 组件并在 `Wrapper` 组件的 `default` 插槽中放置来使用
 
 具体的属性配置和使用方法，参考 [Bubble 组件](/guide/bubble)
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content">
-		<template #bubble="{ state }"> 我是气泡栏组件 </template>
-	</Wrapper>
+  <Wrapper v-model="content">
+    <Bubble> 我是气泡栏组件 </Bubble>
+  </Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
-const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 </script>
 ```
@@ -70,11 +69,11 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-	<Wrapper ref="wrapper" v-model="content">
-		<template #before>
-			<Menu>菜单按钮</Menu>
-		</template>
-	</Wrapper>
+  <Wrapper ref="wrapper" v-model="content">
+    <template #before>
+      <Menu>菜单按钮</Menu>
+    </template>
+  </Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper, Menu } from '@kaitify/vue'

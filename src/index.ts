@@ -12,5 +12,7 @@ export * from './core/checkbox'
 export * from './core/icon'
 //编辑器
 export * from './editor/wrapper'
+//气泡栏
+export * from './editor/bubble'
 //菜单
 export * from './editor/menu'

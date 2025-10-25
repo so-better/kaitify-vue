@@ -1,6 +1,5 @@
 import { LocaleType } from '../../locale';
 import { Editor, Extension, KNode, KNodeMarksType, KNodeStylesType, RuleFunctionType, Selection } from '@kaitify/core';
-import { BubblePropsType } from '../bubble';
 /**
  * 编辑器参数类型
  */
@@ -17,10 +16,6 @@ export type WrapperPropsType = {
      * 语言环境
      */
     locale?: LocaleType;
-    /**
-     * bubble气泡栏参数
-     */
-    bubbleProps?: BubblePropsType;
     /**
      * before插槽挂载的元素，如果不设置，则就放置在编辑器前面
      */
@@ -174,30 +169,6 @@ export type WrapperEmitsType = {
      * 编辑器创建完成后触发的事件
      */
     (e: 'created', value: Editor): void;
-    /**
-     * 气泡栏显示前触发的事件
-     */
-    (e: 'bubbleShow', value: HTMLDivElement): void;
-    /**
-     * 气泡栏显示时触发的事件
-     */
-    (e: 'bubbleShowing', value: HTMLDivElement): void;
-    /**
-     * 气泡栏显示后触发的事件
-     */
-    (e: 'bubbleShown', value: HTMLDivElement): void;
-    /**
-     * 气泡栏隐藏前触发的事件
-     */
-    (e: 'bubbleHide', value: HTMLDivElement): void;
-    /**
-     * 气泡栏隐藏时触发的事件
-     */
-    (e: 'bubbleHiding', value: HTMLDivElement): void;
-    /**
-     * 气泡栏隐藏后触发的事件
-     */
-    (e: 'bubbleHidden', value: HTMLDivElement): void;
 };
 /**
  * 编辑器状态对象

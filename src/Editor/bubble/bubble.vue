@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="shouldVisible" ref="elRef" class="kaitify-bubble" :style="{ zIndex: zIndex }">
+      <div v-if="shouldVisible" ref="elRef" v-bind="$attrs" class="kaitify-bubble" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
     </Transition>
@@ -15,7 +15,8 @@ import { StateType } from '../wrapper'
 import { BubbleEmitsType, BubblePropsType } from './props'
 
 defineOptions({
-  name: 'Bubble'
+  name: 'Bubble',
+  inheritAttrs: false
 })
 const instance = getCurrentInstance()!
 //属性

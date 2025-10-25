@@ -1,16 +1,18 @@
 <template>
+  <!-- before插槽 -->
   <Teleport v-if="appendBeforeTo" :to="appendBeforeTo">
     <slot name="before" :state="state"></slot>
   </Teleport>
   <slot v-else name="before" :state="state"></slot>
+  <!-- 编辑区域 -->
   <EditorWrapper v-bind="$attrs" />
+  <!-- after插槽 -->
   <Teleport v-if="appendAfterTo" :to="appendAfterTo">
     <slot name="after" :state="state"></slot>
   </Teleport>
   <slot v-else name="after" :state="state"></slot>
-  <Bubble :visible="props.bubbleProps?.visible ?? false" :match="bubbleProps?.match" :zIndex="bubbleProps?.zIndex" :hideOnMousedown="props.bubbleProps?.hideOnMousedown" @show="e => emits('bubbleShow', e)" @showing="e => emits('bubbleShowing', e)" @shown="e => emits('bubbleShown', e)" @hide="e => emits('bubbleHide', e)" @hiding="e => emits('bubbleHiding', e)" @hidden="e => emits('bubbleHidden', e)">
-    <slot name="bubble" :state="state"></slot>
-  </Bubble>
+  <!-- 默认插槽 -->
+  <slot :state="state"></slot>
 </template>
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from 'vue'
@@ -18,7 +20,6 @@ import { Editor } from '@kaitify/core'
 import { translate } from '@/locale'
 import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
 import { createVNodes } from './render'
-import { Bubble } from '../bubble'
 defineOptions({
   name: 'Wrapper',
   inheritAttrs: false

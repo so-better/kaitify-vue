@@ -27,10 +27,10 @@ declare function __VLS_template(): {
                 readonly delay?: number | undefined;
                 readonly disabled?: boolean | undefined;
                 readonly onHidden?: ((value: HTMLDivElement) => any) | undefined;
+                readonly onHide?: ((value: HTMLDivElement) => any) | undefined;
                 readonly onShow?: ((value: HTMLDivElement) => any) | undefined;
                 readonly onShowing?: ((value: HTMLDivElement) => any) | undefined;
                 readonly onShown?: ((value: HTMLDivElement) => any) | undefined;
-                readonly onHide?: ((value: HTMLDivElement) => any) | undefined;
                 readonly onHiding?: ((value: HTMLDivElement) => any) | undefined;
             } & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps;
             $attrs: {
@@ -45,14 +45,14 @@ declare function __VLS_template(): {
             $root: import('vue').ComponentPublicInstance | null;
             $parent: import('vue').ComponentPublicInstance | null;
             $host: Element | null;
-            $emit: ((event: "hidden", value: HTMLDivElement) => void) & ((event: "show", value: HTMLDivElement) => void) & ((event: "showing", value: HTMLDivElement) => void) & ((event: "shown", value: HTMLDivElement) => void) & ((event: "hide", value: HTMLDivElement) => void) & ((event: "hiding", value: HTMLDivElement) => void);
+            $emit: ((event: "hidden", value: HTMLDivElement) => void) & ((event: "hide", value: HTMLDivElement) => void) & ((event: "show", value: HTMLDivElement) => void) & ((event: "showing", value: HTMLDivElement) => void) & ((event: "shown", value: HTMLDivElement) => void) & ((event: "hiding", value: HTMLDivElement) => void);
             $el: any;
             $options: import('vue').ComponentOptionsBase<Readonly<import('../../core/popover').PopoverPropsType> & Readonly<{
                 onHidden?: ((value: HTMLDivElement) => any) | undefined;
+                onHide?: ((value: HTMLDivElement) => any) | undefined;
                 onShow?: ((value: HTMLDivElement) => any) | undefined;
                 onShowing?: ((value: HTMLDivElement) => any) | undefined;
                 onShown?: ((value: HTMLDivElement) => any) | undefined;
-                onHide?: ((value: HTMLDivElement) => any) | undefined;
                 onHiding?: ((value: HTMLDivElement) => any) | undefined;
             }>, {
                 visible: Ref<boolean, boolean>;
@@ -207,6 +207,22 @@ declare function __VLS_template(): {
                                 };
                             } | undefined;
                             offset?: {
+                                bottom?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
+                                left?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
+                                right?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
+                                top?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
                                 auto?: {
                                     y: number;
                                     x: number;
@@ -216,22 +232,6 @@ declare function __VLS_template(): {
                                     x: number;
                                 } | undefined;
                                 "auto-end"?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                top?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                bottom?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                right?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                left?: {
                                     y: number;
                                     x: number;
                                 } | undefined;
@@ -432,6 +432,22 @@ declare function __VLS_template(): {
                                 };
                             } | undefined;
                             offset?: {
+                                bottom?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
+                                left?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
+                                right?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
+                                top?: {
+                                    y: number;
+                                    x: number;
+                                } | undefined;
                                 auto?: {
                                     y: number;
                                     x: number;
@@ -441,22 +457,6 @@ declare function __VLS_template(): {
                                     x: number;
                                 } | undefined;
                                 "auto-end"?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                top?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                bottom?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                right?: {
-                                    y: number;
-                                    x: number;
-                                } | undefined;
-                                left?: {
                                     y: number;
                                     x: number;
                                 } | undefined;
@@ -513,10 +513,10 @@ declare function __VLS_template(): {
                 realPlacement: Ref<import('../../core/popover').PopoverPlacementType, import('../../core/popover').PopoverPlacementType>;
             }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
                 hidden: (value: HTMLDivElement) => any;
+                hide: (value: HTMLDivElement) => any;
                 show: (value: HTMLDivElement) => any;
                 showing: (value: HTMLDivElement) => any;
                 shown: (value: HTMLDivElement) => any;
-                hide: (value: HTMLDivElement) => any;
                 hiding: (value: HTMLDivElement) => any;
             }, string, {
                 disabled: boolean;
@@ -556,10 +556,10 @@ declare function __VLS_template(): {
             delay: number;
         }> & Omit<Readonly<import('../../core/popover').PopoverPropsType> & Readonly<{
             onHidden?: ((value: HTMLDivElement) => any) | undefined;
+            onHide?: ((value: HTMLDivElement) => any) | undefined;
             onShow?: ((value: HTMLDivElement) => any) | undefined;
             onShowing?: ((value: HTMLDivElement) => any) | undefined;
             onShown?: ((value: HTMLDivElement) => any) | undefined;
-            onHide?: ((value: HTMLDivElement) => any) | undefined;
             onHiding?: ((value: HTMLDivElement) => any) | undefined;
         }>, "visible" | "update" | "popperInstance" | "showPopover" | "hidePopover" | "realPlacement" | ("disabled" | "zIndex" | "animation" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
             visible: Ref<boolean, boolean>;
@@ -714,6 +714,22 @@ declare function __VLS_template(): {
                             };
                         } | undefined;
                         offset?: {
+                            bottom?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
+                            left?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
+                            right?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
+                            top?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
                             auto?: {
                                 y: number;
                                 x: number;
@@ -723,22 +739,6 @@ declare function __VLS_template(): {
                                 x: number;
                             } | undefined;
                             "auto-end"?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            top?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            bottom?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            right?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            left?: {
                                 y: number;
                                 x: number;
                             } | undefined;
@@ -939,6 +939,22 @@ declare function __VLS_template(): {
                             };
                         } | undefined;
                         offset?: {
+                            bottom?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
+                            left?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
+                            right?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
+                            top?: {
+                                y: number;
+                                x: number;
+                            } | undefined;
                             auto?: {
                                 y: number;
                                 x: number;
@@ -948,22 +964,6 @@ declare function __VLS_template(): {
                                 x: number;
                             } | undefined;
                             "auto-end"?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            top?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            bottom?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            right?: {
-                                y: number;
-                                x: number;
-                            } | undefined;
-                            left?: {
                                 y: number;
                                 x: number;
                             } | undefined;

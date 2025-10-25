@@ -44,22 +44,22 @@ import { CodeBlockLanguagesMenu } from '@kaitify/vue'
 
 ## 代码示例
 
-<Wrapper ref="wrapper" :dark="isDark" v-model="content" placeholder="输入内容..." style="width:100%;height:200px;" :bubble-props="{ match: { tag: 'pre' }, visible: shouldVisible }">
+<Wrapper ref="wrapper" :dark="isDark" v-model="content" placeholder="输入内容..." style="width:100%;height:200px;">
   <template #before>
     <div style="margin-bottom:10px;">
       <CodeBlockMenu />
     </div>
   </template>
-  <template #bubble>
+  <Bubble :match="{ tag: 'pre' }" :visible="shouldVisible" >
     <WrapUpMenu :match="{ tag: 'pre' }"/>
     <CodeBlockLanguagesMenu />
     <WrapDownMenu :match="{ tag: 'pre' }"/>
-  </template>
+  </Bubble>
 </Wrapper>
 
 <script lang="ts" setup>
 import { useData } from 'vitepress'
-import { Wrapper,CodeBlockMenu, CodeBlockLanguagesMenu, WrapUpMenu, WrapDownMenu } from '../../../lib/kaitify-vue.es.js'
+import { Wrapper, Bubble,CodeBlockMenu, CodeBlockLanguagesMenu, WrapUpMenu, WrapDownMenu } from '../../../lib/kaitify-vue.es.js'
 import { ref, computed } from 'vue'
 const { isDark } = useData()
 const wrapper = ref<(typeof Wrapper) | undefined>()

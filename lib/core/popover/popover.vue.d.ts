@@ -166,6 +166,22 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
                     };
                 } | undefined;
                 offset?: {
+                    bottom?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
+                    left?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
+                    right?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
+                    top?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
                     auto?: {
                         y: number;
                         x: number;
@@ -175,22 +191,6 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
                         x: number;
                     } | undefined;
                     "auto-end"?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    top?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    bottom?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    right?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    left?: {
                         y: number;
                         x: number;
                     } | undefined;
@@ -391,6 +391,22 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
                     };
                 } | undefined;
                 offset?: {
+                    bottom?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
+                    left?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
+                    right?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
+                    top?: {
+                        y: number;
+                        x: number;
+                    } | undefined;
                     auto?: {
                         y: number;
                         x: number;
@@ -400,22 +416,6 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
                         x: number;
                     } | undefined;
                     "auto-end"?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    top?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    bottom?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    right?: {
-                        y: number;
-                        x: number;
-                    } | undefined;
-                    left?: {
                         y: number;
                         x: number;
                     } | undefined;
@@ -472,17 +472,17 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
     realPlacement: import('vue').Ref<PopoverPlacementType, PopoverPlacementType>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
     hidden: (value: HTMLDivElement) => any;
+    hide: (value: HTMLDivElement) => any;
     show: (value: HTMLDivElement) => any;
     showing: (value: HTMLDivElement) => any;
     shown: (value: HTMLDivElement) => any;
-    hide: (value: HTMLDivElement) => any;
     hiding: (value: HTMLDivElement) => any;
 }, string, import('vue').PublicProps, Readonly<PopoverPropsType> & Readonly<{
     onHidden?: ((value: HTMLDivElement) => any) | undefined;
+    onHide?: ((value: HTMLDivElement) => any) | undefined;
     onShow?: ((value: HTMLDivElement) => any) | undefined;
     onShowing?: ((value: HTMLDivElement) => any) | undefined;
     onShown?: ((value: HTMLDivElement) => any) | undefined;
-    onHide?: ((value: HTMLDivElement) => any) | undefined;
     onHiding?: ((value: HTMLDivElement) => any) | undefined;
 }>, {
     disabled: boolean;

@@ -22,12 +22,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
 import { event as DapEvent, common as DapCommon } from 'dap-util'
 import { Popover } from '@/core/popover'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
-import { StateType } from '../wrapper'
 import { MenuDataType, MenuEmitsType, MenuPropsType } from './props'
 
 defineOptions({
@@ -52,13 +51,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits<MenuEmitsType>()
-//编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')
 const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
-//组件没有放在Wrapper的插槽中会报错
-if (!state) {
-  throw new Error(`The component must be placed in the slot of the Wrapper.`)
-}
 //popover组件实例
 const popoverRef = ref<typeof Popover | null>(null)
 //popover浮层是否显示

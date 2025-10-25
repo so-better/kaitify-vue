@@ -13,7 +13,7 @@ declare function __VLS_template(): {
         after?(_: {
             state: StateType;
         }): any;
-        bubble?(_: {
+        default?(_: {
             state: StateType;
         }): any;
     };
@@ -33,9 +33,9 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
 }>, {
     disabled: boolean;
     modelValue: string;
-    placeholder: string;
     locale: import('../../locale').LocaleType;
     autofocus: boolean;
+    placeholder: string;
     dark: boolean;
     allowCopy: boolean;
     allowPaste: boolean;
