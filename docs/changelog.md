@@ -5,9 +5,10 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.4-beta.3 <Badge type="tip" text='2025.10.24' />
+## v0.0.4-beta.4 <Badge type="tip" text='2025.10.25' />
 
 - `LineHeightMenu` 行高菜单优化，默认行高设置为空字符串
+- 更新 `@kaitify/core` 的依赖版本
 
 ## v0.0.4-beta.2 <Badge type="tip" text='2025.10.24' />
 
