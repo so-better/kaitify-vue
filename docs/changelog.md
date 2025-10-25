@@ -5,13 +5,14 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.4-beta.6 <Badge type="tip" text='2025.10.25' />
+## v0.0.4-beta.7 <Badge type="tip" text='2025.10.25' />
 
 - `LineHeightMenu` 行高菜单优化，默认行高设置为空字符串
 - 移除 `Wrapper` 组件的 `bubble` 插槽，新增 `default` 插槽
 - `Bubble` 组件现在支持单独引入使用，可放在 `default` 插槽中
 - 补全漏掉的翻译词汇
 - 更新 `@kaitify/core` 的依赖版本
+- 优化代码
 
 ## v0.0.4-beta.2 <Badge type="tip" text='2025.10.24' />
 

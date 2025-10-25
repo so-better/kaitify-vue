@@ -68,17 +68,25 @@ const state = computed<StateType>(() => {
   return data
 })
 
-//监听外部修改编辑器的值，进行编辑器视图的更新
+//监听编辑器的值
 watch(
   () => props.modelValue,
   async newVal => {
-    if (editor.value && !internalModification.value) {
-      await editor.value.review(newVal)
-      if (!props.disabled && props.autofocus) {
-        editor.value.setSelectionAfter()
-        editor.value.updateRealSelection()
+    if (editor.value) {
+      //内部改变
+      if (internalModification.value) {
+        internalModification.value = false
+        updateKey.value++
       }
-      updateKey.value++
+      //外部改变，进行视图更新
+      else {
+        await editor.value.review(newVal)
+        if (!props.disabled && props.autofocus) {
+          editor.value.setSelectionAfter()
+          editor.value.updateRealSelection()
+        }
+        updateKey.value++
+      }
     }
   }
 )
@@ -199,9 +207,6 @@ onMounted(async () => {
     async onChange(newVal) {
       internalModification.value = true
       emits('update:modelValue', newVal)
-      await nextTick()
-      internalModification.value = false
-      updateKey.value++
     }
   })
   emits('created', editor.value)
