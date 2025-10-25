@@ -26,5 +26,6 @@ declare const _default: {
     四级标题: string;
     五级标题: string;
     六级标题: string;
+    自动识别: string;
 };
 export default _default;

@@ -25,5 +25,6 @@ export default {
   三级标题: 'Heading 3',
   四级标题: 'Heading 4',
   五级标题: 'Heading 5',
-  六级标题: 'Heading 6'
+  六级标题: 'Heading 6',
+  自动识别: 'Auto Detection'
 }
