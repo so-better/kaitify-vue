@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-show="menuShow">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-image" />
     <template #popover>
-      <div v-if="isActive" class="kaitify-image-update">
+      <div v-if="isActive" class="kaitify-image-update" :kaitify-dark="dark || undefined">
         <input v-model.trim="updateData.alt" :placeholder="t('图片名称')" type="text" />
         <input v-model.trim="updateData.src" :placeholder="t('图片地址')" type="url" />
         <div class="kaitify-image-update-footer">
@@ -11,14 +11,14 @@
       </div>
       <Tabs v-else :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'remote'" class="kaitify-image-remote">
+          <div v-if="current == 'remote'" class="kaitify-image-remote" :kaitify-dark="dark || undefined">
             <input v-model.trim="remoteData.alt" :placeholder="t('图片名称')" type="text" />
             <input v-model.trim="remoteData.src" :placeholder="t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
               <Button @click="insert" :disabled="!remoteData.src">{{ t('插入') }}</Button>
             </div>
           </div>
-          <div v-else-if="current == 'upload'" class="kaitify-image-upload">
+          <div v-else-if="current == 'upload'" class="kaitify-image-upload" :kaitify-dark="dark || undefined">
             <input type="file" accept="image/*" @change="fileChange" />
             <Icon name="kaitify-icon-upload" />
           </div>
@@ -49,6 +49,8 @@ const props = withDefaults(defineProps<ImageMenuPropsType>(), {
     default: 'remote'
   })
 })
+//是否深色模式
+const dark = inject<boolean>('dark')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 //翻译函数
@@ -103,7 +105,7 @@ const isActive = computed<boolean>(() => {
 })
 
 //浮层显示
-const menuShow = () => {
+const menuShowing = () => {
   const imageNode = state.value.editor?.commands.getImage?.()
   if (imageNode) {
     updateData.src = imageNode.marks!.src as string

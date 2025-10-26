@@ -5,11 +5,15 @@
   padding: 0;
   margin: 0;
   position: relative;
-  color: var(--kaitify-font-color);
-  font-size: var(--kaitify-font-size);
-  line-height: var(--kaitify-line-height);
-  font-family: var(--kaitify-font-family);
+  color: @font-color;
+  font-size: @font-size;
+  line-height: @line-height;
+  font-family: @font-family;
   box-sizing: border-box;
+
+  &[kaitify-dark] {
+    color: @font-color-dark;
+  }
 }
 
 .kaitify-popover {
@@ -22,48 +26,48 @@
   }
 
   &[data-placement^='bottom'] {
-    padding-top: var(--kaitify-small-padding);
+    padding-top: @small-padding;
 
     &[data-arrow='true'] {
-      padding-top: calc(var(--kaitify-small-padding) + 6px);
+      padding-top: calc(@small-padding + 6px);
     }
   }
   &[data-placement^='top'] {
-    padding-bottom: var(--kaitify-small-padding);
+    padding-bottom: @small-padding;
 
     &[data-arrow='true'] {
-      padding-bottom: calc(var(--kaitify-small-padding) + 6px);
+      padding-bottom: calc(@small-padding + 6px);
     }
   }
   &[data-placement^='left'] {
-    padding-right: var(--kaitify-small-padding);
+    padding-right: @small-padding;
 
     &[data-arrow='true'] {
-      padding-right: calc(var(--kaitify-small-padding) + 6px);
+      padding-right: calc(@small-padding + 6px);
     }
   }
   &[data-placement^='right'] {
-    padding-left: var(--kaitify-small-padding);
+    padding-left: @small-padding;
 
     &[data-arrow='true'] {
-      padding-left: calc(var(--kaitify-small-padding) + 6px);
+      padding-left: calc(@small-padding + 6px);
     }
   }
 
   .kaitify-popover-wrapper {
     position: relative;
-    background: var(--kaitify-background-color);
-    border: 1px solid var(--kaitify-border-color);
-    border-radius: var(--kaitify-border-radius);
+    background: @background-color;
+    border: 1px solid @border-color;
+    border-radius: @border-radius;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.06);
   }
 
   .kaitify-popover-content {
     display: block;
-    color: var(--kaitify-font-color);
-    font-size: var(--kaitify-font-size);
-    font-family: var(--kaitify-font-family);
-    line-height: var(--kaitify-line-height);
+    color: @font-color;
+    font-size: @font-size;
+    font-family: @font-family;
+    line-height: @line-height;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -89,12 +93,12 @@
 
     &[data-placement^='bottom'] {
       border-top: none;
-      border-bottom-color: var(--kaitify-border-color);
+      border-bottom-color: @border-color;
       bottom: 100%;
 
       &::before {
         border-top: none;
-        border-bottom-color: var(--kaitify-background-color);
+        border-bottom-color: @background-color;
         left: 1px;
         top: 1.5px;
         right: auto;
@@ -105,12 +109,12 @@
 
     &[data-placement^='top'] {
       border-bottom: none;
-      border-top-color: var(--kaitify-border-color);
+      border-top-color: @border-color;
       top: 100%;
 
       &::before {
         border-bottom: none;
-        border-top-color: var(--kaitify-background-color);
+        border-top-color: @background-color;
         left: 1px;
         bottom: 1.5px;
         top: auto;
@@ -121,12 +125,12 @@
 
     &[data-placement='right'] {
       border-left: none;
-      border-right-color: var(--kaitify-border-color);
+      border-right-color: @border-color;
       right: 100%;
 
       &::before {
         border-left: none;
-        border-right-color: var(--kaitify-background-color);
+        border-right-color: @background-color;
         left: 1.5px;
         top: 1px;
         right: auto;
@@ -137,17 +141,64 @@
 
     &[data-placement='left'] {
       border-right: none;
-      border-left-color: var(--kaitify-border-color);
+      border-left-color: @border-color;
       left: 100%;
 
       &::before {
         border-right: none;
-        border-left-color: var(--kaitify-background-color);
+        border-left-color: @background-color;
         right: 1.5px;
         top: 1px;
         bottom: auto;
         left: auto;
         margin-top: -6px;
+      }
+    }
+  }
+
+  &[kaitify-dark] {
+    .kaitify-popover-wrapper {
+      background: @background-color-dark;
+      border-color: @border-color-dark;
+    }
+
+    .kaitify-popover-content {
+      color: @font-color-dark;
+    }
+
+    .kaitify-popover-arrow {
+      &[data-placement^='bottom'] {
+        border-bottom-color: @border-color-dark;
+
+        &::before {
+          border-bottom-color: @background-color-dark;
+        }
+      }
+
+      &[data-placement^='top'] {
+        border-top-color: @border-color-dark;
+
+        &::before {
+          border-top-color: @background-color-dark;
+        }
+      }
+
+      &[data-placement='right'] {
+        border-left: none;
+        border-right-color: @border-color-dark;
+        right: 100%;
+
+        &::before {
+          border-right-color: @background-color-dark;
+        }
+      }
+
+      &[data-placement='left'] {
+        border-left-color: @border-color-dark;
+
+        &::before {
+          border-left-color: @background-color-dark;
+        }
       }
     }
   }

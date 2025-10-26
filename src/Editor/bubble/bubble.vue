@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="shouldVisible" ref="elRef" v-bind="$attrs" class="kaitify-bubble" :style="{ zIndex: zIndex }">
+      <div v-if="shouldVisible" ref="elRef" v-bind="$attrs" class="kaitify-bubble" :kaitify-dark="dark || undefined" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
     </Transition>
@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
 })
 //事件
 const emits = defineEmits<BubbleEmitsType>()
+const dark = inject<boolean>('dark')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 const disabled = inject<boolean>('disbaled')!

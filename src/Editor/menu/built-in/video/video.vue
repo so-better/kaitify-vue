@@ -4,14 +4,14 @@
     <template #popover>
       <Tabs :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'remote'" class="kaitify-video-remote">
+          <div v-if="current == 'remote'" class="kaitify-video-remote" :kaitify-dark="dark || undefined">
             <input v-model.trim="remoteData.src" :placeholder="t('视频地址')" type="url" />
             <div class="kaitify-video-remote-footer">
               <Checkbox v-model="remoteData.autoplay" :label="t('是否自动播放')" />
               <Button @click="insert" :disabled="!remoteData.src">{{ t('插入') }}</Button>
             </div>
           </div>
-          <div v-else-if="current == 'upload'" class="kaitify-video-upload">
+          <div v-else-if="current == 'upload'" class="kaitify-video-upload" :kaitify-dark="dark || undefined">
             <div class="kaitify-video-upload-wrapper">
               <input type="file" accept="video/*" @change="fileChange" />
               <Icon name="kaitify-icon-upload" />
@@ -48,6 +48,8 @@ const props = withDefaults(defineProps<VideoMenuPropsType>(), {
     default: 'remote'
   })
 })
+//是否深色模式
+const dark = inject<boolean>('dark')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 //翻译函数

@@ -5,10 +5,12 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.4-beta.8 <Badge type="tip" text='2025.10.26' />
+## v0.0.4-beta.9 <Badge type="tip" text='2025.10.26' />
 
 - `Wrapper` 组件卸载时，销毁编辑器实例
 - `Bubble` 组件卸载时移除相关事件时编辑器元素读取不到的 bug 修复
+- 更新 `@kaitify/core` 的依赖版本
+- `css` 变量改成 `less` 变量，不再依赖 `core` 的 `css` 变量，并对每个组件的深色模式进行了处理
 
 ## v0.0.4-beta.7 <Badge type="tip" text='2025.10.25' />
 

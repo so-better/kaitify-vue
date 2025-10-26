@@ -1,55 +1,63 @@
 .kaitify-table {
-	display: block;
-	position: relative;
-	padding: var(--kaitify-padding);
+  display: block;
+  position: relative;
+  padding: @padding;
 
-	table {
-		border: 1px solid var(--kaitify-border-color);
-		margin: 0;
-		padding: 0;
-		border-collapse: collapse;
+  table {
+    border: 1px solid @border-color;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
 
-		tr {
-			margin: 0;
-			padding: 0;
+    tr {
+      margin: 0;
+      padding: 0;
 
-			td {
-				margin: 0;
-				padding: 0;
-				border: 1px solid var(--kaitify-border-color);
+      td {
+        margin: 0;
+        padding: 0;
+        border: 1px solid @border-color;
 
-				span {
-					display: block;
-					width: 15px;
-					height: 15px;
-				}
+        span {
+          display: block;
+          width: 15px;
+          height: 15px;
+        }
 
-				&:hover {
-					cursor: pointer;
-				}
+        &:hover {
+          cursor: pointer;
+        }
 
-				&.kaitify-table-inside {
-					background-color: #f1f2f3;
-				}
-			}
-		}
-	}
+        &.kaitify-table-inside {
+          background-color: #f1f2f3;
+        }
+      }
+    }
+  }
 
-	.kaitify-table-footer {
-		display: block;
-		width: 100%;
-		text-align: center;
-		color: var(--kaitify-font-color);
-		line-height: 1;
-		margin-top: var(--kaitify-margin);
-		opacity: 0.8;
-	}
-}
+  .kaitify-table-footer {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: @font-color;
+    line-height: 1;
+    margin-top: @margin;
+    opacity: 0.8;
+  }
 
-:root[kaitify-dark] .kaitify-table {
-	table tr td {
-		&.kaitify-table-inside {
-			background-color: #2a2a2a;
-		}
-	}
+  &[kaitify-dark] {
+    table {
+      border-color: @border-color-dark;
+
+      tr {
+        td {
+          border-color: @border-color-dark;
+
+          &.kaitify-table-inside {
+            background-color: #2a2a2a;
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,17 +1,20 @@
 .kaitify-bubble {
   display: block;
-  background: var(--kaitify-background-color);
-  border: 1px solid var(--kaitify-border-color);
-  color: var(--kaitify-font-color);
-  font-size: var(--kaitify-font-size);
-  font-family: var(--kaitify-font-family);
-  line-height: var(--kaitify-line-height);
-  border-radius: var(--kaitify-border-radius);
+  background: @background-color;
+  border: 1px solid @border-color;
+  color: @font-color;
+  font-size: @font-size;
+  font-family: @font-family;
+  line-height: @line-height;
+  border-radius: @border-radius;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.06);
-}
 
-html[kaitify-dark] .kaitify-bubble {
-  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.04);
+  &[kaitify-dark] {
+    background: @background-color-dark;
+    border-color: @border-color-dark;
+    color: @font-color-dark;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.04);
+  }
 }
 
 .kaitify-bubble-enter-from,

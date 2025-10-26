@@ -1,14 +1,14 @@
 .kaitify-colors-panel {
   display: block;
   width: 100%;
-  padding: var(--kaitify-small-padding);
+  padding: @small-padding;
 
   .kaitify-colors-header {
     display: block;
     width: 100%;
-    padding-bottom: var(--kaitify-small-padding);
-    margin-bottom: var(--kaitify-margin);
-    border-bottom: 1px solid var(--kaitify-border-color);
+    padding-bottom: @small-padding;
+    margin-bottom: @margin;
+    border-bottom: 1px solid @border-color;
 
     .kaitify-colors-header-text {
       margin-left: 10px;
@@ -27,20 +27,34 @@
       border-radius: 1px;
 
       &.kaitify-color-el-active {
-        border-color: var(--kaitify-theme);
+        border-color: @theme;
       }
 
       & > div {
         display: block;
         width: 16px;
         height: 16px;
-        border: 1px solid var(--kaitify-border-color);
+        border: 1px solid @border-color;
         border-radius: 1px;
         transition: all 300ms;
 
         &:hover {
           cursor: pointer;
           transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  &[kaitify-dark] {
+    .kaitify-colors-header {
+      border-bottom-color: @border-color-dark;
+    }
+
+    .kaitify-colors-content {
+      .kaitify-colors-el {
+        & > div {
+          border-color: @border-color-dark;
         }
       }
     }

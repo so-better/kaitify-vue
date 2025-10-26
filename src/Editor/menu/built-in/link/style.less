@@ -1,31 +1,31 @@
 .kaitify-link {
   display: block;
   width: 100%;
-  padding: var(--kaitify-padding);
+  padding: @padding;
 
   input[type='text'],
   input[type='url'] {
     display: block;
     width: 100%;
     border: none;
-    border-bottom: 1px solid var(--kaitify-border-color);
-    font-size: var(--kaitify-font-size);
-    font-family: var(--kaitify-font-family);
-    line-height: var(--kaitify-line-height);
-    color: var(--kaitify-font-color);
+    border-bottom: 1px solid @border-color;
+    font-size: @font-size;
+    font-family: @font-family;
+    line-height: @line-height;
+    color: @font-color;
     background: transparent;
-    padding: var(--kaitify-small-padding) 0;
+    padding: @small-padding 0;
     margin-bottom: 10px;
     transition: all 300ms;
 
     &:focus {
-      border-bottom-color: var(--kaitify-theme);
+      border-bottom-color: @theme;
     }
 
     &::placeholder,
     &::-webkit-input-placeholder {
       opacity: 0.5;
-      font-family: var(--kaitify-font-family);
+      font-family: @font-family;
       color: inherit;
     }
   }
@@ -35,5 +35,17 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+  }
+
+  &[kaitify-dark] {
+    input[type='text'],
+    input[type='url'] {
+      border-bottom-color: @border-color-dark;
+      color: @font-color-dark;
+
+      &:focus {
+        border-bottom-color: @theme;
+      }
+    }
   }
 }

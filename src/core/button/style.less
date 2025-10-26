@@ -1,52 +1,57 @@
 .kaitify-button {
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	padding: 0 var(--kaitify-padding);
-	height: 28px;
-	background: var(--kaitify-background-color);
-	color: var(--kaitify-font-color);
-	font-size: var(--kaitify-font-size);
-	font-family: var(--kaitify-font-family);
-	border: none;
-	border-radius: var(--kaitify-border-radius);
-	transition: background 300ms, color 300ms;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 @padding;
+  height: 28px;
+  background: @background-color;
+  color: @font-color;
+  font-size: @font-size;
+  font-family: @font-family;
+  border: none;
+  border-radius: @border-radius;
+  transition: background 300ms, color 300ms;
 
-	&,
-	*,
-	*::before,
-	*::after {
-		box-sizing: border-box;
-		outline: none;
-	}
+  &,
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    outline: none;
+  }
 
-	&:not([disabled]):hover {
-		cursor: pointer;
-		background: var(--kaitify-lightest-theme);
-		color: var(--kaitify-theme);
-	}
+  &:not([disabled]):hover {
+    cursor: pointer;
+    background: @lightest-theme;
+    color: @theme;
+  }
 
-	&:not([disabled]):active {
-		background: var(--kaitify-lighter-theme);
-		color: var(--kaitify-theme);
-	}
+  &:not([disabled]):active {
+    background: @lighter-theme;
+    color: @theme;
+  }
 
-	&:not([disabled]).kaitify-button-active {
-		background: var(--kaitify-lighter-theme);
-		color: var(--kaitify-theme);
-	}
+  &:not([disabled]).kaitify-button-active {
+    background: @lighter-theme;
+    color: @theme;
+  }
 
-	&[disabled] {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
-	&.kaitify-button-block {
-		display: flex;
-		width: 100%;
-	}
+  &.kaitify-button-block {
+    display: flex;
+    width: 100%;
+  }
 
-	&.kaitify-button-large {
-		height: 32px;
-	}
+  &.kaitify-button-large {
+    height: 32px;
+  }
+
+  &[kaitify-dark] {
+    background: @background-color-dark;
+    color: @font-color-dark;
+  }
 }

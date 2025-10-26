@@ -31,12 +31,12 @@ declare const __VLS_component: import('vue').DefineComponent<WrapperPropsType, {
 }, string, import('vue').PublicProps, Readonly<WrapperPropsType> & Readonly<{
     [x: `on${Capitalize<any>}`]: ((...args: any) => any) | undefined;
 }>, {
+    dark: boolean;
     disabled: boolean;
     modelValue: string;
     locale: import('../../locale').LocaleType;
     autofocus: boolean;
     placeholder: string;
-    dark: boolean;
     allowCopy: boolean;
     allowPaste: boolean;
     allowCut: boolean;

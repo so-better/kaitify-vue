@@ -1,5 +1,5 @@
 <template>
-  <div class="kaitify-tabs">
+  <div class="kaitify-tabs" :kaitify-dark="dark || undefined">
     <div class="kaitify-tabs-header">
       <div v-for="item in data" class="kaitify-tabs-header-item" :class="{ 'kaitify-tabs-header-item-active': current == item.value }" @click="onSelect(item.value)">{{ item.label }}</div>
     </div>
@@ -9,12 +9,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { TabsPropsType } from './props'
 
 defineOptions({
   name: 'Tabs'
 })
+
+const dark = inject<boolean>('dark')!
 
 const props = withDefaults(defineProps<TabsPropsType>(), {
   data: () => []

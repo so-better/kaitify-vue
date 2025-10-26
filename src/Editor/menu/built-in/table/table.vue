@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-table" />
     <template #popover>
-      <div class="kaitify-table">
+      <div class="kaitify-table" :kaitify-dark="dark || undefined">
         <table>
           <tr v-for="row in tableGrids">
             <td :class="{ 'kaitify-table-inside': column.inside }" v-for="column in row" @mouseenter="changeTableSize(column)" @click="insert(column)">
@@ -31,6 +31,7 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
   maxRows: 10,
   maxColumns: 10
 })
+const dark = inject<boolean>('dark')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 

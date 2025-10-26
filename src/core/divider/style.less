@@ -2,7 +2,11 @@
   display: inline-block;
   width: 1px;
   height: 18px;
-  background: var(--kaitify-border-color);
+  background: @border-color;
   vertical-align: middle;
-  margin: 0 var(--kaitify-small-margin);
+  margin: 0 @small-margin;
+
+  &[kaitify-dark] {
+    background: @border-color-dark;
+  }
 }

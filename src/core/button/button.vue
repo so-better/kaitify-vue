@@ -1,9 +1,10 @@
 <template>
-  <button class="kaitify-button" :class="{ 'kaitify-button-active': active, 'kaitify-button-block': block, 'kaitify-button-large': large }" :disabled="disabled || undefined" type="button" role="button">
+  <button class="kaitify-button" :class="{ 'kaitify-button-active': active, 'kaitify-button-block': block, 'kaitify-button-large': large }" :disabled="disabled || undefined" type="button" role="button" :kaitify-dark="dark || undefined">
     <slot></slot>
   </button>
 </template>
 <script setup lang="ts">
+import { inject } from 'vue'
 import { ButtonPropsType } from './props'
 defineOptions({
   name: 'Button'
@@ -14,5 +15,7 @@ withDefaults(defineProps<ButtonPropsType>(), {
   block: false,
   large: false
 })
+
+const dark = inject<boolean>('dark')!
 </script>
 <style src="./style.less" scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <label class="kaitify-checkbox" :disabled="disabled || undefined">
+  <label class="kaitify-checkbox" :kaitify-dark="dark || undefined" :disabled="disabled || undefined">
     <span class="kaitify-checkbox-el" :class="{ 'kaitify-checkbox-active': modelValue }">
       <input type="checkbox" @change="onChange" :disabled="disabled || undefined" />
     </span>
@@ -8,11 +8,15 @@
 </template>
 
 <script setup lang="ts">
+import { inject } from 'vue'
 import { CheckboxEmitsType, CheckboxPropsType } from './props'
 
 defineOptions({
   name: 'Checkbox'
 })
+
+const dark = inject<boolean>('dark')!
+
 //属性
 const props = withDefaults(defineProps<CheckboxPropsType>(), {
   disabled: false,

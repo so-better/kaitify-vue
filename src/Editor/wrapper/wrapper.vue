@@ -224,7 +224,7 @@ const EditorWrapper = defineComponent(() => {
       'div',
       {
         ref: elRef,
-        class: 'kaitify-border',
+        class: ['kaitify-border'],
         onMousedown: () => {
           isMouseDown.value = true
         },
@@ -244,6 +244,7 @@ provide('state', state)
 provide('elRef', elRef)
 provide('disabled', props.disabled)
 provide('isMouseDown', isMouseDown)
+provide('dark', props.dark)
 provide('t', (key: string) => {
   return translate(props.locale, key)
 })

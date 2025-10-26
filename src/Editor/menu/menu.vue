@@ -10,7 +10,7 @@
       <!-- 自定义浮层内容 -->
       <slot v-if="$slots.popover" name="popover"></slot>
       <!-- 可选浮层内容 -->
-      <div v-else-if="data.length" class="kaitify-menu-options">
+      <div v-else-if="data.length" class="kaitify-menu-options" :kaitify-dark="dark || undefined">
         <div @click="onSelect(item)" v-for="item in data" :disabled="itemDisabled?.(item) ?? undefined" class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item) || false }">
           <slot v-if="$slots.icon" name="icon" :option="item"></slot>
           <Icon v-else-if="item.icon" :name="item.icon" class="kaitify-menu-option-icon" />
@@ -52,6 +52,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits<MenuEmitsType>()
+const dark = inject<boolean>('dark')!
 const state = inject<ComputedRef<StateType>>('state')!
 const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
 //popover组件实例

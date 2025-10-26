@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-show="menuShow">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-link" />
     <template #popover>
-      <div class="kaitify-link">
+      <div class="kaitify-link" :kaitify-dark="dark || undefined">
         <!-- 修改链接 -->
         <template v-if="isActive">
           <input v-model.trim="updateData.href" :placeholder="t('链接地址')" type="url" />
@@ -41,6 +41,8 @@ defineOptions({
 const props = withDefaults(defineProps<LinkMenuPropsType>(), {
   disabled: false
 })
+//是否深色模式
+const dark = inject<boolean>('dark')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
 //翻译函数
@@ -84,7 +86,7 @@ const isDisabled = computed<boolean>(() => {
 })
 
 //浮层显示
-const menuShow = () => {
+const menuShowing = () => {
   const linkNode = state.value.editor?.commands.getLink?.()
   if (linkNode) {
     updateData.href = linkNode.marks!.href as string

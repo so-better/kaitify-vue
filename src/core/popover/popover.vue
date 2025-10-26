@@ -1,10 +1,10 @@
 <template>
-  <div ref="referRef" class="kaitify-popover-refer" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
+  <div ref="referRef" class="kaitify-popover-refer" :kaitify-dark="dark || undefined" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
     <slot name="refer"></slot>
   </div>
   <Teleport to="body">
     <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="visible" ref="popoverRef" class="kaitify-popover" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
+      <div v-if="visible" ref="popoverRef" class="kaitify-popover" :kaitify-dark="dark || undefined" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
         <div class="kaitify-popover-wrapper">
           <!-- 内容区域 -->
@@ -19,7 +19,7 @@
   </Teleport>
 </template>
 <script lang="ts" setup>
-import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props'
@@ -28,6 +28,9 @@ defineOptions({
   name: 'Popover'
 })
 const instance = getCurrentInstance()!
+
+const dark = inject<boolean>('dark')!
+
 //属性
 const props = withDefaults(defineProps<PopoverPropsType>(), {
   block: false,
