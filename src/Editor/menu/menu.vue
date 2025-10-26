@@ -22,12 +22,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
+import { computed, ComputedRef, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
 import { event as DapEvent, common as DapCommon } from 'dap-util'
 import { Popover } from '@/core/popover'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
 import { MenuDataType, MenuEmitsType, MenuPropsType } from './props'
+import { StateType } from '../wrapper'
 
 defineOptions({
   name: 'Menu'
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits<MenuEmitsType>()
+const state = inject<ComputedRef<StateType>>('state')!
 const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
 //popover组件实例
 const popoverRef = ref<typeof Popover | null>(null)
@@ -117,8 +119,9 @@ watch(
 )
 
 onBeforeUnmount(() => {
-  if (wrapperRef.value) {
-    DapEvent.off(wrapperRef.value, `keydown.kaitify_menu_${instance.uid}`)
+  //wrapperRef.value可能是null，需要从editor.$el取值
+  if (wrapperRef.value || state.value.editor?.$el) {
+    DapEvent.off(wrapperRef.value || state.value.editor!.$el!, `keydown.kaitify_menu_${instance.uid}`)
   }
 })
 

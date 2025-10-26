@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.8 <Badge type="tip" text='2025.10.26' />
+
+- `Wrapper` 组件卸载时，销毁编辑器实例
+- `Bubble` 组件卸载时移除相关事件时编辑器元素读取不到的 bug 修复
+
 ## v0.0.4-beta.7 <Badge type="tip" text='2025.10.25' />
 
 - `LineHeightMenu` 行高菜单优化，默认行高设置为空字符串

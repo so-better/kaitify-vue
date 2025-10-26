@@ -209,8 +209,9 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   destroyPopperjs()
-  if (wrapperRef.value) {
-    removeScroll(wrapperRef.value)
+  //wrapperRef.value可能是null，需要从editor.$el取值
+  if (wrapperRef.value || state.value.editor?.$el) {
+    removeScroll(wrapperRef.value || state.value.editor!.$el!)
   }
 })
 
