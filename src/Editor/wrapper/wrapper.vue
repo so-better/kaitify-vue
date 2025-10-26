@@ -5,7 +5,7 @@
   </Teleport>
   <slot v-else name="before" :state="state"></slot>
   <!-- 编辑区域 -->
-  <EditorWrapper v-bind="$attrs" />
+  <div ref="elRef" class="kaitify-border" v-bind="$attrs" @mousedown="isMouseDown = true" @mouseup="isMouseDown = false"></div>
   <!-- after插槽 -->
   <Teleport v-if="appendAfterTo" :to="appendAfterTo">
     <slot name="after" :state="state"></slot>
@@ -15,15 +15,17 @@
   <slot :state="state"></slot>
 </template>
 <script lang="ts" setup>
-import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, provide, ref, VNode, watch } from 'vue'
+import { computed, Fragment, h, onBeforeUnmount, onMounted, provide, ref, render, watch } from 'vue'
 import { Editor } from '@kaitify/core'
 import { translate } from '@/locale'
 import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
 import { createVNodes } from './render'
+
 defineOptions({
   name: 'Wrapper',
   inheritAttrs: false
 })
+
 //属性
 const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
@@ -46,8 +48,6 @@ const emits = defineEmits<WrapperEmitsType>()
 const elRef = ref<HTMLElement | null>(null)
 //编辑器实例
 const editor = ref<Editor | null>(null)
-//编辑器内容虚拟节点
-const vnodes = ref<VNode[]>([])
 //是否编辑器内部修改值
 const internalModification = ref<boolean>(false)
 //编辑器更新标记
@@ -156,8 +156,8 @@ watch(
 )
 
 //初始化渲染编辑器
-onMounted(async () => {
-  editor.value = await Editor.configure({
+onMounted(() => {
+  Editor.configure({
     el: elRef.value!,
     value: props.modelValue,
     placeholder: props.placeholder,
@@ -193,50 +193,29 @@ onMounted(async () => {
     onBlur: event => emits('blur', event),
     onBeforeUpdateView: () => emits('beforeUpdateView'),
     onAfterUpdateView: () => emits('afterUpdateView'),
+    onCreate: ed => (editor.value = ed),
+    onCreated: ed => emits('created', ed),
     onSelectionUpdate(selection) {
       updateKey.value++
       emits('selectionUpdate', selection)
     },
-    //使用vue作视图渲染
-    async onUpdateView() {
-      vnodes.value = createVNodes(this)
-      await nextTick()
+    onUpdateView() {
+      //使用vue作视图渲染
+      render(h(Fragment, null, createVNodes(this)), elRef.value!)
+      //阻止默认渲染方式
       return false
     },
     //监听编辑器内部修改值
-    async onChange(newVal) {
+    onChange(newVal) {
       internalModification.value = true
       emits('update:modelValue', newVal)
     }
   })
-  emits('created', editor.value)
 })
 
 //卸载时销毁编辑器
 onBeforeUnmount(() => {
   editor.value?.destroy()
-})
-
-//编辑区域组件
-const EditorWrapper = defineComponent(() => {
-  return () => {
-    return h(
-      'div',
-      {
-        ref: elRef,
-        class: ['kaitify-border'],
-        onMousedown: () => {
-          isMouseDown.value = true
-        },
-        onMouseup: () => {
-          isMouseDown.value = false
-        }
-      },
-      {
-        default: () => [...vnodes.value]
-      }
-    )
-  }
 })
 
 //对子孙组件提供的属性

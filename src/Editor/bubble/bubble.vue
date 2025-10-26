@@ -29,7 +29,7 @@ const emits = defineEmits<BubbleEmitsType>()
 const dark = inject<boolean>('dark')!
 //编辑器状态数据
 const state = inject<ComputedRef<StateType>>('state')!
-const disabled = inject<boolean>('disbaled')!
+const disabled = inject<boolean>('disabled')!
 const isMouseDown = inject<Ref<boolean>>('isMouseDown')!
 const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
 //popperjs实例

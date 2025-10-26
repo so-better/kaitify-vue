@@ -17,7 +17,9 @@ declare function __VLS_template(): {
             state: StateType;
         }): any;
     };
-    refs: {};
+    refs: {
+        elRef: HTMLDivElement;
+    };
     attrs: Partial<{}>;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
