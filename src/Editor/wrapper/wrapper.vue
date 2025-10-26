@@ -15,7 +15,7 @@
   <slot :state="state"></slot>
 </template>
 <script lang="ts" setup>
-import { computed, defineComponent, h, nextTick, onMounted, provide, ref, VNode, watch } from 'vue'
+import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, provide, ref, VNode, watch } from 'vue'
 import { Editor } from '@kaitify/core'
 import { translate } from '@/locale'
 import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
@@ -210,6 +210,11 @@ onMounted(async () => {
     }
   })
   emits('created', editor.value)
+})
+
+//卸载时销毁编辑器
+onBeforeUnmount(() => {
+  editor.value?.destroy()
 })
 
 //编辑区域组件
