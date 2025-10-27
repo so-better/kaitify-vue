@@ -1,5 +1,5 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-show="menuShow">
+  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-attachment" />
     <template #popover>
       <div v-if="isActive" class="kaitify-attachment-update" :kaitify-dark="dark || undefined">
@@ -28,7 +28,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, reactive, ref } from 'vue'
+import { computed, inject, reactive, Ref, ref } from 'vue'
 import { file as DapFile } from 'dap-util'
 import { SetAttachmentOptionType, UpdateAttachmentOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
@@ -50,14 +50,14 @@ const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
   })
 })
 //是否深色模式
-const dark = inject<boolean>('dark')!
+const dark = inject<Ref<boolean>>('dark')!
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
+const menuRef = ref<typeof Menu>()
 //远程附件数据
 const remoteData = reactive<Omit<SetAttachmentOptionType, 'icon'>>({
   url: '',
@@ -84,11 +84,11 @@ const tabData = computed<TabsPropsType['data']>(() => {
   })
 })
 //是否激活
-const isActive = computed<boolean>(() => {
+const isActive = computed(() => {
   return !!state.value.editor?.commands.getAttachment?.()
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }
@@ -108,7 +108,7 @@ const isDisabled = computed<boolean>(() => {
 })
 
 //浮层显示
-const menuShow = () => {
+const menuShowing = () => {
   const info = state.value.editor?.commands.getAttachmentInfo?.()
   if (info) {
     updateData.text = info.text

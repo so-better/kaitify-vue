@@ -9,18 +9,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, ref } from 'vue'
+import { inject, Ref, ref } from 'vue'
 import { TabsPropsType } from './props'
 
 defineOptions({
   name: 'Tabs'
 })
 
-const dark = inject<boolean>('dark')!
-
+//属性
 const props = withDefaults(defineProps<TabsPropsType>(), {
   data: () => []
 })
+
+//是否深色模式
+const dark = inject<Ref<boolean>>('dark')!
 
 //当前选项
 const current = ref<string | number>(props.defaultValue)

@@ -5,7 +5,7 @@
   </Teleport>
   <slot v-else name="before" :state="state"></slot>
   <!-- 编辑区域 -->
-  <div ref="elRef" class="kaitify-border" v-bind="$attrs" @mousedown="isMouseDown = true" @mouseup="isMouseDown = false"></div>
+  <div ref="elRef" class="kaitify-border" v-bind="attrs" @mousedown="isMouseDown = true" @mouseup="isMouseDown = false"></div>
   <!-- after插槽 -->
   <Teleport v-if="appendAfterTo" :to="appendAfterTo">
     <slot name="after" :state="state"></slot>
@@ -15,7 +15,7 @@
   <slot :state="state"></slot>
 </template>
 <script lang="ts" setup>
-import { computed, Fragment, h, onBeforeUnmount, onMounted, provide, ref, render, watch } from 'vue'
+import { Fragment, h, onBeforeUnmount, onMounted, provide, ref, render, toRef, useAttrs, watch } from 'vue'
 import { Editor } from '@kaitify/core'
 import { translate } from '@/locale'
 import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
@@ -25,7 +25,7 @@ defineOptions({
   name: 'Wrapper',
   inheritAttrs: false
 })
-
+const attrs = useAttrs()
 //属性
 const props = withDefaults(defineProps<WrapperPropsType>(), {
   modelValue: '<p><br/></p>',
@@ -45,28 +45,15 @@ const props = withDefaults(defineProps<WrapperPropsType>(), {
 //编辑器事件
 const emits = defineEmits<WrapperEmitsType>()
 //编辑器dom元素
-const elRef = ref<HTMLElement | null>(null)
+const elRef = ref<HTMLElement>()
 //编辑器实例
-const editor = ref<Editor | null>(null)
+const editor = ref<Editor>()
 //是否编辑器内部修改值
-const internalModification = ref<boolean>(false)
-//编辑器更新标记
-const updateKey = ref<number>(0)
+const internalModification = ref(false)
+//编辑器当前的状态数据
+const state = ref<StateType>({})
 //是否鼠标按下
-const isMouseDown = ref<boolean>(false)
-
-//编辑器状态数据
-const state = computed<StateType>(() => {
-  const data: StateType = {
-    editor: editor.value,
-    selection: null
-  }
-  if (!!updateKey.value) {
-    data.editor = editor.value
-    data.selection = editor.value?.selection ?? null
-  }
-  return data
-})
+const isMouseDown = ref(false)
 
 //监听编辑器的值
 watch(
@@ -76,7 +63,10 @@ watch(
       //内部改变
       if (internalModification.value) {
         internalModification.value = false
-        updateKey.value++
+        state.value = {
+          editor: editor.value,
+          selection: editor.value.selection
+        }
       }
       //外部改变，进行视图更新
       else {
@@ -85,7 +75,10 @@ watch(
           editor.value.setSelectionAfter()
           editor.value.updateRealSelection()
         }
-        updateKey.value++
+        state.value = {
+          editor: editor.value,
+          selection: editor.value.selection
+        }
       }
     }
   }
@@ -96,7 +89,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.setEditable(!newVal)
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -105,7 +101,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.setDark(newVal)
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -114,7 +113,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.allowCopy = newVal
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -123,7 +125,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.allowCut = newVal
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -132,7 +137,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.allowPaste = newVal
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -141,7 +149,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.allowPasteHtml = newVal
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -150,7 +161,10 @@ watch(
   newVal => {
     if (editor.value) {
       editor.value.priorityPasteFiles = newVal
-      updateKey.value++
+      state.value = {
+        editor: editor.value,
+        selection: editor.value.selection
+      }
     }
   }
 )
@@ -193,11 +207,26 @@ onMounted(() => {
     onBlur: event => emits('blur', event),
     onBeforeUpdateView: () => emits('beforeUpdateView'),
     onAfterUpdateView: () => emits('afterUpdateView'),
-    onCreate: ed => (editor.value = ed),
-    onCreated: ed => emits('created', ed),
-    onSelectionUpdate(selection) {
-      updateKey.value++
-      emits('selectionUpdate', selection)
+    onCreate(ed) {
+      editor.value = ed
+      state.value = {
+        editor: ed,
+        selection: ed.selection
+      }
+    },
+    onCreated(ed) {
+      emits('created', ed)
+      state.value = {
+        editor: ed,
+        selection: ed.selection
+      }
+    },
+    onSelectionUpdate() {
+      state.value = {
+        editor: this,
+        selection: this.selection
+      }
+      emits('selectionUpdate', this.selection)
     },
     onUpdateView() {
       //使用vue作视图渲染
@@ -216,6 +245,7 @@ onMounted(() => {
 //卸载时销毁编辑器
 onBeforeUnmount(() => {
   editor.value?.destroy()
+  editor.value = undefined
 })
 
 //对子孙组件提供的属性
@@ -223,7 +253,7 @@ provide('state', state)
 provide('elRef', elRef)
 provide('disabled', props.disabled)
 provide('isMouseDown', isMouseDown)
-provide('dark', props.dark)
+provide('dark', toRef(props, 'dark'))
 provide('t', (key: string) => {
   return translate(props.locale, key)
 })

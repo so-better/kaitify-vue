@@ -1,14 +1,14 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="shouldVisible" ref="elRef" v-bind="$attrs" class="kaitify-bubble" :kaitify-dark="dark || undefined" :style="{ zIndex: zIndex }">
+      <div v-if="shouldVisible" ref="elRef" v-bind="attrs" class="kaitify-bubble" :kaitify-dark="dark || undefined" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
     </Transition>
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, ComputedRef, computed, onMounted, Ref } from 'vue'
+import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, computed, onMounted, Ref, useAttrs } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { StateType } from '../wrapper'
@@ -19,6 +19,7 @@ defineOptions({
   inheritAttrs: false
 })
 const instance = getCurrentInstance()!
+const attrs = useAttrs()
 //属性
 const props = withDefaults(defineProps<BubblePropsType>(), {
   visible: false,
@@ -26,19 +27,20 @@ const props = withDefaults(defineProps<BubblePropsType>(), {
 })
 //事件
 const emits = defineEmits<BubbleEmitsType>()
-const dark = inject<boolean>('dark')!
+//是否深色模式
+const dark = inject<Ref<boolean>>('dark')!
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 const disabled = inject<boolean>('disabled')!
 const isMouseDown = inject<Ref<boolean>>('isMouseDown')!
-const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
+const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
 //popperjs实例
-const popperInstance = ref<Instance | null>(null)
+const popperInstance = ref<Instance>()
 //气泡元素
-const elRef = ref<HTMLElement | null>(null)
+const elRef = ref<HTMLElement>()
 
 //是否显示气泡栏
-const shouldVisible = computed<boolean>(() => {
+const shouldVisible = computed(() => {
   if (disabled) {
     return false
   }
@@ -52,7 +54,7 @@ const shouldVisible = computed<boolean>(() => {
 const destroyPopperjs = () => {
   if (popperInstance.value) {
     popperInstance.value.destroy()
-    popperInstance.value = null
+    popperInstance.value = undefined
   }
 }
 //获取编辑器内的光标位置

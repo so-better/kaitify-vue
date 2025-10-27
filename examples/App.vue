@@ -1,6 +1,10 @@
 <template>
   <div style="padding: 10px">
-    <button @click="show = !show">显示/隐藏编辑器</button>
+    <div style="padding: 5px">
+      <button @click="show = !show">显示/隐藏编辑器</button>
+      <button @click="isDark = !isDark">深色/浅色主题</button>
+      <button @click="disabled = !disabled">禁用/启用编辑器</button>
+    </div>
     <div
       :style="{
         display: 'flex',
@@ -76,16 +80,7 @@
           <FullScreenMenu target="#area" />
         </template>
         <template #after="{ state }"> 总字数：{{ state.editor?.getContent().length ?? 0 }} </template>
-        <Bubble
-          :match="shouldBubble.match"
-          :visible="shouldBubble.visible"
-          style="padding: 5px"
-          @shown="
-            e => {
-              console.log('完全显示', e)
-            }
-          "
-        >
+        <Bubble :match="shouldBubble.match" :visible="shouldBubble.visible" style="padding: 5px" hide-on-mousedown>
           <template v-if="shouldBubble.type === 0">
             <VideoControlsMenu />
             <VideoMutedMenu />

@@ -25,7 +25,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, reactive, ref } from 'vue'
+import { computed, inject, reactive, Ref, ref } from 'vue'
 import { SetLinkOptionType, UpdateLinkOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
@@ -42,14 +42,14 @@ const props = withDefaults(defineProps<LinkMenuPropsType>(), {
   disabled: false
 })
 //是否深色模式
-const dark = inject<boolean>('dark')!
+const dark = inject<Ref<boolean>>('dark')!
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
+const menuRef = ref<typeof Menu>()
 //链接数据
 const formData = reactive<SetLinkOptionType>({
   href: '',
@@ -62,11 +62,11 @@ const updateData = reactive<UpdateLinkOptionType>({
   newOpen: false
 })
 //是否激活
-const isActive = computed<boolean>(() => {
+const isActive = computed(() => {
   return !!state.value.editor?.commands.getLink?.()
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }

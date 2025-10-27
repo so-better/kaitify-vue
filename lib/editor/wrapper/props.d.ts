@@ -174,6 +174,6 @@ export type WrapperEmitsType = {
  * 编辑器状态对象
  */
 export type StateType = {
-    editor: Editor | null;
-    selection: Selection | null;
+    editor?: Editor;
+    selection?: Selection;
 };

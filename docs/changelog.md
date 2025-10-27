@@ -5,14 +5,15 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.4-beta.10 <Badge type="tip" text='2025.10.26' />
+## v0.0.4-beta.11 <Badge type="tip" text='2025.10.27' />
 
 - `Wrapper` 组件卸载时，销毁编辑器实例
 - `Bubble` 组件卸载时移除相关事件时编辑器元素读取不到的 bug 修复
-- 更新 `@kaitify/core` 的依赖版本
 - `css` 变量改成 `less` 变量，不再依赖 `core` 的 `css` 变量，并对每个组件的深色模式进行了处理
+- `state` 响应式状态数据由 `ComputedRef` 改为 `Ref` 类型，内部进行了相应的改造
 - 修改 Vue 渲染编辑器视图的方式
 - 优化获取编辑器实例的方式
+- 更新 `@kaitify/core` 的依赖版本
 
 ## v0.0.4-beta.7 <Badge type="tip" text='2025.10.25' />
 

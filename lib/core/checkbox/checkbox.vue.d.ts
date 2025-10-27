@@ -6,5 +6,5 @@ declare const _default: import('vue').DefineComponent<CheckboxPropsType, {}, {},
 }>, {
     disabled: boolean;
     modelValue: boolean;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLLabelElement>;
 export default _default;

@@ -16,7 +16,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue'
+import { computed, inject, Ref, ref } from 'vue'
 import { Icon } from '@/core/icon'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -31,12 +31,13 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
   maxRows: 10,
   maxColumns: 10
 })
-const dark = inject<boolean>('dark')!
+//是否深色模式
+const dark = inject<Ref<boolean>>('dark')!
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
+const menuRef = ref<typeof Menu>()
 //获取表格尺寸数据
 const getTableGrids = () => {
   const grids: TableGridType[][] = []
@@ -75,7 +76,7 @@ const specification = computed<TableGridType>(() => {
     })[0]
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }

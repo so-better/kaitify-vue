@@ -4,7 +4,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject } from 'vue'
+import { computed, inject, Ref } from 'vue'
 import { Icon } from '@/core/icon'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -18,10 +18,10 @@ const props = withDefaults(defineProps<VideoLoopMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 
 //是否激活
-const isActive = computed<boolean>(() => {
+const isActive = computed(() => {
   const videoNode = state.value.editor?.commands.getVideo?.()
   if (!videoNode) {
     return false
@@ -29,7 +29,7 @@ const isActive = computed<boolean>(() => {
   return videoNode.hasMarks() && videoNode.marks!.hasOwnProperty('loop')
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }

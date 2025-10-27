@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
 import { event as DapEvent, common as DapCommon } from 'dap-util'
 import { Popover } from '@/core/popover'
 import { Icon } from '@/core/icon'
@@ -52,13 +52,16 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits<MenuEmitsType>()
-const dark = inject<boolean>('dark')!
-const state = inject<ComputedRef<StateType>>('state')!
-const wrapperRef = inject<Ref<HTMLElement | null>>('elRef')!
+//是否深色模式
+const dark = inject<Ref<boolean>>('dark')!
+//编辑器状态数据
+const state = inject<Ref<StateType>>('state')!
+//dom
+const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
 //popover组件实例
-const popoverRef = ref<typeof Popover | null>(null)
+const popoverRef = ref<typeof Popover>()
 //popover浮层是否显示
-const popoverVisible = computed<boolean>(() => {
+const popoverVisible = computed(() => {
   if (popoverRef.value) {
     return popoverRef.value.visible
   }

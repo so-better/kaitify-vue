@@ -7,7 +7,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue'
+import { computed, inject, Ref, ref } from 'vue'
 import { HeadingLevelType } from '@kaitify/core'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -22,12 +22,12 @@ const props = withDefaults(defineProps<HeadingMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
+const menuRef = ref<typeof Menu>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   const baseOptions = [
@@ -77,7 +77,7 @@ const fontSizeMap = computed<{ [key: number]: string }>(() => {
   }
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }

@@ -4,7 +4,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, Ref, ref } from 'vue'
 import { Icon } from '@/core/icon'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -19,20 +19,20 @@ const props = withDefaults(defineProps<FullScreenMenuPropsType>(), {
   zIndex: 100
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 
 //绑定的全屏dom
 const targetDom = ref<HTMLElement | null>(null)
 
 //是否全屏
-const isFullScreen = ref<boolean>(false)
+const isFullScreen = ref(false)
 
 //是否激活
-const isActive = computed<boolean>(() => {
+const isActive = computed(() => {
   return !!targetDom.value && isFullScreen.value
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }

@@ -13,7 +13,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, ref } from 'vue'
+import { computed, inject, Ref, ref } from 'vue'
 import { OrderedListType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
@@ -29,14 +29,14 @@ const props = withDefaults(defineProps<OrderedListMenuPropsType>(), {
   disabled: false
 })
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
+const menuRef = ref<typeof Menu>()
 //有序列表序标列表
 const listTypes = ref<OrderedListType[]>(['decimal', 'lower-alpha', 'upper-alpha', 'lower-roman', 'upper-roman', 'lower-greek', 'cjk-ideographic'])
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }
@@ -54,7 +54,7 @@ const itemActive = computed<(item: OrderedListType) => boolean>(() => {
   }
 })
 //菜单是否激活
-const isActive = computed<boolean>(() => {
+const isActive = computed(() => {
   return (
     state.value.editor?.commands.allList?.({
       ordered: true

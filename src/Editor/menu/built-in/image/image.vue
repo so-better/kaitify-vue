@@ -28,7 +28,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject, reactive, ref } from 'vue'
+import { computed, inject, reactive, Ref, ref } from 'vue'
 import { file as DapFile } from 'dap-util'
 import { SetImageOptionType, UpdateImageOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
@@ -50,14 +50,14 @@ const props = withDefaults(defineProps<ImageMenuPropsType>(), {
   })
 })
 //是否深色模式
-const dark = inject<boolean>('dark')!
+const dark = inject<Ref<boolean>>('dark')!
 //编辑器状态数据
-const state = inject<ComputedRef<StateType>>('state')!
+const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu | null>(null)
+const menuRef = ref<typeof Menu>()
 //远程图片数据
 const remoteData = reactive<Omit<SetImageOptionType, 'width'>>({
   src: '',
@@ -84,7 +84,7 @@ const tabData = computed<TabsPropsType['data']>(() => {
   })
 })
 //是否禁用
-const isDisabled = computed<boolean>(() => {
+const isDisabled = computed(() => {
   if (!state.value.editor?.selection.focused()) {
     return true
   }
@@ -100,7 +100,7 @@ const isDisabled = computed<boolean>(() => {
   return props.disabled
 })
 //是否激活
-const isActive = computed<boolean>(() => {
+const isActive = computed(() => {
   return !!state.value.editor?.commands.getImage?.()
 })
 

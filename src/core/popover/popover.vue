@@ -19,7 +19,7 @@
   </Teleport>
 </template>
 <script lang="ts" setup>
-import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, Ref, ref, watch } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props'
@@ -28,8 +28,6 @@ defineOptions({
   name: 'Popover'
 })
 const instance = getCurrentInstance()!
-
-const dark = inject<boolean>('dark')!
 
 //属性
 const props = withDefaults(defineProps<PopoverPropsType>(), {
@@ -44,33 +42,37 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
 })
 //事件
 const emits = defineEmits<PopoverEmitsType>()
+
+//是否深色模式
+const dark = inject<Ref<boolean>>('dark')!
+
 //是否显示
-const visible = ref<boolean>(false)
+const visible = ref(false)
 //目标元素
-const referRef = ref<HTMLElement | null>(null)
+const referRef = ref<HTMLElement>()
 //三角形元素
-const arrowRef = ref<HTMLElement | null>(null)
+const arrowRef = ref<HTMLElement>()
 //浮层元素
-const popoverRef = ref<HTMLElement | null>(null)
+const popoverRef = ref<HTMLElement>()
 //popperjs实例
-const popperInstance = ref<Instance | null>(null)
+const popperInstance = ref<Instance>()
 
 //浮层宽度
-const popoverWidth = computed<string>(() => {
+const popoverWidth = computed(() => {
   if (props.width) {
     return typeof props.width == 'number' ? `${props.width}px` : props.width
   }
   return 'auto'
 })
 //浮层最小宽度
-const popoverMinWidth = computed<string>(() => {
+const popoverMinWidth = computed(() => {
   if (props.minWidth) {
     return typeof props.minWidth == 'number' ? `${props.minWidth}px` : props.minWidth
   }
   return ''
 })
 //浮层最大高度
-const popoverMaxHeight = computed<string>(() => {
+const popoverMaxHeight = computed(() => {
   if (props.maxHeight) {
     return typeof props.maxHeight == 'number' ? `${props.maxHeight}px` : props.maxHeight
   }
@@ -150,7 +152,7 @@ const createPopperjs = () => {
 const destroyPopperjs = () => {
   if (popperInstance.value) {
     popperInstance.value.destroy()
-    popperInstance.value = null
+    popperInstance.value = undefined
   }
 }
 

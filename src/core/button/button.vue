@@ -4,7 +4,7 @@
   </button>
 </template>
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, Ref } from 'vue'
 import { ButtonPropsType } from './props'
 defineOptions({
   name: 'Button'
@@ -16,6 +16,6 @@ withDefaults(defineProps<ButtonPropsType>(), {
   large: false
 })
 
-const dark = inject<boolean>('dark')!
+const dark = inject<Ref<boolean>>('dark')!
 </script>
 <style src="./style.less" scoped></style>

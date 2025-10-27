@@ -431,7 +431,7 @@ const onCreated = () => {
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
-const wrapper = ref<typeof Wrapper | undefined>()
+const wrapper = ref<typeof Wrapper>()
 const content = ref('<p>hello</p>')
 
 const onCreated = () => {
@@ -452,7 +452,7 @@ const onCreated = () => {
 <script setup lang="ts">
 import { ComputedRef } from 'vue'
 import { StateType } from '@kaitify/vue'
-const state = inject<ComputedRef<StateType>>('state')
+const state = inject<StateType>('state')
 </script>
 ```
 

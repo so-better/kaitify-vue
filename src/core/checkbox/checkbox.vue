@@ -8,14 +8,12 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, Ref } from 'vue'
 import { CheckboxEmitsType, CheckboxPropsType } from './props'
 
 defineOptions({
   name: 'Checkbox'
 })
-
-const dark = inject<boolean>('dark')!
 
 //属性
 const props = withDefaults(defineProps<CheckboxPropsType>(), {
@@ -24,6 +22,9 @@ const props = withDefaults(defineProps<CheckboxPropsType>(), {
 })
 //事件
 const emits = defineEmits<CheckboxEmitsType>()
+
+//是否深色模式
+const dark = inject<Ref<boolean>>('dark')!
 
 //复选框变更
 const onChange = (e: Event) => {
