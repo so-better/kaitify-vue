@@ -4,11 +4,13 @@
     <template #popover>
       <div class="kaitify-table" :class="{ 'kaitify-dark': dark }">
         <table>
-          <tr v-for="row in tableGrids">
-            <td :class="{ 'kaitify-table-inside': column.inside }" v-for="column in row" @mouseenter="changeTableSize(column)" @click="insert(column)">
-              <span></span>
-            </td>
-          </tr>
+          <tbody>
+            <tr v-for="row in tableGrids">
+              <td :class="{ 'kaitify-table-inside': column.inside }" v-for="column in row" @mouseenter="changeTableSize(column)" @click="insert(column)">
+                <span></span>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <div class="kaitify-table-footer" v-if="specification">{{ specification.x }} x {{ specification.y }}</div>
       </div>

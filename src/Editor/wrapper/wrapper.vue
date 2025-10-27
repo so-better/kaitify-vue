@@ -15,7 +15,7 @@
   <slot :state="state"></slot>
 </template>
 <script lang="ts" setup>
-import { Fragment, h, onBeforeUnmount, onMounted, provide, ref, render, toRef, useAttrs, watch } from 'vue'
+import { Fragment, h, nextTick, onBeforeUnmount, onMounted, provide, ref, render, toRef, useAttrs, watch } from 'vue'
 import { Editor } from '@kaitify/core'
 import { translate } from '@/locale'
 import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
@@ -228,9 +228,11 @@ onMounted(() => {
       }
       emits('selectionUpdate', this.selection)
     },
-    onUpdateView() {
+    async onUpdateView() {
       //使用vue作视图渲染
       render(h(Fragment, null, createVNodes(this)), elRef.value!)
+      //等待视图渲染完成
+      await nextTick()
       //阻止默认渲染方式
       return false
     },
