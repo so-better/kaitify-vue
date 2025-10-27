@@ -1,5 +1,5 @@
 <template>
-  <div class="kaitify-divider" :kaitify-dark="dark || undefined"></div>
+  <div class="kaitify-divider" :class="{ 'kaitify-dark': dark }"></div>
 </template>
 <script setup lang="ts">
 import { inject, Ref } from 'vue'

@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-font-color" />
     <template #popover>
-      <div class="kaitify-colors-panel" :kaitify-dark="dark || undefined">
+      <div class="kaitify-colors-panel" :class="{ 'kaitify-dark': dark }">
         <div class="kaitify-colors-header">
           <Button @click="unsetColor" block large>
             <Icon name="kaitify-icon-remove" />

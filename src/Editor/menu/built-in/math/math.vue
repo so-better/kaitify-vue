@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-mathformula" />
     <template #popover>
-      <div class="kaitify-math" :kaitify-dark="dark || undefined">
+      <div class="kaitify-math" :class="{ 'kaitify-dark': dark }">
         <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="t('输入Latex数学公式')" />
         <div class="kaitify-math-footer">
           <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ t('更新') }}</Button>

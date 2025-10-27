@@ -1,5 +1,5 @@
 <template>
-  <div class="kaitify-tabs" :kaitify-dark="dark || undefined">
+  <div class="kaitify-tabs" :class="{ 'kaitify-dark': dark }">
     <div class="kaitify-tabs-header">
       <div v-for="item in data" class="kaitify-tabs-header-item" :class="{ 'kaitify-tabs-header-item-active': current == item.value }" @click="onSelect(item.value)">{{ item.label }}</div>
     </div>

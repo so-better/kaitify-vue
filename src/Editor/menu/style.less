@@ -50,29 +50,29 @@
       margin-right: 4px;
     }
 
-    &:not([disabled]):hover {
+    &:not(.kaitify-disabled):hover {
       cursor: pointer;
       background: @lightest-theme;
       color: @theme;
     }
 
-    &:not([disabled]):active {
+    &:not(.kaitify-disabled):active {
       background: @lighter-theme;
       color: @theme;
     }
 
-    &:not([disabled]).kaitify-menu-option-active {
+    &:not(.kaitify-disabled).kaitify-menu-option-active {
       background: @lighter-theme;
       color: @theme;
     }
 
-    &[disabled] {
+    &.kaitify-disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
   }
 
-  &[kaitify-dark] {
+  &.kaitify-dark {
     .kaitify-menu-option {
       color: @font-color-dark;
     }

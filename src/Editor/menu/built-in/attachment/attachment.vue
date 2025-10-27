@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-attachment" />
     <template #popover>
-      <div v-if="isActive" class="kaitify-attachment-update" :kaitify-dark="dark || undefined">
+      <div v-if="isActive" class="kaitify-attachment-update" :class="{ 'kaitify-dark': dark }">
         <input v-model.trim="updateData.text" :placeholder="t('附件名称')" type="text" />
         <input v-model.trim="updateData.url" :placeholder="t('附件地址')" type="url" />
         <div class="kaitify-attachment-update-footer">
@@ -11,14 +11,14 @@
       </div>
       <Tabs v-else :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'remote'" class="kaitify-attachment-remote" :kaitify-dark="dark || undefined">
+          <div v-if="current == 'remote'" class="kaitify-attachment-remote" :class="{ 'kaitify-dark': dark }">
             <input v-model.trim="remoteData.text" :placeholder="t('附件名称')" type="text" />
             <input v-model.trim="remoteData.url" :placeholder="t('附件地址')" type="url" />
             <div class="kaitify-attachment-remote-footer">
               <Button @click="insert" :disabled="!remoteData.url || !remoteData.text">{{ t('插入') }}</Button>
             </div>
           </div>
-          <div v-else-if="current == 'upload'" class="kaitify-attachment-upload" :kaitify-dark="dark || undefined">
+          <div v-else-if="current == 'upload'" class="kaitify-attachment-upload" :class="{ 'kaitify-dark': dark }">
             <input type="file" accept="*" @change="fileChange" />
             <Icon name="kaitify-icon-upload" />
           </div>

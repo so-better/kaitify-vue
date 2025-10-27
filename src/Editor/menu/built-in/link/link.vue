@@ -2,7 +2,7 @@
   <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-link" />
     <template #popover>
-      <div class="kaitify-link" :kaitify-dark="dark || undefined">
+      <div class="kaitify-link" :class="{ 'kaitify-dark': dark }">
         <!-- 修改链接 -->
         <template v-if="isActive">
           <input v-model.trim="updateData.href" :placeholder="t('链接地址')" type="url" />

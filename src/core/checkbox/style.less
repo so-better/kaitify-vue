@@ -75,12 +75,12 @@
     margin-left: @small-margin;
   }
 
-  &:not([disabled]):hover {
+  &:not(.kaitify-disabled):hover {
     cursor: pointer;
     opacity: 1;
   }
 
-  &[disabled] {
+  &.kaitify-disabled {
     opacity: 0.5;
     cursor: not-allowed;
 
@@ -89,7 +89,7 @@
     }
   }
 
-  &[kaitify-dark] {
+  &.kaitify-dark {
     color: @font-color-dark;
 
     .kaitify-checkbox-el {

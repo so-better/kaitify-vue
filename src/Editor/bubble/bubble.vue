@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="shouldVisible" ref="elRef" v-bind="attrs" class="kaitify-bubble" :kaitify-dark="dark || undefined" :style="{ zIndex: zIndex }">
+      <div v-if="shouldVisible" ref="elRef" v-bind="attrs" class="kaitify-bubble" :class="{ 'kaitify-dark': dark }" :style="{ zIndex: zIndex }">
         <slot></slot>
       </div>
     </Transition>

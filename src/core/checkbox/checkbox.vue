@@ -1,7 +1,7 @@
 <template>
-  <label class="kaitify-checkbox" :kaitify-dark="dark || undefined" :disabled="disabled || undefined">
+  <label class="kaitify-checkbox" :class="{ 'kaitify-dark': dark, 'kaitify-disabled': disabled }">
     <span class="kaitify-checkbox-el" :class="{ 'kaitify-checkbox-active': modelValue }">
-      <input type="checkbox" @change="onChange" :disabled="disabled || undefined" />
+      <input type="checkbox" @change="onChange" :disabled="disabled" />
     </span>
     <span class="kaitify-checkbox-label">{{ label }}</span>
   </label>

@@ -1,10 +1,10 @@
 <template>
-  <div ref="referRef" class="kaitify-popover-refer" :kaitify-dark="dark || undefined" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
+  <div ref="referRef" class="kaitify-popover-refer" :class="{ 'kaitify-dark': dark }" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
     <slot name="refer"></slot>
   </div>
   <Teleport to="body">
     <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="visible" ref="popoverRef" class="kaitify-popover" :kaitify-dark="dark || undefined" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
+      <div v-if="visible" ref="popoverRef" class="kaitify-popover" :class="{ 'kaitify-dark': dark }" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
         <div class="kaitify-popover-wrapper">
           <!-- 内容区域 -->

@@ -20,23 +20,28 @@
     outline: none;
   }
 
-  &:not([disabled]):hover {
+  &.kaitify-dark {
+    background: @background-color-dark;
+    color: @font-color-dark;
+  }
+
+  &:not(:disabled):hover {
     cursor: pointer;
     background: @lightest-theme;
     color: @theme;
   }
 
-  &:not([disabled]):active {
+  &:not(:disabled):active {
     background: @lighter-theme;
     color: @theme;
   }
 
-  &:not([disabled]).kaitify-button-active {
+  &:not(:disabled).kaitify-button-active {
     background: @lighter-theme;
     color: @theme;
   }
 
-  &[disabled] {
+  &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
@@ -48,10 +53,5 @@
 
   &.kaitify-button-large {
     height: 32px;
-  }
-
-  &[kaitify-dark] {
-    background: @background-color-dark;
-    color: @font-color-dark;
   }
 }
