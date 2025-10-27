@@ -450,9 +450,9 @@ const onCreated = () => {
   <div>I'm SubComponent</div>
 </template>
 <script setup lang="ts">
-import { ComputedRef } from 'vue'
+import { ComputedRef, Ref } from 'vue'
 import { StateType } from '@kaitify/vue'
-const state = inject<StateType>('state')
+const state = inject<Ref<StateType>>('state')
 </script>
 ```
 
