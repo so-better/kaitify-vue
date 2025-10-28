@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="shouldVisible" ref="elRef" v-bind="attrs" class="kaitify-bubble" :class="{ 'kaitify-dark': dark }" :style="{ zIndex: zIndex }">
+      <div v-if="shouldVisible" v-bind="attrs" ref="elRef" class="kaitify-bubble" :class="{ 'kaitify-dark': dark }">
         <slot></slot>
       </div>
     </Transition>
@@ -22,8 +22,7 @@ const instance = getCurrentInstance()!
 const attrs = useAttrs()
 //属性
 const props = withDefaults(defineProps<BubblePropsType>(), {
-  visible: false,
-  zIndex: 5
+  visible: false
 })
 //事件
 const emits = defineEmits<BubbleEmitsType>()

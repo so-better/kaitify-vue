@@ -80,7 +80,7 @@
           <FullScreenMenu target="#area" />
         </template>
         <template #after="{ state }"> 总字数：{{ state.editor?.getContent().length ?? 0 }} </template>
-        <Bubble :match="shouldBubble.match" :visible="shouldBubble.visible" style="padding: 5px" hide-on-mousedown>
+        <Bubble :match="shouldBubble.match" :visible="shouldBubble.visible" style="padding: 5px; z-index: 110" hide-on-mousedown>
           <template v-if="shouldBubble.type === 0">
             <VideoControlsMenu />
             <VideoMutedMenu />

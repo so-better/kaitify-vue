@@ -30,7 +30,6 @@ declare const __VLS_component: import('vue').DefineComponent<BubblePropsType, {
     onShown?: ((value: HTMLDivElement) => any) | undefined;
     onHiding?: ((value: HTMLDivElement) => any) | undefined;
 }>, {
-    zIndex: number;
     visible: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     elRef: HTMLDivElement;

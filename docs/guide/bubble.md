@@ -12,10 +12,6 @@ title: Bubble 气泡栏
 
 是否显示气泡栏，默认为 `false`
 
-##### zIndex <Badge type="danger" text="number" />
-
-气泡栏的 `z-index` 层级，默认为 5
-
 ##### match <Badge type="danger" text="KNodeMatchOptionType" />
 
 指定气泡栏出现的位置条件，每次更新气泡位置时会判断光标是否在符合条件的节点下，如果符合则根据该节点的真实 `dom` 进行定位，否则只根据光标位置进行定位

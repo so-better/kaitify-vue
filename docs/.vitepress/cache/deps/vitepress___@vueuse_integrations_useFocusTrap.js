@@ -1,12 +1,13 @@
 import {
   notNullish,
-  toValue,
+  toArray,
   tryOnScopeDispose,
   unrefElement
-} from "./chunk-SSAUQZQR.js";
+} from "./chunk-Q2AYPHVK.js";
 import {
   computed,
-  ref,
+  shallowRef,
+  toValue,
   watch
 } from "./chunk-QAXAIFA7.js";
 
@@ -22,14 +23,14 @@ var getRootNode = !NoElement && Element.prototype.getRootNode ? function(element
 } : function(element) {
   return element === null || element === void 0 ? void 0 : element.ownerDocument;
 };
-var isInert = function isInert2(node, lookUp) {
+var _isInert = function isInert(node, lookUp) {
   var _node$getAttribute;
   if (lookUp === void 0) {
     lookUp = true;
   }
   var inertAtt = node === null || node === void 0 ? void 0 : (_node$getAttribute = node.getAttribute) === null || _node$getAttribute === void 0 ? void 0 : _node$getAttribute.call(node, "inert");
   var inert = inertAtt === "" || inertAtt === "true";
-  var result = inert || lookUp && node && isInert2(node.parentNode);
+  var result = inert || lookUp && node && _isInert(node.parentNode);
   return result;
 };
 var isContentEditable = function isContentEditable2(node) {
@@ -38,7 +39,7 @@ var isContentEditable = function isContentEditable2(node) {
   return attValue === "" || attValue === "true";
 };
 var getCandidates = function getCandidates2(el, includeContainer, filter) {
-  if (isInert(el)) {
+  if (_isInert(el)) {
     return [];
   }
   var candidates = Array.prototype.slice.apply(el.querySelectorAll(candidateSelector));
@@ -48,18 +49,18 @@ var getCandidates = function getCandidates2(el, includeContainer, filter) {
   candidates = candidates.filter(filter);
   return candidates;
 };
-var getCandidatesIteratively = function getCandidatesIteratively2(elements, includeContainer, options) {
+var _getCandidatesIteratively = function getCandidatesIteratively(elements, includeContainer, options) {
   var candidates = [];
   var elementsToCheck = Array.from(elements);
   while (elementsToCheck.length) {
     var element = elementsToCheck.shift();
-    if (isInert(element, false)) {
+    if (_isInert(element, false)) {
       continue;
     }
     if (element.tagName === "SLOT") {
       var assigned = element.assignedElements();
       var content = assigned.length ? assigned : element.children;
-      var nestedCandidates = getCandidatesIteratively2(content, true, options);
+      var nestedCandidates = _getCandidatesIteratively(content, true, options);
       if (options.flatten) {
         candidates.push.apply(candidates, nestedCandidates);
       } else {
@@ -75,9 +76,9 @@ var getCandidatesIteratively = function getCandidatesIteratively2(elements, incl
       }
       var shadowRoot = element.shadowRoot || // check for an undisclosed shadow
       typeof options.getShadowRoot === "function" && options.getShadowRoot(element);
-      var validShadowRoot = !isInert(shadowRoot, false) && (!options.shadowRootFilter || options.shadowRootFilter(element));
+      var validShadowRoot = !_isInert(shadowRoot, false) && (!options.shadowRootFilter || options.shadowRootFilter(element));
       if (shadowRoot && validShadowRoot) {
-        var _nestedCandidates = getCandidatesIteratively2(shadowRoot === true ? element.children : shadowRoot.children, true, options);
+        var _nestedCandidates = _getCandidatesIteratively(shadowRoot === true ? element.children : shadowRoot.children, true, options);
         if (options.flatten) {
           candidates.push.apply(candidates, _nestedCandidates);
         } else {
@@ -187,6 +188,24 @@ var isZeroArea = function isZeroArea2(node) {
 };
 var isHidden = function isHidden2(node, _ref) {
   var displayCheck = _ref.displayCheck, getShadowRoot = _ref.getShadowRoot;
+  if (displayCheck === "full-native") {
+    if ("checkVisibility" in node) {
+      var visible = node.checkVisibility({
+        // Checking opacity might be desirable for some use cases, but natively,
+        // opacity zero elements _are_ focusable and tabbable.
+        checkOpacity: false,
+        opacityProperty: false,
+        contentVisibilityAuto: true,
+        visibilityProperty: true,
+        // This is an alias for `visibilityProperty`. Contemporary browsers
+        // support both. However, this alias has wider browser support (Chrome
+        // >= 105 and Firefox >= 106, vs. Chrome >= 121 and Firefox >= 122), so
+        // we include it anyway.
+        checkVisibilityCSS: true
+      });
+      return !visible;
+    }
+  }
   if (getComputedStyle(node).visibility === "hidden") {
     return true;
   }
@@ -195,7 +214,9 @@ var isHidden = function isHidden2(node, _ref) {
   if (matches.call(nodeUnderDetails, "details:not([open]) *")) {
     return true;
   }
-  if (!displayCheck || displayCheck === "full" || displayCheck === "legacy-full") {
+  if (!displayCheck || displayCheck === "full" || // full-native can run this branch when it falls through in case
+  // Element#checkVisibility is unsupported
+  displayCheck === "full-native" || displayCheck === "legacy-full") {
     if (typeof getShadowRoot === "function") {
       var originalNode = node;
       while (node) {
@@ -246,7 +267,7 @@ var isNodeMatchingSelectorFocusable = function isNodeMatchingSelectorFocusable2(
   if (node.disabled || // we must do an inert look up to filter out any elements inside an inert ancestor
   //  because we're limited in the type of selectors we can use in JSDom (see related
   //  note related to `candidateSelectors`)
-  isInert(node) || isHiddenInput(node) || isHidden(node, options) || // For a details element with a summary, the summary element gets the focus
+  _isInert(node) || isHiddenInput(node) || isHidden(node, options) || // For a details element with a summary, the summary element gets the focus
   isDetailsWithSummary(node) || isDisabledFromFieldset(node)) {
     return false;
   }
@@ -258,21 +279,21 @@ var isNodeMatchingSelectorTabbable = function isNodeMatchingSelectorTabbable2(op
   }
   return true;
 };
-var isValidShadowRootTabbable = function isValidShadowRootTabbable2(shadowHostNode) {
+var isShadowRootTabbable = function isShadowRootTabbable2(shadowHostNode) {
   var tabIndex = parseInt(shadowHostNode.getAttribute("tabindex"), 10);
   if (isNaN(tabIndex) || tabIndex >= 0) {
     return true;
   }
   return false;
 };
-var sortByOrder = function sortByOrder2(candidates) {
+var _sortByOrder = function sortByOrder(candidates) {
   var regularTabbables = [];
   var orderedTabbables = [];
   candidates.forEach(function(item, i) {
     var isScope = !!item.scopeParent;
     var element = isScope ? item.scopeParent : item;
     var candidateTabindex = getSortOrderTabIndex(element, isScope);
-    var elements = isScope ? sortByOrder2(item.candidates) : element;
+    var elements = isScope ? _sortByOrder(item.candidates) : element;
     if (candidateTabindex === 0) {
       isScope ? regularTabbables.push.apply(regularTabbables, elements) : regularTabbables.push(element);
     } else {
@@ -294,22 +315,22 @@ var tabbable = function tabbable2(container, options) {
   options = options || {};
   var candidates;
   if (options.getShadowRoot) {
-    candidates = getCandidatesIteratively([container], options.includeContainer, {
+    candidates = _getCandidatesIteratively([container], options.includeContainer, {
       filter: isNodeMatchingSelectorTabbable.bind(null, options),
       flatten: false,
       getShadowRoot: options.getShadowRoot,
-      shadowRootFilter: isValidShadowRootTabbable
+      shadowRootFilter: isShadowRootTabbable
     });
   } else {
     candidates = getCandidates(container, options.includeContainer, isNodeMatchingSelectorTabbable.bind(null, options));
   }
-  return sortByOrder(candidates);
+  return _sortByOrder(candidates);
 };
 var focusable = function focusable2(container, options) {
   options = options || {};
   var candidates;
   if (options.getShadowRoot) {
-    candidates = getCandidatesIteratively([container], options.includeContainer, {
+    candidates = _getCandidatesIteratively([container], options.includeContainer, {
       filter: isNodeMatchingSelectorFocusable.bind(null, options),
       flatten: true,
       getShadowRoot: options.getShadowRoot
@@ -392,7 +413,7 @@ function _toPrimitive(t, r) {
   if ("object" != typeof t || !t) return t;
   var e = t[Symbol.toPrimitive];
   if (void 0 !== e) {
-    var i = e.call(t, r || "default");
+    var i = e.call(t, r);
     if ("object" != typeof i) return i;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
@@ -414,7 +435,7 @@ var activeFocusTraps = {
     if (trapStack.length > 0) {
       var activeTrap = trapStack[trapStack.length - 1];
       if (activeTrap !== trap) {
-        activeTrap.pause();
+        activeTrap._setPausedState(true);
       }
     }
     var trapIndex = trapStack.indexOf(trap);
@@ -430,8 +451,8 @@ var activeFocusTraps = {
     if (trapIndex !== -1) {
       trapStack.splice(trapIndex, 1);
     }
-    if (trapStack.length > 0) {
-      trapStack[trapStack.length - 1].unpause();
+    if (trapStack.length > 0 && !trapStack[trapStack.length - 1]._isManuallyPaused()) {
+      trapStack[trapStack.length - 1]._setPausedState(false);
     }
   }
 };
@@ -504,6 +525,7 @@ var createFocusTrap = function createFocusTrap2(elements, userOptions) {
     mostRecentlyFocusedNode: null,
     active: false,
     paused: false,
+    manuallyPaused: false,
     // timer ID for when delayInitialFocus is true and initial focus in this trap
     //  has been delayed during activation
     delayInitialFocusTimer: void 0,
@@ -945,7 +967,7 @@ var createFocusTrap = function createFocusTrap2(elements, userOptions) {
       }
       state.active = true;
       state.paused = false;
-      state.nodeFocusedBeforeActivation = doc.activeElement;
+      state.nodeFocusedBeforeActivation = _getActiveElement(doc);
       onActivate === null || onActivate === void 0 || onActivate();
       var finishActivation = function finishActivation2() {
         if (checkCanFocusTrap) {
@@ -999,31 +1021,21 @@ var createFocusTrap = function createFocusTrap2(elements, userOptions) {
       return this;
     },
     pause: function pause(pauseOptions) {
-      if (state.paused || !state.active) {
+      if (!state.active) {
         return this;
       }
-      var onPause = getOption(pauseOptions, "onPause");
-      var onPostPause = getOption(pauseOptions, "onPostPause");
-      state.paused = true;
-      onPause === null || onPause === void 0 || onPause();
-      removeListeners();
-      updateObservedNodes();
-      onPostPause === null || onPostPause === void 0 || onPostPause();
-      return this;
+      state.manuallyPaused = true;
+      return this._setPausedState(true, pauseOptions);
     },
     unpause: function unpause(unpauseOptions) {
-      if (!state.paused || !state.active) {
+      if (!state.active) {
         return this;
       }
-      var onUnpause = getOption(unpauseOptions, "onUnpause");
-      var onPostUnpause = getOption(unpauseOptions, "onPostUnpause");
-      state.paused = false;
-      onUnpause === null || onUnpause === void 0 || onUnpause();
-      updateTabbableNodes();
-      addListeners();
-      updateObservedNodes();
-      onPostUnpause === null || onPostUnpause === void 0 || onPostUnpause();
-      return this;
+      state.manuallyPaused = false;
+      if (trapStack[trapStack.length - 1] !== this) {
+        return this;
+      }
+      return this._setPausedState(false, unpauseOptions);
     },
     updateContainerElements: function updateContainerElements(containerElements) {
       var elementsAsArray = [].concat(containerElements).filter(Boolean);
@@ -1037,6 +1049,38 @@ var createFocusTrap = function createFocusTrap2(elements, userOptions) {
       return this;
     }
   };
+  Object.defineProperties(trap, {
+    _isManuallyPaused: {
+      value: function value() {
+        return state.manuallyPaused;
+      }
+    },
+    _setPausedState: {
+      value: function value(paused, options) {
+        if (state.paused === paused) {
+          return this;
+        }
+        state.paused = paused;
+        if (paused) {
+          var onPause = getOption(options, "onPause");
+          var onPostPause = getOption(options, "onPostPause");
+          onPause === null || onPause === void 0 || onPause();
+          removeListeners();
+          updateObservedNodes();
+          onPostPause === null || onPostPause === void 0 || onPostPause();
+        } else {
+          var onUnpause = getOption(options, "onUnpause");
+          var onPostUnpause = getOption(options, "onPostUnpause");
+          onUnpause === null || onUnpause === void 0 || onUnpause();
+          updateTabbableNodes();
+          addListeners();
+          updateObservedNodes();
+          onPostUnpause === null || onPostUnpause === void 0 || onPostUnpause();
+        }
+        return this;
+      }
+    }
+  });
   trap.updateContainerElements(elements);
   return trap;
 };
@@ -1045,8 +1089,8 @@ var createFocusTrap = function createFocusTrap2(elements, userOptions) {
 function useFocusTrap(target, options = {}) {
   let trap;
   const { immediate, ...focusTrapOptions } = options;
-  const hasFocus = ref(false);
-  const isPaused = ref(false);
+  const hasFocus = shallowRef(false);
+  const isPaused = shallowRef(false);
   const activate = (opts) => trap && trap.activate(opts);
   const deactivate = (opts) => trap && trap.deactivate(opts);
   const pause = () => {
@@ -1063,7 +1107,7 @@ function useFocusTrap(target, options = {}) {
   };
   const targets = computed(() => {
     const _targets = toValue(target);
-    return (Array.isArray(_targets) ? _targets : [_targets]).map((el) => {
+    return toArray(_targets).map((el) => {
       const _el = toValue(el);
       return typeof _el === "string" ? _el : unrefElement(_el);
     }).filter(notNullish);
@@ -1108,13 +1152,13 @@ export {
 
 tabbable/dist/index.esm.js:
   (*!
-  * tabbable 6.2.0
+  * tabbable 6.3.0
   * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
   *)
 
 focus-trap/dist/focus-trap.esm.js:
   (*!
-  * focus-trap 7.6.2
+  * focus-trap 7.6.6
   * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
   *)
 */
