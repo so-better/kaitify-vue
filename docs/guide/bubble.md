@@ -150,6 +150,18 @@ const bubbleHidden = (el: HTMLDivElement) => {
 </script>
 ```
 
+## API 组件属性/方法
+
+`Bubble` 提供了部分属性/方法可以通过组件实例来调用
+
+##### elRef <Badge type="danger" text="HTMLElement | undefined" />
+
+获取组件实例即气泡栏的 `dom` 元素
+
+##### popperInstance <Badge type="danger" text="Instance | undefined" />
+
+`popperjs` 创建的浮层实例对象
+
 ## Slots 插槽
 
 ##### default
