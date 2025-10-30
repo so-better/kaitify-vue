@@ -23,6 +23,9 @@ features:
   - title: '@kaitify/core'
     details: 基于原生JS的富文本编辑器核心库
     link: https://www.so-better.cn/docs/kaitify-core/
+  - title: '@kaitify/react'
+    details: 基于kaitify开发的react富文本编辑器核心库
+    link: https://www.so-better.cn/docs/kaitify-react/
   - title: dap-util
     details: 一个轻量的前端JavaScript工具库，专注于JavaScript，不关心UI
     link: https://www.so-better.cn/docs/dap-util/
