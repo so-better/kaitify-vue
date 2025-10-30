@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.16 <Badge type="tip" text='2025.10.30' />
+
+- 优化内置 `Popover` 组件
+- 其他代码优化
+
 ## v0.0.4-beta.15 <Badge type="tip" text='2025.10.28' />
 
 - `Bubble` 组件移除 `z-index` 属性，现在可以直接通过 `style` 来设置样式

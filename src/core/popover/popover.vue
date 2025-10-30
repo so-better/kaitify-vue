@@ -56,6 +56,8 @@ const arrowRef = ref<HTMLElement>()
 const popoverRef = ref<HTMLElement>()
 //popperjs实例
 const popperInstance = ref<Instance>()
+//计时器实例
+const timeoutRef = ref<ReturnType<typeof setTimeout>>()
 
 //浮层宽度
 const popoverWidth = computed(() => {
@@ -163,7 +165,8 @@ const showPopover = () => {
   }
   //延迟显示
   if (props.delay > 0) {
-    setTimeout(() => {
+    if (timeoutRef.value) clearTimeout(timeoutRef.value)
+    timeoutRef.value = setTimeout(() => {
       visible.value = true
     }, props.delay)
     return
@@ -173,9 +176,6 @@ const showPopover = () => {
 }
 //隐藏浮层
 const hidePopover = () => {
-  if (props.disabled) {
-    return
-  }
   visible.value = false
 }
 
