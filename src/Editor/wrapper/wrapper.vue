@@ -15,7 +15,7 @@
   <slot :state="state"></slot>
 </template>
 <script lang="ts" setup>
-import { Fragment, h, nextTick, onBeforeUnmount, onMounted, provide, ref, render, toRef, useAttrs, watch } from 'vue'
+import { Fragment, h, nextTick, onBeforeUnmount, onMounted, provide, ref, Ref, render, toRef, useAttrs, watch } from 'vue'
 import { Editor } from '@kaitify/core'
 import { translate } from '@/locale'
 import { StateType, WrapperEmitsType, WrapperPropsType } from './props'
@@ -51,7 +51,7 @@ const editor = ref<Editor>()
 //是否编辑器内部修改值
 const internalModification = ref(false)
 //编辑器当前的状态数据
-const state = ref<StateType>({})
+const state: Ref<StateType> = ref<StateType>({})
 //是否鼠标按下
 const isMouseDown = ref(false)
 

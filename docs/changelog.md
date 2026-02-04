@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.17 <Badge type="tip" text='2026.02.04' />
+
+- 更新 `@kaitify/core` 的依赖版本
+- 升级依赖的less版本
+
 ## v0.0.4-beta.16 <Badge type="tip" text='2025.10.30' />
 
 - 优化内置 `Popover` 组件
