@@ -198,6 +198,10 @@ const content = ref('<p>hello</p>')
 
 编辑器 `updateView` 执行时，通过比对新旧节点数组获取需要格式化的节点，在这些节点被格式化前，触发此方法，回调参数即当前需要被格式化的节点，该方法返回一个节点，返回的节点将会被格式化，如果你不需要任何特殊处理，返回入参提供的节点即可
 
+##### onRedressSelection <Badge type="danger" text="(this: Editor) => void" />
+
+编辑器进行光标纠正时触发，在这里可以修改虚拟光标的位置
+
 > 上述的属性部分继承于 kaitify 的 Editor 构建属性（同名属性），如果需要深入了解，可以去查看 kaitify 的文档
 
 ## Events 事件

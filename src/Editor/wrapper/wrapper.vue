@@ -199,6 +199,7 @@ onMounted(() => {
     onPasteFile: props.onPasteFile,
     onDetachMentBlockFromParent: props.onDetachMentBlockFromParent,
     onBeforePatchNodeToFormat: props.onBeforePatchNodeToFormat,
+    onRedressSelection: props.onRedressSelection,
     onInsertParagraph: node => emits('insertParagraph', node),
     onDeleteComplete: () => emits('deleteComplete'),
     onKeydown: event => emits('keydown', event),

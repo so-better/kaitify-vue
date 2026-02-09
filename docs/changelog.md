@@ -5,6 +5,11 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4-beta.18 <Badge type="tip" text='2026.02.09' />
+
+- 更新 `@kaitify/core` 的依赖版本
+- `Wrapper` 组件新增 `onRedressSelection` 属性
+
 ## v0.0.4-beta.17 <Badge type="tip" text='2026.02.04' />
 
 - 更新 `@kaitify/core` 的依赖版本
