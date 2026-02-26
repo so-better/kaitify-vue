@@ -53,12 +53,17 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/introduction', activeMatch: '/guide' },
       { text: '内置菜单', link: '/menus/introduction', activeMatch: '/menus' },
+      { text: '更新日志', link: '/changelog' },
       {
         text: '在线体验',
         link: 'https://www.so-better.cn/run?lib=kaitify-vue',
         target: '_blank'
       },
-      { text: '更新日志', link: '/changelog' }
+      {
+        text: '联系作者',
+        link: 'https://www.so-better.cn/author',
+        target: '_blank'
+      }
     ],
     sidebar: {
       '/guide': [

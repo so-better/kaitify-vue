@@ -8,9 +8,8 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop":true,
 		"types": ["node"],
-		"baseUrl": "./",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./src/*"]
 		},
 
 		/* Bundler mode */
