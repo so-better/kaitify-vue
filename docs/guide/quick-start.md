@@ -55,7 +55,7 @@ const content = ref('<p>hello</p>')
   </Wrapper>
 </template>
 <script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
+import { Wrapper, Bubble } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 </script>
