@@ -2,6 +2,7 @@
   display: inline-flex;
   justify-content: flex-start;
   align-items: center;
+  vertical-align: middle;
   padding: 2px;
   position: relative;
 
@@ -44,7 +45,9 @@
     font-size: @font-size;
     line-height: @line-height;
     color: @font-color;
-    transition: background 300ms, color 300ms;
+    transition:
+      background 300ms,
+      color 300ms;
 
     .kaitify-menu-option-icon {
       margin-right: 4px;
