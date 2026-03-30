@@ -257,7 +257,7 @@ onBeforeUnmount(() => {
 //对子孙组件提供的属性
 provide('state', state)
 provide('elRef', elRef)
-provide('disabled', props.disabled)
+provide('disabled', toRef(props, 'disabled'))
 provide('isMouseDown', isMouseDown)
 provide('dark', toRef(props, 'dark'))
 provide('t', (key: string) => {

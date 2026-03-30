@@ -30,7 +30,7 @@ const emits = defineEmits<BubbleEmitsType>()
 const dark = inject<Ref<boolean>>('dark')!
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
-const disabled = inject<boolean>('disabled')!
+const disabled = inject<Ref<boolean>>('disabled')!
 const isMouseDown = inject<Ref<boolean>>('isMouseDown')!
 const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
 //popperjs实例
@@ -40,7 +40,9 @@ const elRef = ref<HTMLElement>()
 
 //是否显示气泡栏
 const shouldVisible = computed(() => {
-  if (disabled) {
+  console.log(disabled.value)
+
+  if (disabled.value) {
     return false
   }
   if (isMouseDown.value && props.hideOnMousedown) {
