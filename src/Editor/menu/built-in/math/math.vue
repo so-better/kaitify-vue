@@ -67,7 +67,7 @@ const isDisabled = computed(() => {
 const menuShowing = () => {
   const mathNode = state.value.editor?.commands.getMath?.()
   if (mathNode) {
-    mathText.value = (mathNode.marks!['kaitify-math'] as string) || ''
+    mathText.value = (mathNode.marks!['data-value'] as string) || ''
   } else {
     mathText.value = ''
   }

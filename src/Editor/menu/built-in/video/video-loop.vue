@@ -26,7 +26,7 @@ const isActive = computed(() => {
   if (!videoNode) {
     return false
   }
-  return videoNode.hasMarks() && videoNode.marks!.hasOwnProperty('loop')
+  return videoNode.hasMarks() && videoNode.marks!.hasOwnProperty('data-loop')
 })
 //是否禁用
 const isDisabled = computed(() => {

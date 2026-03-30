@@ -148,7 +148,7 @@ const disabled = ref<boolean>(false)
 const wrapper = ref<typeof EditorWrapper | undefined>()
 const menus = ref<HTMLElement | undefined>()
 const shouldBubble = computed<{ visible: boolean; match?: KNodeMatchOptionType; type?: number }>(() => {
-  if (!wrapper.value) {
+  if (!wrapper.value || !wrapper.value.state.editor?.isEditable()) {
     return {
       visible: false
     }

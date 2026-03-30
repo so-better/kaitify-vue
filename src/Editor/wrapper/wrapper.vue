@@ -223,6 +223,9 @@ onMounted(() => {
       }
     },
     onSelectionUpdate() {
+      if (!this.isEditable()) {
+        return
+      }
       state.value = {
         editor: this,
         selection: this.selection

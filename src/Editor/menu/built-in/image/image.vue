@@ -108,8 +108,8 @@ const isActive = computed(() => {
 const menuShowing = () => {
   const imageNode = state.value.editor?.commands.getImage?.()
   if (imageNode) {
-    updateData.src = imageNode.marks!.src as string
-    updateData.alt = (imageNode.marks!.alt as string) || ''
+    updateData.src = imageNode.marks!['data-src'] as string
+    updateData.alt = (imageNode.marks!['data-alt'] as string) || ''
   } else {
     remoteData.src = ''
     remoteData.alt = ''

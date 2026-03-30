@@ -5,7 +5,13 @@ title: 更新日志
 
 # 更新日志
 
-## v0.0.1-beta.26 <Badge type="tip" text='2026.03.19' />
+## v0.0.4-beta.27 <Badge type="tip" text='2026.03.30' />
+
+- 更新 `@kaitify/core` 的依赖版本，更新底层架构
+- 部分内置扩展优化
+- 修复和优化了一些底层的问题
+
+## v0.0.4-beta.26 <Badge type="tip" text='2026.03.19' />
 
 - 更新 `@kaitify/core` 的依赖版本
 - 更新 `CodeBlock` 扩展

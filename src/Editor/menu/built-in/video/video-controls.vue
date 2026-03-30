@@ -26,7 +26,7 @@ const isActive = computed(() => {
   if (!videoNode) {
     return false
   }
-  return videoNode.hasMarks() && videoNode.marks!.hasOwnProperty('controls')
+  return videoNode.hasMarks() && videoNode.marks!.hasOwnProperty('data-controls')
 })
 //是否禁用
 const isDisabled = computed(() => {
