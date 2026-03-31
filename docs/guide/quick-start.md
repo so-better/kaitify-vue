@@ -10,7 +10,7 @@ title: 快速上手
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" style="width:500px;height:500px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" style="width:500px;height:500px;" v-model="content" :options="{ placeholder: '输入正文内容...' }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'

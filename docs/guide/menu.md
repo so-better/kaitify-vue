@@ -27,7 +27,7 @@ const content = ref('<p>hello</p>')
 
 示例：
 
-<Wrapper :dark="isDark" v-model="content" placeholder="输入内容..." style="width:100%;height:200px;">
+<Wrapper v-model="content" :options="{ dark: isDark, placeholder: '输入内容...' }" style="width:100%;height:200px;">
   <template #before>
     <div style="margin-bottom:10px;">
       <Menu>菜单</Menu>
@@ -81,7 +81,7 @@ const content = ref('<p>hello</p>')
 
 - label <Badge type="danger" text="string" />：选项内容
 - value <Badge type="danger" text="string | number" />：选项的值
-- icon <Badge type="danger" text="string | number" />：选项左侧显示的图标，只能是 `kaitify-vue` 内置的图标名称，如果需要自定义图标只能通过 `icon` 插槽来实现
+- icon <Badge type="danger" text="string" />：选项左侧显示的图标，只能是 `kaitify-vue` 内置的图标名称，如果需要自定义图标只能通过 `icon` 插槽来实现
 
 ##### itemDisabled <Badge type="danger" text="(item: MenuDataType) => boolean" />
 
@@ -356,7 +356,7 @@ const popoverHidden = el => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @created="onCreated">
+  <Wrapper v-model="content" :options="{ onCreated }">
     <template #before>
       <Menu
         ref="menu"
@@ -377,7 +377,7 @@ import { ref } from 'vue'
 const menu = ref<typeof Menu | undefined>()
 const content = ref('<p>hello</p>')
 
-const onCreated = el => {
+const onCreated = () => {
   menu.value?.showPopover()
 }
 </script>
@@ -389,7 +389,7 @@ const onCreated = el => {
 
 ```vue
 <template>
-  <Wrapper v-model="content" @created="onCreated">
+  <Wrapper v-model="content" :options="{ onCreated }">
     <template #before>
       <Menu
         ref="menu"
@@ -410,7 +410,7 @@ import { ref } from 'vue'
 const menu = ref<typeof Menu | undefined>()
 const content = ref('<p>hello</p>')
 
-const onCreated = el => {
+const onCreated = () => {
   menu.value?.showPopover()
 
   setTimeout(() => {

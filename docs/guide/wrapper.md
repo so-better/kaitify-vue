@@ -224,7 +224,7 @@ const onCreated = () => {
   <div>I'm SubComponent</div>
 </template>
 <script setup lang="ts">
-import { ComputedRef, Ref } from 'vue'
+import { inject, Ref } from 'vue'
 import { StateType } from '@kaitify/vue'
 const state = inject<Ref<StateType>>('state')
 </script>
@@ -240,6 +240,7 @@ const state = inject<Ref<StateType>>('state')
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
+import { ref } from 'vue'
 import SubComponent from './SubComponent.vue'
 const content = ref('<p>hello</p>')
 </script>
@@ -265,7 +266,7 @@ const content = ref('<p>hello</p>')
 <template>
   <Wrapper v-model="content">
     <template #before="{ state }">before</template>
-    <template #afer="{ state }">after</template>
+    <template #after="{ state }">after</template>
     <template #="{ state }">
       <Bubble />
     </template>

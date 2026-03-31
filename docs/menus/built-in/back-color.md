@@ -40,7 +40,7 @@ import { BackColorMenu } from '@kaitify/vue'
 
 ## 代码示例
 
-<Wrapper :dark="isDark" v-model="content" placeholder="输入内容..." style="width:100%;height:200px;">
+<Wrapper v-model="content" :options="{ dark: isDark, placeholder: '输入内容...'}" style="width:100%;height:200px;">
   <template #before>
     <div style="margin-bottom:10px;">
       <BackColorMenu />

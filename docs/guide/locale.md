@@ -14,7 +14,7 @@ title: 国际化支持
 
 ```vue
 <template>
-  <Wrapper v-model="content" placeholder="请输入..." locale="zh-CN"></Wrapper>
+  <Wrapper v-model="content" :options="{ placeholder: '请输入...' }" locale="zh-CN"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -29,7 +29,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper v-model="content" placeholder="请输入..." locale="en-US"></Wrapper>
+  <Wrapper v-model="content" :options="{ placeholder: '请输入...' }" locale="en-US"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -44,7 +44,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper v-model="content" placeholder="请输入..." locale="ko-KR"></Wrapper>
+  <Wrapper v-model="content" :options="{ placeholder: '请输入...' }" locale="ko-KR"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -59,7 +59,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper v-model="content" placeholder="请输入..." locale="ja-JP"></Wrapper>
+  <Wrapper v-model="content" :options="{ placeholder: '请输入...' }" locale="ja-JP"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'

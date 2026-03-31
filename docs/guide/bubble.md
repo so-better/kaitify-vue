@@ -178,6 +178,7 @@ const bubbleHidden = (el: HTMLDivElement) => {
 </template>
 <script setup lang="ts">
 import { Wrapper, Bubble } from '@kaitify/vue'
+import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 </script>
 ```

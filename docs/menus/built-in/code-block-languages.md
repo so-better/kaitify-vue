@@ -44,7 +44,7 @@ import { CodeBlockLanguagesMenu } from '@kaitify/vue'
 
 ## 代码示例
 
-<Wrapper ref="wrapper" :dark="isDark" v-model="content" placeholder="输入内容..." style="width:100%;height:200px;">
+<Wrapper ref="wrapper" v-model="content" :options="{ dark: isDark, placeholder: '输入内容...'}" style="width:100%;height:200px;">
   <template #before>
     <div style="margin-bottom:10px;">
       <CodeBlockMenu />
