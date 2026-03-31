@@ -98,9 +98,9 @@ const content = ref('<p>hello</p>')
 
 `after` 插槽挂载的元素，如果不设置，则就放置在编辑器后面
 
-##### options <Badge type="danger" text="EditorConfigureOptionType" />
+##### options <Badge type="danger" text="Omit<EditorConfigureOptionType, 'el' | 'value' | 'onChange' | 'onUpdateView'>" />
 
-编辑器配置参数，类型为 `Omit<EditorConfigureOptionType, 'el' | 'value' | 'onChange' | 'onUpdateView'>`，涵盖编辑器的所有配置选项及事件回调，如 `placeholder`、`dark`、`editable`、`autofocus`、`allowCopy`、`extensions` 等，具体可参考 [kaitify 的 Editor 构建属性](https://www.so-better.cn/docs/kaitify-core/apis/editor-configure)
+编辑器配置参数，涵盖编辑器的所有配置选项及事件回调，如 `placeholder`、`dark`、`editable`、`autofocus`、`allowCopy`、`extensions` 等，具体可参考 [kaitify 的 Editor 构建参数](https://www.so-better.cn/docs/kaitify-core/guide/editor)
 
 ## Events 事件
 
