@@ -154,7 +154,7 @@ const bubbleHidden = (el: HTMLDivElement) => {
 
 `Bubble` 提供了部分属性/方法可以通过组件实例来调用
 
-##### elRef <Badge type="danger" text="HTMLElement | undefined" />
+##### bubbleRef <Badge type="danger" text="HTMLElement | undefined" />
 
 获取组件实例即气泡栏的 `dom` 元素
 

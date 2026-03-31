@@ -1,5 +1,5 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 160, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menu" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 160, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-list-disc" />
     <template #popover>
       <div class="kaitify-unordered-list">
@@ -13,7 +13,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref } from 'vue'
+import { computed, inject, Ref, ref, useTemplateRef } from 'vue'
 import { UnorderListType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
@@ -28,23 +28,33 @@ defineOptions({
 const props = withDefaults(defineProps<UnorderedListMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
-//有序列表序标列表
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
+//无序列表序标列表
 const listTypes = ref<UnorderListType[]>(['disc', 'square', 'circle'])
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
+
 //选项是否激活
 const itemActive = computed<(item: UnorderListType) => boolean>(() => {
   return item => {
+    if (!state.value.editor?.isEditable()) {
+      return false
+    }
     return (
       state.value.editor?.commands.allList?.({
         ordered: false,
@@ -53,8 +63,12 @@ const itemActive = computed<(item: UnorderListType) => boolean>(() => {
     )
   }
 })
+
 //菜单是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return (
     state.value.editor?.commands.allList?.({
       ordered: false

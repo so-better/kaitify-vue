@@ -13,11 +13,13 @@ import { FullScreenMenuPropsType } from './props'
 defineOptions({
   name: 'FullScreenMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<FullScreenMenuPropsType>(), {
   disabled: false,
   zIndex: 100
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
@@ -29,15 +31,22 @@ const isFullScreen = ref(false)
 
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return !!targetDom.value && isFullScreen.value
 })
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   if (isActive.value) {

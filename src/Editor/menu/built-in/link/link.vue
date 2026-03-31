@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
+  <Menu ref="menu" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-link" />
     <template #popover>
-      <div class="kaitify-link" :class="{ 'kaitify-dark': dark }">
+      <div class="kaitify-link" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <!-- 修改链接 -->
         <template v-if="isActive">
           <input v-model.trim="updateData.href" :placeholder="t('链接地址')" type="url" />
@@ -25,7 +25,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, reactive, Ref, ref } from 'vue'
+import { computed, inject, reactive, Ref, useTemplateRef } from 'vue'
 import { SetLinkOptionType, UpdateLinkOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
@@ -41,39 +41,42 @@ defineOptions({
 const props = withDefaults(defineProps<LinkMenuPropsType>(), {
   disabled: false
 })
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
 //链接数据
 const formData = reactive<SetLinkOptionType>({
   href: '',
   text: '',
   newOpen: false
 })
+
 //更新链接数据
 const updateData = reactive<UpdateLinkOptionType>({
   href: '',
   newOpen: false
 })
+
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return !!state.value.editor?.commands.getLink?.()
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
-    return true
-  }
-  if (state.value.editor.commands.hasAttachment?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasMath?.()) {
     return true
   }
   if (state.value.editor.commands.hasLink?.() && !isActive.value) {

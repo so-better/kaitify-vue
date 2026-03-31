@@ -8,11 +8,11 @@ title: Wrapper 包裹器
 
 ## 基本使用
 
-使用 `v-model` 进行双向绑定，通过 `placeholder` 属性设置占位符内容
+使用 `v-model` 进行双向绑定，通过 `options` 属性传入编辑器配置，例如通过 `options.placeholder` 设置占位符内容
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" :options="{ placeholder: '输入正文内容...' }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -22,11 +22,11 @@ const content = ref('<p>hello</p>')
 </script>
 ```
 
-使用 `disabled` 来禁用编辑器，此时编辑器不可编辑
+通过 `options.editable` 来禁用编辑器，设置为 `false` 时编辑器不可编辑
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" disabled v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" :options="{ editable: false }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -36,11 +36,11 @@ const content = ref('<p>hello</p>')
 </script>
 ```
 
-使用 `autofocus` 来设置编辑器在初始化后自动聚焦
+使用 `options.autofocus` 来设置编辑器在初始化后自动聚焦
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" autofocus v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" :options="{ autofocus: true }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -50,11 +50,11 @@ const content = ref('<p>hello</p>')
 </script>
 ```
 
-使用 `dark` 来设置编辑器为深色风格
+使用 `options.dark` 来设置编辑器为深色风格
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" dark v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" :options="{ dark: true }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -68,7 +68,7 @@ const content = ref('<p>hello</p>')
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" style="width:500px;height:300px;" v-model="content" placeholder="输入正文内容..."></Wrapper>
+  <Wrapper ref="wrapper" style="width:500px;height:300px;" v-model="content" :options="{ placeholder: '输入正文内容...' }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -86,10 +86,6 @@ const content = ref('<p>hello</p>')
 
 编辑器的字符串内容
 
-##### disabled <Badge type="danger" text="boolean" />
-
-是否禁用编辑器，禁用后编辑器不可编辑，默认为 `false`
-
 ##### locale <Badge type="danger" text="LocaleType" />
 
 编辑器语言环境，取值范围是 `zh-CN` `en-US` `ko-KR` `ja-JP`，分别表示中文简体和英文语言、韩语、日语环境，默认为 `zh-CN`
@@ -102,298 +98,72 @@ const content = ref('<p>hello</p>')
 
 `after` 插槽挂载的元素，如果不设置，则就放置在编辑器后面
 
-##### autofocus <Badge type="danger" text="boolean" />
+##### options <Badge type="danger" text="EditorConfigureOptionType" />
 
-编辑器渲染后是否自动聚焦，默认为 `false`
-
-##### placeholder <Badge type="danger" text="string" />
-
-编辑器内容仅有一个默认的段落时，用来占位的内容
-
-##### dark <Badge type="danger" text="boolean" />
-
-编辑器是否呈现深色风格，默认为 `false`，此属性对编辑器相关的所有组件都有影响
-
-##### allowCopy <Badge type="danger" text="boolean" />
-
-是否允许复制操作，默认为 `true`
-
-##### allowPaste <Badge type="danger" text="boolean" />
-
-是否允许粘贴操作，默认为 `true`
-
-##### allowCut <Badge type="danger" text="boolean" />
-
-是否允许剪切操作，默认为 `true`
-
-##### allowPasteHtml <Badge type="danger" text="boolean" />
-
-是否允许粘贴 `html`，即粘贴内容时是否携带样式，默认为 `false`
-
-##### priorityPasteFiles <Badge type="danger" text="boolean" />
-
-剪切板同时存在文件和 `html/text` 时，是否优先粘贴文件，默认为 `false`
-
-##### textRenderTag <Badge type="danger" text="string" />
-
-自定义编辑器内渲染文本节点的真实标签，默认为 `span`
-
-##### blockRenderTag <Badge type="danger" text="string" />
-
-自定义编辑内渲染默认块级节点的真实标签，即段落标签，默认为 `p`
-
-##### emptyRenderTags <Badge type="danger" text="string[]" />
-
-自定义编辑器内定义需要置空的标签
-
-##### extraKeepTags <Badge type="danger" text="string[]" />
-
-自定义编辑器内额外保留的标签
-
-##### extensions <Badge type="danger" text="Extension[]" />
-
-自定义插件数组
-
-##### formatRules <Badge type="danger" text="RuleFunctionType[]" />
-
-自定义节点数组格式化规则
-
-##### onDomParseNode <Badge type="danger" text="(this: Editor, node: KNode) => KNode" />
-
-自定义 `dom` 转为非文本节点的后续处理
-
-##### onPasteKeepMarks <Badge type="danger" text="(this: Editor, node: KNode) => KNodeMarksType" />
-
-节点粘贴保留标记的自定义方法
-
-##### onPasteKeepStyles <Badge type="danger" text="(this: Editor, node: KNode) => KNodeStylesType" />
-
-节点粘贴保留样式的自定义方法
-
-##### onPasteText <Badge type="danger" text="(this: Editor, text: string) => boolean | Promise<boolean>" />
-
-编辑器粘贴纯文本时触发，如果返回 `true` 则表示继续使用默认逻辑，返回 `false` 则不走默认逻辑，需要进行自定义处理
-
-##### onPasteHtml <Badge type="danger" text="(this: Editor, nodes: KNode[], html: string) => boolean | Promise<boolean>" />
-
-编辑器粘贴 `html` 内容时触发，如果返回 `true` 则表示继续使用默认逻辑，返回 `false` 则不走默认逻辑，需要进行自定义处理
-
-##### onPasteImage <Badge type="danger" text="(this: Editor, file: File) => boolean | Promise<boolean>" />
-
-编辑器粘贴图片时触发，如果返回 `true` 则表示继续使用默认逻辑，返回 `false` 则不走默认逻辑，需要进行自定义处理
-
-##### onPasteVideo <Badge type="danger" text="(this: Editor, file: File) => boolean | Promise<boolean>" />
-
-编辑器粘贴视频时触发，如果返回 `true` 则表示继续使用默认逻辑，返回 `false` 则不走默认逻辑，需要进行自定义处理
-
-##### onPasteFile <Badge type="danger" text="(this: Editor, file: File) => void | Promise<void>" />
-
-编辑器粘贴除了图片和视频以外的文件时触发，需要自定义处理
-
-##### onDetachMentBlockFromParent <Badge type="danger" text="(this: Editor, node: KNode) => boolean" />
-
-在删除和换行操作中块节点节点从其父节点中抽离出去成为与父节点同级的节点后触发，如果返回 `true` 则表示继续使用默认逻辑，会将该节点转为段落，返回 `false` 则不走默认逻辑，需要自定义处理
-
-##### onBeforePatchNodeToFormat <Badge type="danger" text="(this: Editor, node: KNode) => KNode" />
-
-编辑器 `updateView` 执行时，通过比对新旧节点数组获取需要格式化的节点，在这些节点被格式化前，触发此方法，回调参数即当前需要被格式化的节点，该方法返回一个节点，返回的节点将会被格式化，如果你不需要任何特殊处理，返回入参提供的节点即可
-
-##### onRedressSelection <Badge type="danger" text="(this: Editor) => void" />
-
-编辑器进行光标纠正时触发，在这里可以修改虚拟光标的位置
-
-> 上述的属性部分继承于 kaitify 的 Editor 构建属性（同名属性），如果需要深入了解，可以去查看 kaitify 的文档
+编辑器配置参数，类型为 `Omit<EditorConfigureOptionType, 'el' | 'value' | 'onChange' | 'onUpdateView'>`，涵盖编辑器的所有配置选项及事件回调，如 `placeholder`、`dark`、`editable`、`autofocus`、`allowCopy`、`extensions` 等，具体可参考 [kaitify 的 Editor 构建属性](https://www.so-better.cn/docs/kaitify-core/apis/editor-configure)
 
 ## Events 事件
 
-部分 `Editor` 实例的函数属性我们通过 `vue` 组件事件的方式来设置，同时 `kaitify-vue` 也提供了一部分的事件
+`Wrapper` 组件只保留了 `update:modelValue` 一个 Vue 组件事件，其余编辑器事件均通过 `options` 属性中的回调函数来设置
 
-##### selectionUpdate
+##### update:modelValue
 
-编辑器光标发生变化触发的事件，回调参数为编辑器的 `Selection` 对象实例
+编辑器内容改变时触发，即 `v-model` 的更新事件
 
-```vue
-<template>
-  <Wrapper v-model="content" @selectionUpdate="onSelectionUpdate"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper, Selection } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
+---
 
-const onSelectionUpdate = (sel: Selection) => {
-  console.log('光标发生变化', sel)
-}
-</script>
-```
-
-##### insertParagraph
-
-编辑器进行换行时触发的事件，回调参数为换行后光标所在的块节点
+以下事件回调均通过 `options` 属性传入：
 
 ```vue
 <template>
-  <Wrapper v-model="content" @insertParagraph="onInsertParagraph"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper, KNode } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const onInsertParagraph = (node: KNode) => {
-  console.log('换行', node)
-}
-</script>
-```
-
-##### deleteComplete
-
-编辑器执行删除操作完成的时候触发的事件
-
-```vue
-<template>
-  <Wrapper v-model="content" @deleteComplete="onDeleteComplete"></Wrapper>
+  <Wrapper v-model="content" :options="options"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
 import { ref } from 'vue'
 const content = ref('<p>hello</p>')
 
-const onDeleteComplete = () => {
-  console.log('删除完成')
-}
-</script>
-```
-
-##### keydown
-
-编辑器内键盘按下触发的事件，回调参数为 `KeyboardEvent`
-
-```vue
-<template>
-  <Wrapper v-model="content" @keydown="onKeydown"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const onKeydown = (event: KeyboardEvent) => {
-  console.log('键盘按下', event)
-}
-</script>
-```
-
-##### keyup
-
-编辑器内键盘松开触发的事件，回调参数为 `KeyboardEvent`
-
-```vue
-<template>
-  <Wrapper v-model="content" @keyup="onKeyup"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const onKeyup = (event: KeyboardEvent) => {
-  console.log('键盘松开', event)
-}
-</script>
-```
-
-##### focus
-
-编辑器获取光标触发的事件，回调参数为 `FocusEvent`
-
-```vue
-<template>
-  <Wrapper v-model="content" @focus="onFocus"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const onFocus = (event: FocusEvent) => {
-  console.log('编辑器获取光标', event)
-}
-</script>
-```
-
-##### blur
-
-编辑器失去光标触发的事件，回调参数为 `FocusEvent`
-
-```vue
-<template>
-  <Wrapper v-model="content" @blur="onBlur"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const onBlur = (event: FocusEvent) => {
-  console.log('编辑器失去光标', event)
-}
-</script>
-```
-
-##### beforeUpdateView
-
-编辑器视图更新前触发的事件
-
-```vue
-<template>
-  <Wrapper v-model="content" @beforeUpdateView="beforeUpdateView"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const beforeUpdateView = () => {
-  console.log('编辑器视图更新之前')
-}
-</script>
-```
-
-##### afterUpdateView
-
-编辑器视图更新后触发的事件
-
-```vue
-<template>
-  <Wrapper v-model="content" @afterUpdateView="afterUpdateView"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const afterUpdateView = () => {
-  console.log('编辑器视图更新之后')
-}
-</script>
-```
-
-##### created
-
-编辑器创建完成后触发，回调参数为 `kaitify` 的编辑器实例对象
-
-```vue
-<template>
-  <Wrapper v-model="content" @created="onCreated"></Wrapper>
-</template>
-<script setup lang="ts">
-import { Wrapper } from '@kaitify/vue'
-import { ref } from 'vue'
-const content = ref('<p>hello</p>')
-
-const onCreated = editor => {
-  console.log('编辑器创建完成后', editor)
+const options = {
+  // 编辑器创建完成后触发，回调参数为编辑器实例
+  onCreated(editor) {
+    console.log('编辑器创建完成', editor)
+  },
+  // 光标发生变化时触发，回调参数为 Selection 实例
+  onSelectionUpdate(selection) {
+    console.log('光标发生变化', selection)
+  },
+  // 换行时触发，回调参数为换行后光标所在的块节点
+  onInsertParagraph(node) {
+    console.log('换行', node)
+  },
+  // 删除操作完成时触发
+  onDeleteComplete() {
+    console.log('删除完成')
+  },
+  // 键盘按下时触发
+  onKeydown(event) {
+    console.log('键盘按下', event)
+  },
+  // 键盘松开时触发
+  onKeyup(event) {
+    console.log('键盘松开', event)
+  },
+  // 编辑器获取焦点时触发
+  onFocus(event) {
+    console.log('编辑器获取焦点', event)
+  },
+  // 编辑器失去焦点时触发
+  onBlur(event) {
+    console.log('编辑器失去焦点', event)
+  },
+  // 视图更新前触发
+  onBeforeUpdateView() {
+    console.log('视图更新前')
+  },
+  // 视图更新后触发
+  onAfterUpdateView() {
+    console.log('视图更新后')
+  }
 }
 </script>
 ```
@@ -402,13 +172,13 @@ const onCreated = editor => {
 
 `Wrapper` 提供了部分属性/方法可以通过组件实例来调用
 
-##### elRef <Badge type="danger" text="HTMLElement" />
+##### wrapperRef <Badge type="danger" text="HTMLElement" />
 
 获取组件实例即编辑器的 `dom` 元素
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" v-model="content" created="onCreated"></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" :options="{ onCreated }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'
@@ -417,7 +187,7 @@ const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 
 const onCreated = () => {
-  console.log('组件实例dom', wrapper.value.elRef)
+  console.log('组件实例dom', wrapper.value.wrapperRef)
 }
 </script>
 ```
@@ -430,7 +200,7 @@ const onCreated = () => {
 
 ```vue
 <template>
-  <Wrapper ref="wrapper" v-model="content" @created="onCreated"></Wrapper>
+  <Wrapper ref="wrapper" v-model="content" :options="{ onCreated }"></Wrapper>
 </template>
 <script setup lang="ts">
 import { Wrapper } from '@kaitify/vue'

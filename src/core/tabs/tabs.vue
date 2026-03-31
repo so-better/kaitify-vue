@@ -1,5 +1,5 @@
 <template>
-  <div class="kaitify-tabs" :class="{ 'kaitify-dark': dark }">
+  <div class="kaitify-tabs" :class="{ 'kaitify-dark': state.editor?.isDark() }">
     <div class="kaitify-tabs-header">
       <div v-for="item in data" class="kaitify-tabs-header-item" :class="{ 'kaitify-tabs-header-item-active': current == item.value }" @click="onSelect(item.value)">{{ item.label }}</div>
     </div>
@@ -10,6 +10,7 @@
 </template>
 <script lang="ts" setup>
 import { inject, Ref, ref } from 'vue'
+import { StateType } from '@/editor/wrapper'
 import { TabsPropsType } from './props'
 
 defineOptions({
@@ -21,8 +22,8 @@ const props = withDefaults(defineProps<TabsPropsType>(), {
   data: () => []
 })
 
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+//编辑器状态数据
+const state = inject<Ref<StateType>>('state')!
 
 //当前选项
 const current = ref<string | number>(props.defaultValue)

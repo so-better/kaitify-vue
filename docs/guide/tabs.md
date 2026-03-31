@@ -28,13 +28,18 @@ import { ref } from 'vue'
 
 示例：
 
-<Tabs default-value="A" :data="data">
-  <template #default="{ current }">{{ current }}</template>
-</Tabs>
+<Wrapper v-model="content" style="display:none;">
+  <template #before>
+    <Tabs default-value="A" :data="data">
+      <template #default="{ current }">{{ current }}</template>
+    </Tabs>
+  </template>
+</Wrapper>
 
 <script lang="ts" setup>
-import { Tabs } from '../../lib/kaitify-vue.es.js'
+import { Wrapper, Tabs } from '../../lib/kaitify-vue.es.js'
 import { ref } from 'vue'
+const content = ref('<p><br/></p>')
 const data = ref([
   { label: '我是A', value: 'A' },
   { label: '我是B', value: 'B' }

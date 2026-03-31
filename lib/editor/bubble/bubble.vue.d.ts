@@ -1,4 +1,4 @@
-import { Ref } from 'vue';
+import { Ref, ShallowRef } from 'vue';
 import { Instance } from '@popperjs/core';
 import { BubblePropsType } from './props';
 declare function __VLS_template(): {
@@ -7,13 +7,13 @@ declare function __VLS_template(): {
         default?(_: {}): any;
     };
     refs: {
-        elRef: HTMLDivElement;
+        bubble: HTMLDivElement;
     };
     rootEl: any;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<BubblePropsType, {
-    elRef: Ref<HTMLElement | undefined, HTMLElement | undefined>;
+    bubbleRef: Readonly<ShallowRef<HTMLDivElement | null>>;
     popperInstance: Ref<Instance | undefined, Instance | undefined>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
     hidden: (value: HTMLDivElement) => any;
@@ -32,7 +32,7 @@ declare const __VLS_component: import('vue').DefineComponent<BubblePropsType, {
 }>, {
     visible: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
-    elRef: HTMLDivElement;
+    bubble: HTMLDivElement;
 }, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

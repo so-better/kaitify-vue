@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menu" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-table" />
     <template #popover>
-      <div class="kaitify-table" :class="{ 'kaitify-dark': dark }">
+      <div class="kaitify-table" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <table>
           <tbody>
             <tr v-for="row in tableGrids">
@@ -18,7 +18,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref } from 'vue'
+import { computed, inject, Ref, ref, useTemplateRef } from 'vue'
 import { Icon } from '@/core/icon'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -33,13 +33,13 @@ const props = withDefaults(defineProps<TableMenuPropsType>(), {
   maxRows: 10,
   maxColumns: 10
 })
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
 //获取表格尺寸数据
 const getTableGrids = () => {
   const grids: TableGridType[][] = []
@@ -56,7 +56,9 @@ const getTableGrids = () => {
   }
   return grids
 }
+
 const tableGrids = ref<TableGridType[][]>(getTableGrids())
+
 //表格规格
 const specification = computed<TableGridType>(() => {
   return tableGrids.value
@@ -77,21 +79,16 @@ const specification = computed<TableGridType>(() => {
       return 1
     })[0]
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   if (state.value.editor.commands.hasTable?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasCodeBlock?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasAttachment?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasMath?.()) {
     return true
   }
   if (state.value.editor.commands.hasCodeBlock?.()) {

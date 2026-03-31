@@ -13,15 +13,20 @@ import { TableMergeCellMenuPropsType } from './props'
 defineOptions({
   name: 'TableMergeCellMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<TableMergeCellMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
@@ -33,6 +38,7 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   state.value.editor?.commands.mergeTableCell?.(props.direction)

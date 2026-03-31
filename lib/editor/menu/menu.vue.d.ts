@@ -13,7 +13,7 @@ declare function __VLS_template(): {
         }): any;
     };
     refs: {
-        popoverRef: ({
+        popover: ({
             $: import('vue').ComponentInternalInstance;
             $data: {};
             $props: {
@@ -40,9 +40,9 @@ declare function __VLS_template(): {
             $refs: {
                 [x: string]: unknown;
             } & {
-                referRef: HTMLDivElement;
-                popoverRef: HTMLDivElement;
-                arrowRef: HTMLDivElement;
+                refer: HTMLDivElement;
+                popover: HTMLDivElement;
+                arrow: HTMLDivElement;
             };
             $slots: Readonly<{
                 [name: string]: import('vue').Slot<any> | undefined;
@@ -74,9 +74,9 @@ declare function __VLS_template(): {
                 shown: (value: HTMLDivElement) => any;
                 hiding: (value: HTMLDivElement) => any;
             }, string, {
-                disabled: boolean;
                 zIndex: number;
                 animation: "fade" | "translate" | (string & {});
+                disabled: boolean;
                 placement: import('../../core/popover').PopoverPlacementType;
                 arrow: boolean;
                 trigger: "hover" | "click" | "custom";
@@ -102,9 +102,9 @@ declare function __VLS_template(): {
             $nextTick: typeof import('vue').nextTick;
             $watch<T extends string | ((...args: any) => any)>(source: T, cb: T extends (...args: any) => infer R ? (...args: [R, R, import('@vue/reactivity').OnCleanup]) => any : (...args: [any, any, import('@vue/reactivity').OnCleanup]) => any, options?: import('vue').WatchOptions): import('vue').WatchStopHandle;
         } & Readonly<{
-            disabled: boolean;
             zIndex: number;
             animation: "fade" | "translate" | (string & {});
+            disabled: boolean;
             placement: import('../../core/popover').PopoverPlacementType;
             arrow: boolean;
             trigger: "hover" | "click" | "custom";
@@ -116,7 +116,7 @@ declare function __VLS_template(): {
             onShowing?: ((value: HTMLDivElement) => any) | undefined;
             onShown?: ((value: HTMLDivElement) => any) | undefined;
             onHiding?: ((value: HTMLDivElement) => any) | undefined;
-        }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("disabled" | "zIndex" | "animation" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
+        }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("zIndex" | "animation" | "disabled" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
             visible: Ref<boolean, boolean>;
             showPopover: () => void;
             hidePopover: () => void;
@@ -156,12 +156,12 @@ declare const __VLS_component: import('vue').DefineComponent<MenuPropsType, {
     onPopoverHidden?: ((value: HTMLDivElement) => any) | undefined;
 }>, {
     data: MenuDataType[];
-    disabled: boolean;
     active: boolean;
+    disabled: boolean;
     popover: boolean;
     popoverProps: Omit<import('../../core/popover').PopoverPropsType, "disabled" | "delay">;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
-    popoverRef: ({
+    popover: ({
         $: import('vue').ComponentInternalInstance;
         $data: {};
         $props: {
@@ -188,9 +188,9 @@ declare const __VLS_component: import('vue').DefineComponent<MenuPropsType, {
         $refs: {
             [x: string]: unknown;
         } & {
-            referRef: HTMLDivElement;
-            popoverRef: HTMLDivElement;
-            arrowRef: HTMLDivElement;
+            refer: HTMLDivElement;
+            popover: HTMLDivElement;
+            arrow: HTMLDivElement;
         };
         $slots: Readonly<{
             [name: string]: import('vue').Slot<any> | undefined;
@@ -222,9 +222,9 @@ declare const __VLS_component: import('vue').DefineComponent<MenuPropsType, {
             shown: (value: HTMLDivElement) => any;
             hiding: (value: HTMLDivElement) => any;
         }, string, {
-            disabled: boolean;
             zIndex: number;
             animation: "fade" | "translate" | (string & {});
+            disabled: boolean;
             placement: import('../../core/popover').PopoverPlacementType;
             arrow: boolean;
             trigger: "hover" | "click" | "custom";
@@ -250,9 +250,9 @@ declare const __VLS_component: import('vue').DefineComponent<MenuPropsType, {
         $nextTick: typeof import('vue').nextTick;
         $watch<T extends string | ((...args: any) => any)>(source: T, cb: T extends (...args: any) => infer R ? (...args: [R, R, import('@vue/reactivity').OnCleanup]) => any : (...args: [any, any, import('@vue/reactivity').OnCleanup]) => any, options?: import('vue').WatchOptions): import('vue').WatchStopHandle;
     } & Readonly<{
-        disabled: boolean;
         zIndex: number;
         animation: "fade" | "translate" | (string & {});
+        disabled: boolean;
         placement: import('../../core/popover').PopoverPlacementType;
         arrow: boolean;
         trigger: "hover" | "click" | "custom";
@@ -264,7 +264,7 @@ declare const __VLS_component: import('vue').DefineComponent<MenuPropsType, {
         onShowing?: ((value: HTMLDivElement) => any) | undefined;
         onShown?: ((value: HTMLDivElement) => any) | undefined;
         onHiding?: ((value: HTMLDivElement) => any) | undefined;
-    }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("disabled" | "zIndex" | "animation" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
+    }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("zIndex" | "animation" | "disabled" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
         visible: Ref<boolean, boolean>;
         showPopover: () => void;
         hidePopover: () => void;

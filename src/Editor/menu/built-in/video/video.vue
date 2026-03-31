@@ -1,10 +1,10 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menu" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-video" />
     <template #popover>
       <Tabs :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'remote'" class="kaitify-video-remote" :class="{ 'kaitify-dark': dark }">
+          <div v-if="current == 'remote'" class="kaitify-video-remote" :class="{ 'kaitify-dark': state.editor?.isDark() }">
             <input v-model.trim="remoteData.src" :placeholder="t('视频地址')" type="url" />
             <div class="kaitify-video-remote-footer">
               <Checkbox v-model="remoteData.autoplay" :label="t('是否自动播放')" />
@@ -26,7 +26,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, reactive, Ref, ref } from 'vue'
+import { computed, inject, reactive, Ref, useTemplateRef } from 'vue'
 import { file as DapFile } from 'dap-util'
 import { SetVideoOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
@@ -40,6 +40,7 @@ import { VideoMenuPropsType } from './props'
 defineOptions({
   name: 'VideoMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<VideoMenuPropsType>(), {
   disabled: false,
@@ -48,20 +49,21 @@ const props = withDefaults(defineProps<VideoMenuPropsType>(), {
     default: 'remote'
   })
 })
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
 //远程视频数据
 const remoteData = reactive<SetVideoOptionType>({
   src: '',
   autoplay: false
 })
+
 //选项卡数据
 const tabData = computed<TabsPropsType['data']>(() => {
   return props.tabs.data.map(item => {
@@ -77,15 +79,16 @@ const tabData = computed<TabsPropsType['data']>(() => {
     ].find(v => v.value == item)!
   })
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (state.value.editor.commands.hasAttachment?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasMath?.()) {
+  if (state.value.editor.commands.hasLink?.()) {
     return true
   }
   if (state.value.editor.commands.hasCodeBlock?.()) {
@@ -111,6 +114,7 @@ const fileChange = async (e: Event) => {
   })
   menuRef.value?.hidePopover()
 }
+
 //插入远程视频
 const insert = async () => {
   if (!remoteData.src) {

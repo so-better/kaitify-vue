@@ -14,15 +14,20 @@ import { WrapUpMenuPropsType } from './props'
 defineOptions({
   name: 'WrapUpMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<WrapUpMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused() || !props.match) {
     return true
   }
@@ -32,15 +37,13 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   if (!props.match) {
     return
   }
   const matchNode = state.value.editor?.getMatchNodeBySelection(props.match)
-  if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
-    return
-  }
   const paragraph = KNode.create({
     type: 'block',
     tag: state.value.editor?.blockRenderTag,
@@ -51,7 +54,7 @@ const onOperate = () => {
       }
     ]
   })
-  state.value.editor?.addNodeBefore(paragraph, matchNode)
+  state.value.editor?.addNodeBefore(paragraph, matchNode!)
   state.value.editor?.setSelectionBefore(paragraph, 'all')
   state.value.editor?.updateView()
 }

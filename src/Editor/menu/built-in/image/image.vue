@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
+  <Menu ref="menu" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-image" />
     <template #popover>
-      <div v-if="isActive" class="kaitify-image-update" :class="{ 'kaitify-dark': dark }">
+      <div v-if="isActive" class="kaitify-image-update" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <input v-model.trim="updateData.alt" :placeholder="t('图片名称')" type="text" />
         <input v-model.trim="updateData.src" :placeholder="t('图片地址')" type="url" />
         <div class="kaitify-image-update-footer">
@@ -11,14 +11,14 @@
       </div>
       <Tabs v-else :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'remote'" class="kaitify-image-remote" :class="{ 'kaitify-dark': dark }">
+          <div v-if="current == 'remote'" class="kaitify-image-remote" :class="{ 'kaitify-dark': state.editor?.isDark() }">
             <input v-model.trim="remoteData.alt" :placeholder="t('图片名称')" type="text" />
             <input v-model.trim="remoteData.src" :placeholder="t('图片地址')" type="url" />
             <div class="kaitify-image-remote-footer">
               <Button @click="insert" :disabled="!remoteData.src">{{ t('插入') }}</Button>
             </div>
           </div>
-          <div v-else-if="current == 'upload'" class="kaitify-image-upload" :class="{ 'kaitify-dark': dark }">
+          <div v-else-if="current == 'upload'" class="kaitify-image-upload" :class="{ 'kaitify-dark': state.editor?.isDark() }">
             <input type="file" accept="image/*" @change="fileChange" />
             <Icon name="kaitify-icon-upload" />
           </div>
@@ -28,7 +28,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, reactive, Ref, ref } from 'vue'
+import { computed, inject, reactive, Ref, useTemplateRef } from 'vue'
 import { file as DapFile } from 'dap-util'
 import { SetImageOptionType, UpdateImageOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
@@ -41,6 +41,7 @@ import { ImageMenuPropsType } from './props'
 defineOptions({
   name: 'ImageMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<ImageMenuPropsType>(), {
   disabled: false,
@@ -49,15 +50,15 @@ const props = withDefaults(defineProps<ImageMenuPropsType>(), {
     default: 'remote'
   })
 })
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
 //远程图片数据
 const remoteData = reactive<Omit<SetImageOptionType, 'width'>>({
   src: '',
@@ -68,6 +69,7 @@ const updateData = reactive<UpdateImageOptionType>({
   src: '',
   alt: ''
 })
+
 //选项卡数据
 const tabData = computed<TabsPropsType['data']>(() => {
   return props.tabs.data.map(item => {
@@ -83,15 +85,16 @@ const tabData = computed<TabsPropsType['data']>(() => {
     ].find(v => v.value == item)!
   })
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
-  if (state.value.editor.commands.hasAttachment?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasMath?.()) {
+  if (state.value.editor.commands.hasLink?.()) {
     return true
   }
   if (state.value.editor.commands.hasCodeBlock?.()) {
@@ -99,8 +102,12 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return !!state.value.editor?.commands.getImage?.()
 })
 

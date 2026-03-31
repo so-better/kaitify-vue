@@ -13,23 +13,32 @@ import { VideoLoopMenuPropsType } from './props'
 defineOptions({
   name: 'VideoLoopMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<VideoLoopMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   const videoNode = state.value.editor?.commands.getVideo?.()
   if (!videoNode) {
     return false
   }
   return videoNode.hasMarks() && videoNode.marks!.hasOwnProperty('data-loop')
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
@@ -38,6 +47,7 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   if (isActive.value) {

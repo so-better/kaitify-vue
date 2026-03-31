@@ -22,17 +22,21 @@ const state = inject<Ref<StateType>>('state')!
 
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return state.value.editor?.commands.isSubscript?.() ?? false
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   if (!state.value.editor.selection.collapsed() && !state.value.editor.getFocusNodesBySelection('text').length) {
-    return true
-  }
-  if (state.value.editor.selection.collapsed() && (!!state.value.editor.commands.getAttachment?.() || !!state.value.editor.commands.getMath?.())) {
     return true
   }
   if (!!state.value.editor.commands.getCodeBlock?.()) {
@@ -40,6 +44,7 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   if (isActive.value) {

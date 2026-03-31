@@ -13,23 +13,34 @@ import { AlignCenterMenuPropsType } from './props'
 defineOptions({
   name: 'AlignCenterMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<AlignCenterMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
+
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return state.value.editor?.commands.isAlign?.('center') ?? false
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   if (isActive.value) {

@@ -5,6 +5,14 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.4 <Badge type="tip" text='2026.03.31' />
+
+- 更新 `@kaitify/core` 的依赖版本
+- Wrapper组件的 `dom` 元素导出名称从 `elRef` 改成 `wrapperRef`
+- Wrapper组件的属性除了 `modelValue`、`locale`、`appendBeforeTo`、`appendAfterTo`，其他全部放入 `options` 属性中
+- Wrapper组件的事件只保留 `update:modelValue`，其他事件全部放入 `options` 中
+- 内置菜单优化
+
 ## v0.0.4-beta.27 <Badge type="tip" text='2026.03.30' />
 
 - 更新 `@kaitify/core` 的依赖版本，更新底层架构

@@ -1,14 +1,14 @@
 <template>
   <Teleport to="body">
     <Transition name="kaitify-bubble" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="shouldVisible" v-bind="attrs" ref="elRef" class="kaitify-bubble" :class="{ 'kaitify-dark': dark }">
+      <div v-if="shouldVisible" v-bind="attrs" ref="bubble" class="kaitify-bubble" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <slot></slot>
       </div>
     </Transition>
   </Teleport>
 </template>
 <script setup lang="ts">
-import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, computed, onMounted, Ref, useAttrs } from 'vue'
+import { ref, inject, watch, getCurrentInstance, onBeforeUnmount, computed, onMounted, Ref, useAttrs, useTemplateRef, ShallowRef } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
 import { StateType } from '../wrapper'
@@ -18,33 +18,35 @@ defineOptions({
   name: 'Bubble',
   inheritAttrs: false
 })
+
 const instance = getCurrentInstance()!
 const attrs = useAttrs()
+
 //属性
 const props = withDefaults(defineProps<BubblePropsType>(), {
   visible: false
 })
 //事件
 const emits = defineEmits<BubbleEmitsType>()
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
-const disabled = inject<Ref<boolean>>('disabled')!
+//鼠标是否在编辑器内按下
 const isMouseDown = inject<Ref<boolean>>('isMouseDown')!
-const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
+//编辑器dom元素
+const wrapperRef = inject<Readonly<ShallowRef<HTMLElement | null>>>('wrapperRef')!
+//气泡dom元素
+const bubbleRef = useTemplateRef<HTMLDivElement>('bubble')
 //popperjs实例
 const popperInstance = ref<Instance>()
-//气泡元素
-const elRef = ref<HTMLElement>()
 
 //是否显示气泡栏
 const shouldVisible = computed(() => {
-  console.log(disabled.value)
-
-  if (disabled.value) {
+  //编辑器不可编辑时，无法使用气泡
+  if (!state.value.editor?.isEditable()) {
     return false
   }
+  //开启了hideOnMousedown时鼠标按下，无法使用气泡
   if (isMouseDown.value && props.hideOnMousedown) {
     return false
   }
@@ -58,6 +60,7 @@ const destroyPopperjs = () => {
     popperInstance.value = undefined
   }
 }
+
 //获取编辑器内的光标位置
 const getVirtualDomRect = () => {
   if (!state.value.editor || !wrapperRef.value) {
@@ -92,9 +95,10 @@ const getVirtualDomRect = () => {
   }
   return wrapperRef.value.getBoundingClientRect()
 }
+
 //更新气泡位置
 const updatePosition = () => {
-  if (!shouldVisible.value || !elRef.value || !state.value.editor) {
+  if (!shouldVisible.value || !bubbleRef.value || !state.value.editor) {
     return
   }
   const domRect = getVirtualDomRect()!
@@ -105,7 +109,7 @@ const updatePosition = () => {
     {
       getBoundingClientRect: () => domRect
     },
-    elRef.value,
+    bubbleRef.value,
     {
       placement: 'bottom-start',
       modifiers: [
@@ -157,6 +161,7 @@ const onScroll = (el: HTMLElement) => {
     onScroll(el.parentNode as HTMLElement)
   }
 }
+
 //移除滚动监听
 const removeScroll = (el: HTMLElement) => {
   DapEvent.off(el, `scroll.kaitify_bubble_${instance.uid}`)
@@ -164,6 +169,7 @@ const removeScroll = (el: HTMLElement) => {
     removeScroll(el.parentNode as HTMLElement)
   }
 }
+
 //气泡栏显示前
 const onShow = (el: Element) => {
   emits('show', el as HTMLDivElement)
@@ -220,7 +226,7 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  elRef,
+  bubbleRef,
   popperInstance
 })
 </script>

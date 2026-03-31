@@ -17,7 +17,22 @@
       ref="menus"
     ></div>
     <div id="area">
-      <EditorWrapper ref="wrapper" v-if="show" autofocus locale="zh-CN" :disabled="disabled" :dark="isDark" :style="{ width: '100%', height: '500px' }" allow-paste-html placeholder="输入正文内容..." v-model="content" @created="onCreated" :append-before-to="menus">
+      <EditorWrapper
+        ref="wrapper"
+        v-if="show"
+        :options="{
+          dark: isDark,
+          autofocus: false,
+          editable: !disabled,
+          allowPasteHtml: true,
+          placeholder: '输入正文内容...',
+          onCreated: onCreated
+        }"
+        :style="{ width: '100%', height: '500px' }"
+        v-model="content"
+        locale="zh-CN"
+        :append-before-to="menus"
+      >
         <template #before>
           <Menu popover :popover-props="{ width: '300px' }">
             菜单

@@ -1,10 +1,10 @@
 <template>
-  <div ref="referRef" class="kaitify-popover-refer" :class="{ 'kaitify-dark': dark }" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
+  <div ref="refer" class="kaitify-popover-refer" :class="{ 'kaitify-dark': state.editor?.isDark() }" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @click="handleClick">
     <slot name="refer"></slot>
   </div>
   <Teleport to="body">
     <Transition :name="`kaitify-popover-${animation}`" @before-enter="onShow" @enter="onShowing" @after-enter="onShown" @before-leave="onHide" @leave="onHiding" @after-leave="onHidden">
-      <div v-if="visible" ref="popoverRef" class="kaitify-popover" :class="{ 'kaitify-dark': dark }" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
+      <div v-if="visible" ref="popover" class="kaitify-popover" :class="{ 'kaitify-dark': state.editor?.isDark() }" :data-arrow="arrow" @mouseleave="handleMouseLeave" :data-placement="realPlacement" :style="{ zIndex: zIndex }">
         <!-- 主体 -->
         <div class="kaitify-popover-wrapper">
           <!-- 内容区域 -->
@@ -12,26 +12,27 @@
             <slot></slot>
           </div>
           <!-- arrow -->
-          <div v-if="arrow" ref="arrowRef" class="kaitify-popover-arrow" :data-placement="realPlacement"></div>
+          <div v-if="arrow" ref="arrow" class="kaitify-popover-arrow" :data-placement="realPlacement"></div>
         </div>
       </div>
     </Transition>
   </Teleport>
 </template>
 <script lang="ts" setup>
-import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, Ref, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, Ref, ref, useTemplateRef, watch } from 'vue'
 import { createPopper, Instance } from '@popperjs/core'
 import { event as DapEvent } from 'dap-util'
+import { StateType } from '@/editor/wrapper'
 import { PopoverPropsType, PopoverPlacementType, PopoverEmitsType } from './props'
 
 defineOptions({
   name: 'Popover'
 })
+
 const instance = getCurrentInstance()!
 
 //属性
 const props = withDefaults(defineProps<PopoverPropsType>(), {
-  block: false,
   placement: 'bottom',
   arrow: false,
   trigger: 'hover',
@@ -43,17 +44,18 @@ const props = withDefaults(defineProps<PopoverPropsType>(), {
 //事件
 const emits = defineEmits<PopoverEmitsType>()
 
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+//编辑器状态数据
+const state = inject<Ref<StateType>>('state')!
 
 //是否显示
 const visible = ref(false)
 //目标元素
-const referRef = ref<HTMLElement>()
+const referRef = useTemplateRef<HTMLElement>('refer')
 //三角形元素
-const arrowRef = ref<HTMLElement>()
+const arrowRef = useTemplateRef<HTMLElement>('arrow')
 //浮层元素
-const popoverRef = ref<HTMLElement>()
+const popoverRef = useTemplateRef<HTMLElement>('popover')
+
 //popperjs实例
 const popperInstance = ref<Instance>()
 //计时器实例

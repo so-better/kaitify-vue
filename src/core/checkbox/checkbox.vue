@@ -1,5 +1,5 @@
 <template>
-  <label class="kaitify-checkbox" :class="{ 'kaitify-dark': dark, 'kaitify-disabled': disabled }">
+  <label class="kaitify-checkbox" :class="{ 'kaitify-dark': state.editor?.isDark(), 'kaitify-disabled': disabled }">
     <span class="kaitify-checkbox-el" :class="{ 'kaitify-checkbox-active': modelValue }">
       <input type="checkbox" @change="onChange" :disabled="disabled" />
     </span>
@@ -9,6 +9,7 @@
 
 <script setup lang="ts">
 import { inject, Ref } from 'vue'
+import { StateType } from '@/editor/wrapper'
 import { CheckboxEmitsType, CheckboxPropsType } from './props'
 
 defineOptions({
@@ -23,8 +24,8 @@ const props = withDefaults(defineProps<CheckboxPropsType>(), {
 //事件
 const emits = defineEmits<CheckboxEmitsType>()
 
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+//编辑器状态数据
+const state = inject<Ref<StateType>>('state')!
 
 //复选框变更
 const onChange = (e: Event) => {

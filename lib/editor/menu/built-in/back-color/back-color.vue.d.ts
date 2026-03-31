@@ -4,7 +4,7 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
     disabled: boolean;
     colors: string[];
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
-    menuRef: ({
+    menu: ({
         $: import('vue').ComponentInternalInstance;
         $data: {};
         $props: {
@@ -33,7 +33,7 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
         $refs: {
             [x: string]: unknown;
         } & {
-            popoverRef: ({
+            popover: ({
                 $: import('vue').ComponentInternalInstance;
                 $data: {};
                 $props: {
@@ -60,9 +60,9 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
                 $refs: {
                     [x: string]: unknown;
                 } & {
-                    referRef: HTMLDivElement;
-                    popoverRef: HTMLDivElement;
-                    arrowRef: HTMLDivElement;
+                    refer: HTMLDivElement;
+                    popover: HTMLDivElement;
+                    arrow: HTMLDivElement;
                 };
                 $slots: Readonly<{
                     [name: string]: import('vue').Slot<any> | undefined;
@@ -94,9 +94,9 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
                     shown: (value: HTMLDivElement) => any;
                     hiding: (value: HTMLDivElement) => any;
                 }, string, {
-                    disabled: boolean;
                     zIndex: number;
                     animation: "fade" | "translate" | (string & {});
+                    disabled: boolean;
                     placement: import('../../../../core/popover').PopoverPlacementType;
                     arrow: boolean;
                     trigger: "hover" | "click" | "custom";
@@ -122,9 +122,9 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
                 $nextTick: typeof import('vue').nextTick;
                 $watch<T extends string | ((...args: any) => any)>(source: T, cb: T extends (...args: any) => infer R ? (...args: [R, R, import('@vue/reactivity').OnCleanup]) => any : (...args: [any, any, import('@vue/reactivity').OnCleanup]) => any, options?: import('vue').WatchOptions): import('vue').WatchStopHandle;
             } & Readonly<{
-                disabled: boolean;
                 zIndex: number;
                 animation: "fade" | "translate" | (string & {});
+                disabled: boolean;
                 placement: import('../../../../core/popover').PopoverPlacementType;
                 arrow: boolean;
                 trigger: "hover" | "click" | "custom";
@@ -136,7 +136,7 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
                 onShowing?: ((value: HTMLDivElement) => any) | undefined;
                 onShown?: ((value: HTMLDivElement) => any) | undefined;
                 onHiding?: ((value: HTMLDivElement) => any) | undefined;
-            }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("disabled" | "zIndex" | "animation" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
+            }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("zIndex" | "animation" | "disabled" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
                 visible: Ref<boolean, boolean>;
                 showPopover: () => void;
                 hidePopover: () => void;
@@ -181,8 +181,8 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
             popoverHidden: (value: HTMLDivElement) => any;
         }, string, {
             data: import('../..').MenuDataType[];
-            disabled: boolean;
             active: boolean;
+            disabled: boolean;
             popover: boolean;
             popoverProps: Omit<import('../../../../core/popover').PopoverPropsType, "disabled" | "delay">;
         }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & {
@@ -207,8 +207,8 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
         $watch<T extends string | ((...args: any) => any)>(source: T, cb: T extends (...args: any) => infer R ? (...args: [R, R, import('@vue/reactivity').OnCleanup]) => any : (...args: [any, any, import('@vue/reactivity').OnCleanup]) => any, options?: import('vue').WatchOptions): import('vue').WatchStopHandle;
     } & Readonly<{
         data: import('../..').MenuDataType[];
-        disabled: boolean;
         active: boolean;
+        disabled: boolean;
         popover: boolean;
         popoverProps: Omit<import('../../../../core/popover').PopoverPropsType, "disabled" | "delay">;
     }> & Omit<Readonly<import('../..').MenuPropsType> & Readonly<{
@@ -220,7 +220,7 @@ declare const _default: import('vue').DefineComponent<BackColorMenuPropsType, {}
         onPopoverHide?: ((value: HTMLDivElement) => any) | undefined;
         onPopoverHiding?: ((value: HTMLDivElement) => any) | undefined;
         onPopoverHidden?: ((value: HTMLDivElement) => any) | undefined;
-    }>, "showPopover" | "hidePopover" | ("data" | "disabled" | "active" | "popover" | "popoverProps")> & import('vue').ShallowUnwrapRef<{
+    }>, "showPopover" | "hidePopover" | ("data" | "active" | "disabled" | "popover" | "popoverProps")> & import('vue').ShallowUnwrapRef<{
         showPopover: () => void;
         hidePopover: () => void;
     }> & {} & import('vue').ComponentCustomProperties & {} & {

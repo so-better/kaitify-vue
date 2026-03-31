@@ -8,9 +8,9 @@ declare function __VLS_template(): {
         default?(_: {}): any;
     };
     refs: {
-        referRef: HTMLDivElement;
-        popoverRef: HTMLDivElement;
-        arrowRef: HTMLDivElement;
+        refer: HTMLDivElement;
+        popover: HTMLDivElement;
+        arrow: HTMLDivElement;
     };
     rootEl: any;
 };
@@ -37,17 +37,17 @@ declare const __VLS_component: import('vue').DefineComponent<PopoverPropsType, {
     onShown?: ((value: HTMLDivElement) => any) | undefined;
     onHiding?: ((value: HTMLDivElement) => any) | undefined;
 }>, {
-    disabled: boolean;
     zIndex: number;
     animation: "fade" | "translate" | (string & {});
+    disabled: boolean;
     placement: PopoverPlacementType;
     arrow: boolean;
     trigger: "hover" | "click" | "custom";
     delay: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
-    referRef: HTMLDivElement;
-    popoverRef: HTMLDivElement;
-    arrowRef: HTMLDivElement;
+    refer: HTMLDivElement;
+    popover: HTMLDivElement;
+    arrow: HTMLDivElement;
 }, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

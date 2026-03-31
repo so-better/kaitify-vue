@@ -1,5 +1,5 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect" :item-active="item => isActive(item.value as HeadingLevelType)" :shortcut="shortcut" :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 120, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu :disabled="isDisabled" :active="false" popover :data="options" @select="onSelect" :item-active="item => isActive(item.value as HeadingLevelType)" :shortcut="shortcut" :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight ?? 240, minWidth: popoverProps?.minWidth ?? 120, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     {{ selectedData.label ?? '' }}
     <template #label="{ option }">
       <span :style="{ fontSize: fontSizeMap[option.value as number] }">{{ option.label }}</span>
@@ -7,7 +7,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref } from 'vue'
+import { computed, inject, Ref } from 'vue'
 import { HeadingLevelType } from '@kaitify/core'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -17,17 +17,17 @@ import { HeadingMenuPropsType } from './props'
 defineOptions({
   name: 'HeadingMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<HeadingMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
-//菜单组件实例
-const menuRef = ref<typeof Menu>()
 //选项
 const options = computed<MenuDataType[]>(() => {
   const baseOptions = [
@@ -76,16 +76,24 @@ const fontSizeMap = computed<{ [key: number]: string }>(() => {
     6: '15px'
   }
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
+
 //选项是否激活
 const isActive = computed<(value: HeadingLevelType) => boolean>(() => {
   return value => {
+    if (!state.value.editor?.isEditable()) {
+      return false
+    }
     //正文处理
     if (value === 0) {
       if (isActive.value(1) || isActive.value(2) || isActive.value(3) || isActive.value(4) || isActive.value(5) || isActive.value(6)) {
@@ -96,6 +104,7 @@ const isActive = computed<(value: HeadingLevelType) => boolean>(() => {
     return state.value.editor?.commands.allHeading?.(value) ?? false
   }
 })
+
 //选择的值
 const selectedData = computed<MenuDataType>(() => {
   return options.value.find(item => isActive.value(item.value as HeadingLevelType)) ?? options.value[options.value.length - 1]

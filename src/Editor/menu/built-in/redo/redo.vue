@@ -22,6 +22,9 @@ const state = inject<Ref<StateType>>('state')!
 
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
@@ -30,6 +33,7 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   state.value.editor?.commands.redo?.()

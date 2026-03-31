@@ -14,30 +14,36 @@ import { WrapDownMenuPropsType } from './props'
 defineOptions({
   name: 'WrapDownMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<WrapDownMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
+  if (!state.value.editor?.selection.focused() || !props.match) {
+    return true
+  }
   const matchNode = state.value.editor?.getMatchNodeBySelection(props.match)
   if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
     return true
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   if (!props.match) {
     return
   }
   const matchNode = state.value.editor?.getMatchNodeBySelection(props.match)
-  if (!matchNode || !matchNode.isBlock() || matchNode.void || matchNode.fixed || matchNode.nested) {
-    return
-  }
   const paragraph = KNode.create({
     type: 'block',
     tag: state.value.editor?.blockRenderTag,
@@ -48,7 +54,7 @@ const onOperate = () => {
       }
     ]
   })
-  state.value.editor?.addNodeAfter(paragraph, matchNode)
+  state.value.editor?.addNodeAfter(paragraph, matchNode!)
   state.value.editor?.setSelectionBefore(paragraph, 'all')
   state.value.editor?.updateView()
 }

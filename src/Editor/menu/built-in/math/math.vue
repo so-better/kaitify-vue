@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
+  <Menu ref="menu" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-mathformula" />
     <template #popover>
-      <div class="kaitify-math" :class="{ 'kaitify-dark': dark }">
+      <div class="kaitify-math" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <textarea class="kaitify-math-textarea" v-model.trim="mathText" :placeholder="t('输入Latex数学公式')" />
         <div class="kaitify-math-footer">
           <Button key="update" v-if="isActive" :disabled="!mathText" @click="update">{{ t('更新') }}</Button>
@@ -13,7 +13,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref } from 'vue'
+import { computed, inject, Ref, ref, useTemplateRef } from 'vue'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
 import { StateType } from '@/editor/wrapper'
@@ -28,36 +28,37 @@ defineOptions({
 const props = withDefaults(defineProps<MathMenuPropsType>(), {
   disabled: false
 })
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
 //数学公式内容
 const mathText = ref('')
+
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return !!state.value.editor?.commands.getMath?.()
 })
+
 //是否禁用
 const isDisabled = computed(() => {
-  if (!state.value.editor?.selection.focused()) {
+  if (!state.value.editor?.isEditable()) {
     return true
   }
-  if (state.value.editor.commands.hasAttachment?.()) {
+  if (!state.value.editor?.selection.focused()) {
     return true
   }
   if (state.value.editor.commands.hasLink?.()) {
     return true
   }
   if (state.value.editor.commands.hasCodeBlock?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasMath?.() && !isActive.value) {
     return true
   }
   return props.disabled
@@ -72,6 +73,7 @@ const menuShowing = () => {
     mathText.value = ''
   }
 }
+
 //插入数学公式
 const insert = () => {
   if (!mathText.value) {

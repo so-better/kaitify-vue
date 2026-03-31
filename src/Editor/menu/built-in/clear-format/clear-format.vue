@@ -13,20 +13,26 @@ import { ClearFormatMenuPropsType } from './props'
 defineOptions({
   name: 'ClearFormatMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<ClearFormatMenuPropsType>(), {
   disabled: false
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
+
 //方法
 const onOperate = () => {
   state.value.editor?.commands.clearFormat?.()

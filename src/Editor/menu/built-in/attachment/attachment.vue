@@ -1,8 +1,8 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
+  <Menu ref="menu" :disabled="isDisabled" :active="isActive" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-attachment" />
     <template #popover>
-      <div v-if="isActive" class="kaitify-attachment-update" :class="{ 'kaitify-dark': dark }">
+      <div v-if="isActive" class="kaitify-attachment-update" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <input v-model.trim="updateData.text" :placeholder="t('附件名称')" type="text" />
         <input v-model.trim="updateData.url" :placeholder="t('附件地址')" type="url" />
         <div class="kaitify-attachment-update-footer">
@@ -11,14 +11,14 @@
       </div>
       <Tabs v-else :default-value="tabs.default" :data="tabData">
         <template #default="{ current }">
-          <div v-if="current == 'remote'" class="kaitify-attachment-remote" :class="{ 'kaitify-dark': dark }">
+          <div v-if="current == 'remote'" class="kaitify-attachment-remote" :class="{ 'kaitify-dark': state.editor?.isDark() }">
             <input v-model.trim="remoteData.text" :placeholder="t('附件名称')" type="text" />
             <input v-model.trim="remoteData.url" :placeholder="t('附件地址')" type="url" />
             <div class="kaitify-attachment-remote-footer">
               <Button @click="insert" :disabled="!remoteData.url || !remoteData.text">{{ t('插入') }}</Button>
             </div>
           </div>
-          <div v-else-if="current == 'upload'" class="kaitify-attachment-upload" :class="{ 'kaitify-dark': dark }">
+          <div v-else-if="current == 'upload'" class="kaitify-attachment-upload" :class="{ 'kaitify-dark': state.editor?.isDark() }">
             <input type="file" accept="*" @change="fileChange" />
             <Icon name="kaitify-icon-upload" />
           </div>
@@ -28,7 +28,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, reactive, Ref, ref } from 'vue'
+import { computed, inject, reactive, Ref, useTemplateRef } from 'vue'
 import { file as DapFile } from 'dap-util'
 import { SetAttachmentOptionType, UpdateAttachmentOptionType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
@@ -41,6 +41,7 @@ import { AttachmentMenuPropsType } from './props'
 defineOptions({
   name: 'AttachmentMenu'
 })
+
 //属性
 const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
   disabled: false,
@@ -49,15 +50,15 @@ const props = withDefaults(defineProps<AttachmentMenuPropsType>(), {
     default: 'remote'
   })
 })
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 //翻译函数
 const t = inject<(key: string) => string>('t')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
 //远程附件数据
 const remoteData = reactive<Omit<SetAttachmentOptionType, 'icon'>>({
   url: '',
@@ -68,6 +69,7 @@ const updateData = reactive<UpdateAttachmentOptionType>({
   url: '',
   text: ''
 })
+
 //选项卡数据
 const tabData = computed<TabsPropsType['data']>(() => {
   return props.tabs.data.map(item => {
@@ -83,25 +85,27 @@ const tabData = computed<TabsPropsType['data']>(() => {
     ].find(v => v.value == item)!
   })
 })
+
 //是否激活
 const isActive = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return false
+  }
   return !!state.value.editor?.commands.getAttachment?.()
 })
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
-    return true
-  }
-  if (state.value.editor.commands.hasMath?.()) {
-    return true
-  }
-  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
   if (state.value.editor.commands.hasLink?.()) {
     return true
   }
-  if (state.value.editor.commands.hasAttachment?.() && !isActive.value) {
+  if (state.value.editor.commands.hasCodeBlock?.()) {
     return true
   }
   return props.disabled
@@ -118,6 +122,7 @@ const menuShowing = () => {
     remoteData.url = ''
   }
 }
+
 //选择本地文件
 const fileChange = async (e: Event) => {
   const file = (e.currentTarget as HTMLInputElement).files?.[0]
@@ -135,6 +140,7 @@ const fileChange = async (e: Event) => {
   })
   menuRef.value?.hidePopover()
 }
+
 //插入远程附件
 const insert = async () => {
   if (!remoteData.url || !remoteData.text) {
@@ -147,6 +153,7 @@ const insert = async () => {
   })
   menuRef.value?.hidePopover()
 }
+
 //更新远程附件
 const update = async () => {
   if (!updateData.url || !updateData.text) {

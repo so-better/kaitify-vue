@@ -21,14 +21,19 @@ const checked = ref(false)
 
 示例：
 
-<div style="display:flex;align-items:center;height:40px;padding:0 10px;">
-  <Checkbox label="我是复选框" v-model="checked" />
-  <Checkbox style="margin-left:10px;" label="我是复选框" v-model="checked" disabled />
-</div>
+<Wrapper v-model="content" style="display:none;">
+  <template #before>
+    <div style="display:flex;align-items:center;height:40px;padding:0 10px;">
+      <Checkbox label="我是复选框" v-model="checked" />
+      <Checkbox style="margin-left:10px;" label="我是复选框" v-model="checked" disabled />
+    </div>
+  </template>
+</Wrapper>
 
 <script lang="ts" setup>
-import { Checkbox } from '../../lib/kaitify-vue.es.js'
+import { Wrapper, Checkbox } from '../../lib/kaitify-vue.es.js'
 import { ref } from 'vue'
+const content = ref('<p><br/></p>')
 const checked = ref(false)
 </script>
 

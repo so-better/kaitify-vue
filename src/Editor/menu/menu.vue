@@ -1,6 +1,6 @@
 <template>
   <div class="kaitify-menu">
-    <Popover ref="popoverRef" :delay="100" :disabled="disabled || !popover" :zIndex="popoverProps.zIndex ?? 10" :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow" :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'" :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth" @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)" @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)" @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
+    <Popover ref="popover" :delay="100" :disabled="disabled || !popover" :zIndex="popoverProps.zIndex ?? 10" :animation="popoverProps.animation ?? 'translate'" :arrow="popoverProps.arrow" :placement="popoverProps.placement ?? 'bottom-start'" :trigger="popoverProps.trigger ?? 'click'" :width="popoverProps.width" :maxHeight="popoverProps.maxHeight" :minWidth="popoverProps.minWidth" @show="emits('popoverShow', $event)" @showing="emits('popoverShowing', $event)" @shown="emits('popoverShown', $event)" @hide="emits('popoverHide', $event)" @hiding="emits('popoverHiding', $event)" @hidden="emits('popoverHidden', $event)">
       <template #refer>
         <Button @click="onOperate" :disabled="disabled" :active="active">
           <slot></slot>
@@ -10,7 +10,7 @@
       <!-- 自定义浮层内容 -->
       <slot v-if="$slots.popover" name="popover"></slot>
       <!-- 可选浮层内容 -->
-      <div v-else-if="data.length" class="kaitify-menu-options" :class="{ 'kaitify-dark': dark }">
+      <div v-else-if="data.length" class="kaitify-menu-options" :class="{ 'kaitify-dark': state.editor?.isDark() }">
         <div @click="onSelect(item)" v-for="item in data" class="kaitify-menu-option" :class="{ 'kaitify-menu-option-active': itemActive?.(item), 'kaitify-disabled': itemDisabled?.(item) }">
           <slot v-if="$slots.icon" name="icon" :option="item"></slot>
           <Icon v-else-if="item.icon" :name="item.icon" class="kaitify-menu-option-icon" />
@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, Ref, ShallowRef, useTemplateRef, watch } from 'vue'
 import { event as DapEvent, common as DapCommon } from 'dap-util'
 import { Popover } from '@/core/popover'
 import { Icon } from '@/core/icon'
@@ -33,7 +33,9 @@ import { StateType } from '../wrapper'
 defineOptions({
   name: 'Menu'
 })
+
 const instance = getCurrentInstance()!
+
 //属性
 const props = withDefaults(defineProps<MenuPropsType>(), {
   disabled: false,
@@ -52,14 +54,14 @@ const props = withDefaults(defineProps<MenuPropsType>(), {
 })
 //事件
 const emits = defineEmits<MenuEmitsType>()
-//是否深色模式
-const dark = inject<Ref<boolean>>('dark')!
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
-//dom
-const wrapperRef = inject<Ref<HTMLElement | undefined>>('elRef')!
+//编辑器dom
+const wrapperRef = inject<Readonly<ShallowRef<HTMLElement | null>>>('wrapperRef')!
 //popover组件实例
-const popoverRef = ref<typeof Popover>()
+const popoverRef = useTemplateRef<InstanceType<typeof Popover>>('popover')
+
 //popover浮层是否显示
 const popoverVisible = computed(() => {
   if (popoverRef.value) {
@@ -72,10 +74,12 @@ const popoverVisible = computed(() => {
 const hidePopover = () => {
   popoverRef.value?.hidePopover()
 }
+
 //显示浮层
 const showPopover = () => {
   popoverRef.value?.showPopover()
 }
+
 //浮层选项数据点击
 const onSelect = (item: MenuDataType) => {
   if (props.disabled || props.itemDisabled?.(item)) {
@@ -84,6 +88,7 @@ const onSelect = (item: MenuDataType) => {
   emits('select', { ...item })
   hidePopover()
 }
+
 //按钮点击
 const onOperate = () => {
   if (props.disabled || props.popover) {

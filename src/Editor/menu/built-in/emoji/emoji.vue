@@ -1,5 +1,5 @@
 <template>
-  <Menu ref="menuRef" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menu" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
     <Icon name="kaitify-icon-emoji" />
     <template #popover>
       <div class="kaitify-emoji-panel">
@@ -11,7 +11,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref } from 'vue'
+import { computed, inject, Ref, useTemplateRef } from 'vue'
 import { Icon } from '@/core/icon'
 import { StateType } from '@/editor/wrapper'
 import Menu from '@/editor/menu/menu.vue'
@@ -125,20 +125,25 @@ const props = withDefaults(defineProps<EmojiMenuPropsType>(), {
     '\u{1F3B5}'
   ]
 })
+
 //编辑器状态数据
 const state = inject<Ref<StateType>>('state')!
 
 //菜单组件实例
-const menuRef = ref<typeof Menu>()
+const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
+
 //是否禁用
 const isDisabled = computed(() => {
+  if (!state.value.editor?.isEditable()) {
+    return true
+  }
   if (!state.value.editor?.selection.focused()) {
     return true
   }
   return props.disabled
 })
 
-//插入标签
+//插入表情
 const setEmoji = (val: string) => {
   state.value.editor?.insertText(val)
   state.value.editor?.updateView()
