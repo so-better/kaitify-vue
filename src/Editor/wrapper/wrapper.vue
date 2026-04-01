@@ -62,7 +62,7 @@ watch(
       //外部改变，进行视图更新
       else {
         await editor.value.review(newVal)
-        if (editor.value.isEditable()) {
+        if (editor.value.isEditable() && props.options?.autofocus) {
           editor.value.setSelectionAfter()
           editor.value.updateRealSelection()
         }
