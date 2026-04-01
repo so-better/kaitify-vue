@@ -4,7 +4,7 @@ title: table-merge-cell 表格单元格合并
 
 # table-merge-cell 表格单元格合并
 
-删除表格行
+合并表格单元格
 
 ## 使用方法
 

@@ -154,11 +154,11 @@ const bubbleHidden = (el: HTMLDivElement) => {
 
 `Bubble` 提供了部分属性/方法可以通过组件实例来调用
 
-##### bubbleRef <Badge type="danger" text="HTMLElement | undefined" />
+##### bubbleRef <Badge type="danger" text="Readonly<ShallowRef<HTMLDivElement | null>>" />
 
 获取组件实例即气泡栏的 `dom` 元素
 
-##### popperInstance <Badge type="danger" text="Instance | undefined" />
+##### popperInstance <Badge type="danger" text="Ref<Instance | undefined>" />
 
 `popperjs` 创建的浮层实例对象
 

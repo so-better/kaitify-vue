@@ -1,8 +1,8 @@
 ---
-title: attacment 附件
+title: attachment 附件
 ---
 
-# attacment 附件
+# attachment 附件
 
 插入附件 / 更新附件
 

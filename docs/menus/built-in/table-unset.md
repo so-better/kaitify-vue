@@ -4,7 +4,7 @@ title: table-unset 删除表格
 
 # table-unset 删除表格
 
-删除表格行
+删除整个表格
 
 ## 使用方法
 

@@ -1,10 +1,10 @@
 ---
-title: video-controls 视频显示器控制
+title: video-controls 视频播放控件控制
 ---
 
-# video-controls 视频显示器控制
+# video-controls 视频播放控件控制
 
-设置/取消视频的显示器
+设置/取消视频的播放控件
 
 ## 使用方法
 

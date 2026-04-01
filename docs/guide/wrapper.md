@@ -80,7 +80,7 @@ const content = ref('<p>hello</p>')
 
 ## Props 参数
 
-`Wrapper` 包裹器提供除了以上提到的属性以外， 具体完整的属性如下：
+`Wrapper` 包裹器提供除了以上提到的属性以外，具体完整的属性如下：
 
 ##### v-model <Badge type="danger" text="string" />
 
@@ -172,7 +172,7 @@ const options = {
 
 `Wrapper` 提供了部分属性/方法可以通过组件实例来调用
 
-##### wrapperRef <Badge type="danger" text="HTMLElement" />
+##### wrapperRef <Badge type="danger" text="Readonly<ShallowRef<HTMLElement | null>>" />
 
 获取组件实例即编辑器的 `dom` 元素
 

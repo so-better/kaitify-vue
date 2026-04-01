@@ -32,7 +32,7 @@ import { TableAddRowMenu } from '@kaitify/vue'
 
 ##### type <Badge type="danger" text="'top' | 'bottom'" />
 
-在当前光标所在列的上方还是下方添加行
+在当前光标所在行的上方还是下方添加行
 
 ##### shortcut <Badge type="danger" text="(e: KeyboardEvent) => boolean" />
 
