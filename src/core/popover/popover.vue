@@ -239,7 +239,7 @@ const handleClick = () => {
   else showPopover()
 }
 
-//监听外部改变placement，更新poperjs对象
+//监听外部改变placement，更新popperjs对象
 watch(
   () => props.placement,
   newVal => {
@@ -247,7 +247,10 @@ watch(
     realPlacement.value = newVal
     if (popperInstance.value && visible.value) {
       popperInstance.value.state.options.placement = newVal
-      popperInstance.value.state.options.modifiers.find(mod => mod.name === 'flip').options.fallbackPlacements = popoverRemainingPlacements.value
+      const flipMod = popperInstance.value.state.options.modifiers.find(mod => mod.name === 'flip')
+      if (flipMod) {
+        flipMod.options = { ...flipMod.options, fallbackPlacements: popoverRemainingPlacements.value }
+      }
       update()
     }
   }

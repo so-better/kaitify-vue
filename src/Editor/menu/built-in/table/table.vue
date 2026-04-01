@@ -60,24 +60,13 @@ const getTableGrids = () => {
 const tableGrids = ref<TableGridType[][]>(getTableGrids())
 
 //表格规格
-const specification = computed<TableGridType>(() => {
+const specification = computed<TableGridType | undefined>(() => {
   return tableGrids.value
     .flat()
     .filter(item => {
       return item.inside
     })
-    .sort((a, b) => {
-      if (a.x > b.x && a.y > b.y) {
-        return -1
-      }
-      if (a.x > b.x) {
-        return -1
-      }
-      if (a.y > b.y) {
-        return -1
-      }
-      return 1
-    })[0]
+    .sort((a, b) => (b.x !== a.x ? b.x - a.x : b.y - a.y))[0]
 })
 
 //是否禁用

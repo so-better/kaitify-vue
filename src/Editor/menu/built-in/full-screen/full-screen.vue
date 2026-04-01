@@ -29,6 +29,9 @@ const targetDom = ref<HTMLElement | null>(null)
 //是否全屏
 const isFullScreen = ref(false)
 
+//进入全屏前的原始内联样式
+const savedStyles = ref<Record<string, string>>({})
+
 //是否激活
 const isActive = computed(() => {
   if (!state.value.editor?.isEditable()) {
@@ -51,16 +54,17 @@ const isDisabled = computed(() => {
 const onOperate = () => {
   if (isActive.value) {
     if (targetDom.value) {
-      targetDom.value.style.setProperty('position', '')
-      targetDom.value.style.setProperty('left', '')
-      targetDom.value.style.setProperty('top', '')
-      targetDom.value.style.setProperty('z-index', '')
-      targetDom.value.style.setProperty('width', '')
-      targetDom.value.style.setProperty('height', '')
+      const keys = ['position', 'left', 'top', 'z-index', 'width', 'height']
+      keys.forEach(key => targetDom.value!.style.setProperty(key, savedStyles.value[key] ?? ''))
       isFullScreen.value = false
     }
   } else {
     if (targetDom.value) {
+      const keys = ['position', 'left', 'top', 'z-index', 'width', 'height']
+      savedStyles.value = keys.reduce<Record<string, string>>((acc, key) => {
+        acc[key] = targetDom.value!.style.getPropertyValue(key)
+        return acc
+      }, {})
       targetDom.value.style.setProperty('position', 'fixed', 'important')
       targetDom.value.style.setProperty('left', '0px', 'important')
       targetDom.value.style.setProperty('top', '0px', 'important')

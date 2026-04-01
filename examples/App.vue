@@ -5,18 +5,18 @@
       <button @click="isDark = !isDark">深色/浅色主题</button>
       <button @click="disabled = !disabled">禁用/启用编辑器</button>
     </div>
-    <div
-      :style="{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        background: isDark ? '#1b1b1f' : '#fff',
-        marginBottom: '10px'
-      }"
-      ref="menus"
-    ></div>
-    <div id="area">
+    <div id="area" style="width: 200px">
+      <div
+        :style="{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          background: isDark ? '#1b1b1f' : '#fff',
+          marginBottom: '10px'
+        }"
+        ref="menus"
+      ></div>
       <EditorWrapper
         ref="wrapper"
         v-if="show"

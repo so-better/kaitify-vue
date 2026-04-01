@@ -13,7 +13,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref, useTemplateRef } from 'vue'
+import { computed, inject, Ref, useTemplateRef } from 'vue'
 import { UnorderListType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
@@ -36,7 +36,7 @@ const state = inject<Ref<StateType>>('state')!
 const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
 
 //无序列表序标列表
-const listTypes = ref<UnorderListType[]>(['disc', 'square', 'circle'])
+const listTypes: UnorderListType[] = ['disc', 'square', 'circle']
 
 //是否禁用
 const isDisabled = computed(() => {

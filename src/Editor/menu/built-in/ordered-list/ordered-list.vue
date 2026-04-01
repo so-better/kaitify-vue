@@ -13,7 +13,7 @@
   </Menu>
 </template>
 <script setup lang="ts">
-import { computed, inject, Ref, ref, useTemplateRef } from 'vue'
+import { computed, inject, Ref, useTemplateRef } from 'vue'
 import { OrderedListType } from '@kaitify/core'
 import { Icon } from '@/core/icon'
 import { Button } from '@/core/button'
@@ -36,7 +36,7 @@ const state = inject<Ref<StateType>>('state')!
 const menuRef = useTemplateRef<InstanceType<typeof Menu>>('menu')
 
 //有序列表序标列表
-const listTypes = ref<OrderedListType[]>(['decimal', 'lower-alpha', 'upper-alpha', 'lower-roman', 'upper-roman', 'lower-greek', 'cjk-ideographic'])
+const listTypes: OrderedListType[] = ['decimal', 'lower-alpha', 'upper-alpha', 'lower-roman', 'upper-roman', 'lower-greek', 'cjk-ideographic']
 
 //是否禁用
 const isDisabled = computed(() => {

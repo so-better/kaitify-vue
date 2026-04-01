@@ -1,5 +1,5 @@
 <template>
-  <Menu ref="menu" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }">
+  <Menu ref="menu" :disabled="isDisabled" :active="false" popover :popover-props="{ width: popoverProps?.width ?? 300, maxHeight: popoverProps?.maxHeight, minWidth: popoverProps?.minWidth, animation: popoverProps?.animation, arrow: popoverProps?.arrow, placement: popoverProps?.placement, trigger: popoverProps?.trigger, zIndex: popoverProps?.zIndex }" @popover-showing="menuShowing">
     <Icon name="kaitify-icon-video" />
     <template #popover>
       <Tabs :default-value="tabs.default" :data="tabData">
@@ -96,6 +96,12 @@ const isDisabled = computed(() => {
   }
   return props.disabled
 })
+
+//浮层显示
+const menuShowing = () => {
+  remoteData.src = ''
+  remoteData.autoplay = false
+}
 
 //选择本地视频
 const fileChange = async (e: Event) => {

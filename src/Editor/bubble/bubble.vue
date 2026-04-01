@@ -129,7 +129,7 @@ const updatePosition = () => {
             fallbackPlacements: ['bottom', 'bottom-end', 'top-start', 'top', 'top-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']
           }
         },
-        //控制offset为0
+        //控制纵向offset为5px，避免气泡紧贴光标
         {
           name: 'offset',
           options: {
