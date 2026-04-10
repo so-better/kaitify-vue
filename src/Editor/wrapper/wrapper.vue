@@ -81,7 +81,7 @@ watch(
     if (!editor.value) return
     let changed = false
     if (newVal?.editable !== oldVal?.editable) {
-      editor.value.setEditable(newVal?.editable ?? false)
+      editor.value.setEditable(newVal?.editable ?? true)
       changed = true
     }
     if (newVal?.dark !== oldVal?.dark) {

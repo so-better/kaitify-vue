@@ -5,6 +5,10 @@ title: 更新日志
 
 # 更新日志
 
+## v0.0.5-beta.3 <Badge type="tip" text='2026.04.10' />
+
+- 修复 `Wrapper` 组件在 `options.editable` 动态变更时默认值错误导致编辑器意外变为不可编辑的问题
+
 ## v0.0.5-beta.2 <Badge type="tip" text='2026.04.01' />
 
 - 更新 `@kaitify/core` 的依赖版本
