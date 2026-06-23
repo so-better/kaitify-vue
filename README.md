@@ -1,11 +1,24 @@
+<div align="center">
+
 # @kaitify/vue
 
+**基于 @kaitify/core 开发的 Vue3 富文本编辑器核心库**
+
 [![npm version](https://img.shields.io/npm/v/@kaitify/vue)](https://www.npmjs.com/package/@kaitify/vue)
-[![license](https://img.shields.io/npm/l/@kaitify/vue)](./LICENSE)
+[![license](https://img.shields.io/npm/l/@kaitify/vue)](https://github.com/so-better/kaitify-vue/blob/main/LICENSE)
+[![npm downloads](https://img.shields.io/npm/dm/@kaitify/vue)](https://www.npmjs.com/package/@kaitify/vue)
 
-基于 [@kaitify/core](https://www.so-better.cn/docs/kaitify-core/) 开发的 Vue3 富文本编辑器核心库。使用 Vue3 的 VNode 作为视图渲染层，无需关心底层渲染细节，提供开箱即用的编辑器组件和丰富的内置菜单。
+[官方文档](https://www.so-better.cn/docs/kaitify-vue/) · [GitHub](https://github.com/so-better/kaitify-vue) · [更新日志](./docs/changelog.md)
 
-> 📖 [官方文档](https://www.so-better.cn/docs/kaitify-vue/)
+</div>
+
+---
+
+## 简介
+
+`@kaitify/vue` 是基于 [@kaitify/core](https://www.so-better.cn/docs/kaitify-core/) 开发的 Vue3 富文本编辑器核心库。使用 Vue3 的 VNode 作为视图渲染层，无需关心底层渲染细节，提供开箱即用的编辑器组件和丰富的内置菜单。
+
+---
 
 ## 特性
 
@@ -16,14 +29,15 @@
 - 支持深色模式
 - 支持 CDN 引入和 npm 安装
 
+---
+
 ## 安装
+
+### npm / yarn / pnpm
 
 ```bash
 # npm
 npm install @kaitify/vue
-
-# 安装指定版本
-npm install @kaitify/vue@0.0.5-beta.3
 
 # yarn
 yarn add @kaitify/vue
@@ -32,7 +46,7 @@ yarn add @kaitify/vue
 pnpm add @kaitify/vue
 ```
 
-### CDN 方式
+### CDN
 
 ```html
 <!-- UMD 全局构建（固定版本）-->
@@ -46,6 +60,8 @@ pnpm add @kaitify/vue
   import { Wrapper } from 'https://unpkg.com/@kaitify/vue/lib/kaitify-vue.es.js'
 </script>
 ```
+
+---
 
 ## 快速上手
 
@@ -67,6 +83,8 @@ const wrapper = ref<typeof Wrapper | undefined>()
 const content = ref('<p>hello</p>')
 </script>
 ```
+
+---
 
 ## 核心组件
 
@@ -160,6 +178,8 @@ const content = ref('<p>hello</p>')
 <Icon name="solar:home-bold-duotone" :size="20" />
 ```
 
+---
+
 ## 内置菜单
 
 内置菜单已封装好操作逻辑和激活/禁用状态，可直接在 `Wrapper` 插槽中使用：
@@ -215,6 +235,8 @@ const content = ref('<p>hello</p>')
 </script>
 ```
 
+---
+
 ## 国际化
 
 通过 `Wrapper` 组件的 `locale` 属性设置语言环境，支持以下语言：
@@ -230,6 +252,20 @@ const content = ref('<p>hello</p>')
 <Wrapper v-model="content" locale="en-US"></Wrapper>
 ```
 
+---
+
+## 更多内容
+
+完整的 API 文档、组件详情、进阶用法等内容，请访问[官方文档](https://www.so-better.cn/docs/kaitify-vue/)。
+
+---
+
+## 更新日志
+
+查看[更新日志](./docs/changelog.md)
+
+---
+
 ## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE) © [so-better](https://github.com/so-better)
