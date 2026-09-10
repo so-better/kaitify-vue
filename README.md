@@ -50,7 +50,7 @@ pnpm add @kaitify/vue
 
 ```html
 <!-- UMD 全局构建（固定版本）-->
-<script src="https://unpkg.com/@kaitify/vue@0.0.5-beta.3/lib/kaitify-vue.umd.js"></script>
+<script src="https://unpkg.com/@kaitify/vue@0.0.5-beta.4/lib/kaitify-vue.umd.js"></script>
 
 <!-- UMD 全局构建（始终最新）-->
 <script src="https://unpkg.com/@kaitify/vue/lib/kaitify-vue.umd.js"></script>

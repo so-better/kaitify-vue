@@ -30,9 +30,7 @@ declare const _default: import('vue').DefineComponent<ImageMenuPropsType, {}, {}
             readonly onPopoverHiding?: ((value: HTMLDivElement) => any) | undefined;
             readonly onPopoverHidden?: ((value: HTMLDivElement) => any) | undefined;
         } & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps;
-        $attrs: {
-            [x: string]: unknown;
-        };
+        $attrs: import('vue').Attrs;
         $refs: {
             [x: string]: unknown;
         } & {
@@ -57,9 +55,7 @@ declare const _default: import('vue').DefineComponent<ImageMenuPropsType, {}, {}
                     readonly onShown?: ((value: HTMLDivElement) => any) | undefined;
                     readonly onHiding?: ((value: HTMLDivElement) => any) | undefined;
                 } & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps;
-                $attrs: {
-                    [x: string]: unknown;
-                };
+                $attrs: import('vue').Attrs;
                 $refs: {
                     [x: string]: unknown;
                 } & {
@@ -139,14 +135,14 @@ declare const _default: import('vue').DefineComponent<ImageMenuPropsType, {}, {}
                 onShowing?: ((value: HTMLDivElement) => any) | undefined;
                 onShown?: ((value: HTMLDivElement) => any) | undefined;
                 onHiding?: ((value: HTMLDivElement) => any) | undefined;
-            }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("zIndex" | "animation" | "disabled" | "placement" | "arrow" | "trigger" | "delay")> & import('vue').ShallowUnwrapRef<{
-                visible: Ref<boolean, boolean>;
+            }>, "visible" | "popperInstance" | "showPopover" | "hidePopover" | "update" | "realPlacement" | ("zIndex" | "animation" | "disabled" | "placement" | "arrow" | "trigger" | "delay")> & {
+                visible: boolean;
                 showPopover: () => void;
                 hidePopover: () => void;
-                popperInstance: Ref<import('@popperjs/core').Instance | undefined, import('@popperjs/core').Instance | undefined>;
+                popperInstance: import('@popperjs/core').Instance | undefined;
                 update: () => Promise<void>;
-                realPlacement: Ref<import('../../../../core/popover').PopoverPlacementType, import('../../../../core/popover').PopoverPlacementType>;
-            }> & {} & import('vue').ComponentCustomProperties & {} & {
+                realPlacement: import('../../../../core/popover').PopoverPlacementType;
+            } & {} & import('vue').ComponentCustomProperties & {} & {
                 $slots: {
                     refer?(_: {}): any;
                     default?(_: {}): any;
@@ -223,10 +219,10 @@ declare const _default: import('vue').DefineComponent<ImageMenuPropsType, {}, {}
         onPopoverHide?: ((value: HTMLDivElement) => any) | undefined;
         onPopoverHiding?: ((value: HTMLDivElement) => any) | undefined;
         onPopoverHidden?: ((value: HTMLDivElement) => any) | undefined;
-    }>, "showPopover" | "hidePopover" | ("data" | "active" | "disabled" | "popover" | "popoverProps")> & import('vue').ShallowUnwrapRef<{
+    }>, "showPopover" | "hidePopover" | ("data" | "active" | "disabled" | "popover" | "popoverProps")> & {
         showPopover: () => void;
         hidePopover: () => void;
-    }> & {} & import('vue').ComponentCustomProperties & {} & {
+    } & {} & import('vue').ComponentCustomProperties & {} & {
         $slots: {
             default?(_: {}): any;
             popover?(_: {}): any;
